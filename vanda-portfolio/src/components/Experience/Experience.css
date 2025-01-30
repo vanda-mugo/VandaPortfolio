@@ -1,0 +1,104 @@
+
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+}
+
+ .custom-spotlight-card{
+    height: 300px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+
+.custom-spotlight-card:hover{
+    transform: scale(1.05);
+    transition: 0.5s ease-in-out;
+}
+
+.rowSection{
+    display: flex;
+}
+
+.rectangle{
+    height: 0px;
+    width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0
+
+}
+
+.rectangle.expanded{
+    height: 300px;
+    width: 700px;
+    border-radius: 60px;
+    position: relative;
+}
+
+.line{
+    width: 0;
+    height: 0;
+    background-color: cyan;
+    transition: width 0.3s, background-color 0.3s;
+    margin-top: 190px;
+}
+.line.pulsing {
+    height: 1px;
+    width: 200px; /* Adjust as needed */
+    /*animation: pulse 1s infinite;*/
+    position: relative;
+    -webkit-box-reflect : below .5px linear-gradient(transparent, #000500);
+    z-index: -1;
+}
+
+.line.pulsing::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF, #fb0094, #0000ff, #00ff00, #ffff00, 
+    #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF,#fb0094, #0000ff, #00ff00, #ffff00);
+    animation:animate 30s linear infinite;
+    background-size: 500%;
+}
+
+.line.pulsing::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF, #fb0094, #0000ff, #00ff00, #ffff00, 
+    #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF,#fb0094, #0000ff, #00ff00, #ffff00);
+    animation:animate 30s linear infinite;
+    background-size: 500%;
+    filter: blur(30px);
+
+}
+/*
+.rectangle.expanded:hover{
+    transform: scale(1.05);
+    transition: 0.5s ease-in-out;
+    background-color: #000500;
+}
+    */
+
+
+
+
+@keyframes animate {
+    0% {
+      background-position: 0 0;
+    }
+    
+    0% {
+      background-position: 500% 0;
+    }
+}  

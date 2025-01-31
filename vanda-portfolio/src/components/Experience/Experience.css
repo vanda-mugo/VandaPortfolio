@@ -25,43 +25,81 @@
 
 .rowSection{
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .rectangle{
     height: 0px;
-    width: 0;
+    width: 0px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 40px 0
-
+    margin: 40px 0;
+    position: relative;
+    z-index: 10;
 }
 
-.rectangle.expanded{
-    height: 300px;
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.rectangle.expanded, .testAutomationSpotlight.expanded{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
     width: 700px;
     border-radius: 60px;
     position: relative;
 }
+p{
+    padding: 30px;
+}
+
+
+.rectangle.expanded::after, .rectangle.expanded::before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: cyan;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    padding: 1px;
+    background-image: conic-gradient( from var(--angle),#00FFFF, #fb0094, #0000ff, #00ff00, #ffff00);
+    border-radius: 60px;
+    z-index: -1;
+    animation: 5s spin linear infinite ;
+}
+
+.rectangle.expanded::before{
+    filter: blur(1.5rem);
+    opacity: 0.5;
+}
+
 
 .line{
     width: 0;
     height: 0;
     background-color: cyan;
     transition: width 0.3s, background-color 0.3s;
-    margin-top: 190px;
 }
 .line.pulsing {
-    height: 1px;
+    height: 3px;
     width: 200px; /* Adjust as needed */
     /*animation: pulse 1s infinite;*/
     position: relative;
+
     -webkit-box-reflect : below .5px linear-gradient(transparent, #000500);
     z-index: -1;
 }
 
-.line.pulsing::before{
+.line.pulsing::before, .line.pulsing::after{
     content: '';
     position: absolute;
     inset: 0;
@@ -71,15 +109,9 @@
     background-size: 500%;
 }
 
-.line.pulsing::after{
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF, #fb0094, #0000ff, #00ff00, #ffff00, 
-    #00FFFF, #fb0094, #0000ff, #00ff00, #ffff00,#00FFFF,#fb0094, #0000ff, #00ff00, #ffff00);
-    animation:animate 30s linear infinite;
-    background-size: 500%;
-    filter: blur(30px);
+.line.pulsing::before{
+    filter: blur(1rem);
+    opacity: 1;
 
 }
 /*
@@ -90,7 +122,14 @@
 }
     */
 
-
+@keyframes spin{
+    from{
+        --angle: 0deg;
+    }
+    to{
+        --angle: 360deg;
+    }
+}
 
 
 @keyframes animate {

@@ -5,6 +5,7 @@ import { Skills } from './components/Skills/Skills';
 import { Services } from './components/Services/Services';
 import { Experience } from './components/Experience/Experience';
 import SplashCursor from  './components/SplashCursor/SplashCursor';
+import { Contact } from './components/Contact/Contact';
 
 import React, { useState } from 'react';
 
@@ -35,6 +36,7 @@ function App() {
         showExperience && (<Experience />)
       }
       <Services  />
+      <Contact />
     </div>
   )
 }

@@ -1,0 +1,31 @@
+
+.container.contact {
+    display: flex;
+    align-items:center;
+    justify-content: right;
+    width: 100%;
+}
+
+.contact img{
+    margin: 30px 0;
+    height: 300px;
+    width: auto;
+    border-radius: 20px;
+    background-color: black;
+}
+
+
+.contact h2{
+    margin: 30px 0;
+    font-size: 30px;
+    font-weight: 400;
+    margin-right: 40px;
+}
+
+.contact h3{
+    margin-right: 30px;
+}
+
+.contact h3:hover{
+    color: cyan;
+}

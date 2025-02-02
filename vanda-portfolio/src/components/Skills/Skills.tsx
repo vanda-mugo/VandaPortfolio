@@ -76,7 +76,12 @@ const skills: Skill[] = [ {
 
 
   
-export const Skills: React.FC = () => {
+interface SkillsProps {
+  toggleExperience: () => void;
+  showExperience: boolean;
+}
+
+export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -139,6 +144,11 @@ export const Skills: React.FC = () => {
                   </Slider>
               </div>
             </PixelCard>
+            <div>
+                <button  className="experienceButton" onClick={toggleExperience}>
+                    {showExperience ? <div><span className='one'>Hide</span><span className='two'>Experience</span></div> : <div><span className='one'>Show</span><span className='two'>Experience</span></div>}
+                </button>
+            </div>
         </div>
     </section>
   );

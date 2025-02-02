@@ -144,4 +144,9 @@ the button remains layered above all other elements within the button*/
     position: absolute;
 }
 
+.navbar-left{
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
 

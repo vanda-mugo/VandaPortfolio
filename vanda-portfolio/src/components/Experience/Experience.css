@@ -17,6 +17,35 @@
     margin: 40px 0;
 }
 
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+
+.cubeExpanded::before, .cubeExpanded::after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: cyan;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    padding: 1px;
+    background-image: conic-gradient( from var(--angle),#00FFFF, #fb0094, #0000ff, #00ff00, #ffff00);
+    border-radius: 60px;
+    z-index: -1;
+    animation: 5s spin linear infinite ;
+}
+
+.cubeExpanded::before{
+    filter: blur(1.5rem);
+    opacity: 0.5;
+}
+
+
 
 .custom-spotlight-card:hover{
     transform: scale(1.05);
@@ -41,11 +70,7 @@
     z-index: 10;
 }
 
-@property --angle{
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-}
+
 
 .rectangle.expanded, .testAutomationSpotlight.expanded{
     display: flex;
@@ -90,7 +115,7 @@ p{
     transition: width 0.3s, background-color 0.3s;
 }
 .line.pulsing {
-    height: 3px;
+    height: 1px;
     width: 200px; /* Adjust as needed */
     /*animation: pulse 1s infinite;*/
     position: relative;

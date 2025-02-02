@@ -51,3 +51,23 @@
     75% { transform: translate(-60%, -40%); }
     100% { transform: translate(-50%, -50%); }
 }
+
+.experienceButton{
+    color: #fff;
+    background: none;
+    border: none;
+    margin-left: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.8;
+    padding: 10px 20px;
+    display: flex;
+
+}
+
+.experienceButton:hover{
+    color: cyan;
+}
+.one{
+    margin-right: 10px;
+}

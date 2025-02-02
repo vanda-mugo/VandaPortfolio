@@ -6,16 +6,35 @@ import { Services } from './components/Services/Services';
 import { Experience } from './components/Experience/Experience';
 import SplashCursor from  './components/SplashCursor/SplashCursor';
 
+import React, { useState } from 'react';
+
+
 function App() {
+
+  const [showExperience, setShowExperience] = useState(false);
+  const [splashEffect, setSplashEffect ] = useState(true);
+
+  const toggleExperience = () => {
+    setShowExperience(!showExperience);
+  };
+
+  const toggleEffect = () => {
+    setSplashEffect(!splashEffect)
+  }
+
 
   return (
     <div className='App'>
-      < SplashCursor />
+      {
+        splashEffect && (< SplashCursor />)
+      }
       <NavBar />
-      <Banner />
-      < Skills />
-      <Services />
-      <Experience />
+      <Banner splashEffect={splashEffect} toggleEffect={toggleEffect} />
+      < Skills toggleExperience={toggleExperience} showExperience={showExperience}/>
+      {
+        showExperience && (<Experience />)
+      }
+      <Services  />
     </div>
   )
 }

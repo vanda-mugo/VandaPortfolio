@@ -4,6 +4,7 @@ import logo from '../../assets/img/logo.svg';
 import navIcon1 from '../../assets/img/nav-icon1.svg';
 import navIcon2 from '../../assets/img/nav-icon2.svg';
 import navIcon3 from '../../assets/img/nav-icon3.svg';
+import SplitText from '../SplitText/SplitText';
 import './NavBar.css';
 
 export const NavBar = () : JSX.Element => {
@@ -25,14 +26,29 @@ export const NavBar = () : JSX.Element => {
 
     const onUpdateActiveLink = (link: string):void => {
         setActiveLink(link);
-    }
+    };
+
+    const handleAnimationComplete = () => {
+        console.log('All letters have animated!');
+    };
+  
 
     return (
         <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
             <Container>
                 <div className="navbar-content">
                     <div className="navbar-left">  
-                        <Navbar.Brand href="#home"><img src={logo} alt="Vanda-logo" /></Navbar.Brand>
+                        <SplitText
+                            text="Vanda"
+                            className="text-2xl font-semibold text-center"
+                            delay={500}
+                            animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+                            animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                            easing="easeOutCubic"
+                            threshold={0.2}
+                            rootMargin="-50px"
+                            onLetterAnimationComplete={handleAnimationComplete}
+                        />
                     </div>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
@@ -57,4 +73,6 @@ export const NavBar = () : JSX.Element => {
 
 
 /*
+ <Navbar.Brand href="#home"><img src={logo} alt="Vanda-logo" /></Navbar.Brand>
+
 */

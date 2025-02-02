@@ -55,7 +55,7 @@
     color: #fff;
     font-weight: 700;
     font-size: 20px;
-    margin-top: 60px;
+    margin-top: 10px;
     letter-spacing: 0.8px;
     display: flex;
     align-items: center;
@@ -77,15 +77,50 @@
   .banner button:hover svg {
     margin-left: 25px;
   }
-  .banner img {
+  .banner img.iconB {
     animation: updown 3s linear infinite;
     max-width: 100%;
     height: auto;
-    
   }
+
+  .banner img.iconA{
+    height: 350px;
+    width: auto;
+    opacity: 1;
+    background-color: cyan;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 10px rgba(0, 255, 255, 1); /* Glowing effect */
+    transition: box-shadow 0.5s ease-in-out;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+        box-shadow: 0 0 20px 10px rgba(0, 255, 255, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 30px 15px rgba(0, 255, 255, 1);
+    }
+    100% {
+        box-shadow: 0 0 20px 10px rgba(0, 255, 255, 0.7);
+    }
+}
 
   .banner #header-img{
     flex: 0 0 35%;
+  }
+
+  .iconA, .iconB{
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  .hide{
+    opacity: 0;
+  }
+
+  .show{
+    opacity: 1;
   }
 
 
@@ -111,6 +146,8 @@
     50% { border-color: transparent; }
     100% { border-color: #7c7c7c; }
   }
+
+
 
 
 

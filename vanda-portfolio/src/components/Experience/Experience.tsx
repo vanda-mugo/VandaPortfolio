@@ -31,7 +31,7 @@ export const Experience = () : JSX.Element => {
                 <div className="content">
                     <h1>Experience</h1>
                     <div className='rowSection'>
-                        <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(0, 229, 255, 0.2)" onClick={handleClick1}>
+                        <SpotlightCard className='custom-spotlight-card' spotlightColor="rgba(0, 229, 255, 0.2)" onClick={handleClick1}>
                             <h2>Electronic Engineer</h2>
                         </SpotlightCard>
                         <div className={`line ${showRectangle1 ? 'pulsing' : ''}`}></div>

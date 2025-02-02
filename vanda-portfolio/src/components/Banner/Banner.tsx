@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { ArrowRightCircle } from "react-bootstrap-icons";
 import headerImg from '../../assets/img/header-img.svg';
+import vandaImg from '../../assets/img/johnMugo.png';
 import { useState, useEffect } from "react";
 import './Banner.css';
 import 'animate.css';
@@ -8,7 +9,12 @@ import TrackVisibility from 'react-on-screen';
 import TrueFocus from '../TrueFocus/TrueFocus';
 
 
-export const Banner = (): JSX.Element => {
+interface BannerProps {
+    splashEffect: boolean;
+    toggleEffect: () => void;
+}
+
+export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element => {
     const [loopNum, setLoopNum] = useState<number>(0);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [text, setText] = useState<string>('');
@@ -17,6 +23,7 @@ export const Banner = (): JSX.Element => {
     // delta can range anywhere between 200 to 300, this is milliseconds 
     const [delta, setDelta] = useState(300 - Math.random() * 100);
     const period = 1500;
+    const [isHovered, setIsHovered] = useState(false);
 
     // this useEffect will run each time the text state changes 
     useEffect(() => {
@@ -69,6 +76,13 @@ export const Banner = (): JSX.Element => {
         }
     }
 
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+    const handleIsMouseLeave = () =>{
+        setIsHovered(false);
+    }
+
     return (
         <section className="banner" id="home">
             <Container>
@@ -89,6 +103,7 @@ export const Banner = (): JSX.Element => {
                                     <h1>I'm a <span className="txt-rotate"  data-rotate='["Web Developer", "Designer", "Freelancer", "C++ Developer", "Software Engineer"]'><span className="wrap">{text}</span></span></h1>
                                     <p>dummy text of the printing and typesetting industry </p>
                                     <button onClick={():void => console.log('connect')}>Lets connect<ArrowRightCircle size={25} /></button>
+                                    <button onClick={toggleEffect}>{ splashEffect ? "Splash Cursor Off" : "Splash Cursor On"}</button>
                                 </div>
                             }
                         </TrackVisibility>
@@ -96,9 +111,20 @@ export const Banner = (): JSX.Element => {
                     <Col xs={12} md={6} xl={5} id="header-img">
                         <TrackVisibility>
                             {({ isVisible  }) => 
-                                <div className={isVisible ? 'animate__animated animate__zoomIn' : ''}>
-                                    <img src={headerImg} alt="Header img" />
+                                <div    onMouseEnter={handleMouseEnter}
+                                        onMouseLeave={handleIsMouseLeave}>
+                                            {
+                                                isHovered ? 
+                                                <div>
+                                                    <img className={`iconA ${isHovered ? 'show' : 'hide'}`} src={vandaImg} alt="Developer Image" />
+                                                </div>
+                                                : 
+                                                <div className={isVisible ? 'animate__animated animate__zoomIn' : ''}>
+                                                    <img className={`iconB ${!isHovered ? 'show' : 'hide'}`} src={headerImg} alt="Header img" />
+                                                </div>
+                                            }
                                 </div>
+                                
                             }
                         </TrackVisibility>
                     </Col>

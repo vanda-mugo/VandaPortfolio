@@ -6,6 +6,7 @@ import { Services } from './components/Services/Services';
 import { Experience } from './components/Experience/Experience';
 import SplashCursor from  './components/SplashCursor/SplashCursor';
 import { Contact } from './components/Contact/Contact';
+import { Projects } from './components/Projects/Projects';
 
 import React, { useState } from 'react';
 
@@ -35,6 +36,7 @@ function App() {
       {
         showExperience && (<Experience />)
       }
+      <Projects />
       <Services  />
       <Contact />
     </div>

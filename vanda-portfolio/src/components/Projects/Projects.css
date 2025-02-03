@@ -1,0 +1,83 @@
+div.projects{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.projects .container .projectsRow{
+    height: 650px;
+    background-color: #000000;
+    border-radius: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.projectsRow ul{
+    margin: 0 auto;
+    list-style: none;
+    text-align: center;
+    padding: 10px 50px 10px 70px;
+}
+
+
+.slick-dots{
+    margin: 0 auto;
+}
+
+li{
+    text-align: left;
+}
+
+.title{
+    margin-top: 30px;
+    color: cyan;
+}
+
+.stack{
+    margin-top: 20px;
+    text-align: left;
+
+}
+.stack span{
+    color: cyan;
+    font-size: 20px;
+}
+
+
+.list2 li{
+    margin-left: 20px;
+    padding: 0;
+    list-style:circle ;
+}
+
+.mainHead{
+    text-align: left;
+    padding: 0 100px;
+}
+
+.item2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+}
+
+.links{
+    margin-top: 35px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+
+.links {
+    border: none;
+    background: none;
+    color: #fff;
+}
+
+
+

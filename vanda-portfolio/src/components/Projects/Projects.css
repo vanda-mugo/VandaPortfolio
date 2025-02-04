@@ -3,17 +3,21 @@ div.projects{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
+
 
 div.projects .container .projectsRow{
     height: 650px;
     background-color: #000000;
+    border: 2px solid #000000;
     border-radius: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 80px;
     text-align: center;
+    padding: 20px;
 }
 
 .projectsRow ul{

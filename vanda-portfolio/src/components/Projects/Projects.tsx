@@ -4,6 +4,8 @@ import Slider from 'react-slick';
 import './Projects.css';
 import link from '../../assets//img/link.svg';
 import githubIcon from '../../assets/img/nav-icon2.svg';
+import devIcon from '../../assets/img/devIcon.svg';
+import library from '../../assets/img/library.svg';
 
 
 interface projectsDetails {
@@ -11,6 +13,7 @@ interface projectsDetails {
     techStack : string[];
     url: string;
     githubUrl : string;
+    externalLibraries : {devUrl : string; resourceUrl : string};
     description : {name : string ; details: string}[];
 };
 
@@ -20,6 +23,7 @@ const ProjectDetails : projectsDetails[] = [
         techStack: ["C++","Matlab", "Prescan API", "CMake", "VS Code", "Git"],
         url :"",
         githubUrl : "",
+        externalLibraries : {devUrl : "", resourceUrl : ""},
         description : [
             {name: 'Objective', details: 'Develop an LCAS system to avert collisions during lane changes.'},
             {name : 'Technology', details : 'Utilized TIS radar for long-range narrow and short-range wide detection.'},
@@ -32,6 +36,7 @@ const ProjectDetails : projectsDetails[] = [
         techStack : ["Python","Froglogic Squish", "Qt", "Gitlab", "Git","Linux", "Jira" ],
         url : "",
         githubUrl : "",
+        externalLibraries : {devUrl : "", resourceUrl : ""},
         description:[
             {name : 'Automated Testing', details: `Designed, created, and maintained automated test scripts using 
                 Python and Froglogic Squish for Qt applications.`},
@@ -44,6 +49,7 @@ const ProjectDetails : projectsDetails[] = [
         techStack : ["JavaScript","React", "Spotify API", "Git", "CSS", "HTML"],
         url : "https://vandajamming.netlify.app/",
         githubUrl : "https://github.com/vanda-mugo/Jammming",
+        externalLibraries : {devUrl : "", resourceUrl : ""},
         description : [
             {name : 'Objective', details : `Develop a web application that seamlessly integrates with the Spotify 
                 platform to practice the interaction with the API. The application allows users to edit existing 
@@ -59,7 +65,51 @@ const ProjectDetails : projectsDetails[] = [
             
             ]
 
+    },
+    
+    {
+        title : 'Personal Portfolio',
+        techStack : ["Typescript", "Bootstrap", "React", "HTML5", "CSS3"],
+        url : "",
+        githubUrl : "https://github.com/vanda-mugo/VandaPortfolio",
+        externalLibraries : 
+            {
+                devUrl : "https://davidhaz.com/", resourceUrl : "https://www.reactbits.dev/"
+            }
+        ,
+        description : [
+            {
+                name: "Objective" , details : `To create a personal portfolio that highlights my emerging expertise in JavaScript, 
+                TypeScript, React, CSS, and HTML, as I embark on my journey into full-stack engineering. Additionally, 
+                it showcases my skills and experience as a C++ developer and test automation engineer in Python. 
+                The portfolio aims to provide an immersive and impressive UI/UX experience, making it a pleasure to navigate.`
+            }, 
+            {
+                name: 'Key features' , details : `Contains different components each intentionally placed to offer meaningfull information
+                 each in regards to the Portfolio and links to the relevant reasources`
+            }, 
+            {
+                name: 'External libraries used', details : "Reactbits by David Haz"
+            },
+        ],
+    },
+    {
+        title : 'Company landing site',
+        techStack : ['CSS3', 'HTML5'],
+        url : "https://vanda-mugo.github.io/companyLandingSite/",
+        githubUrl : "https://github.com/vanda-mugo/companyLandingSite",
+        externalLibraries : { devUrl : "", resourceUrl : ""},
+        description : [
+            {name: 'Objective', details : `This project is a simple, responsive company landing site created using HTML and CSS. 
+                The purpose of this project is to illustrate the functionality of making responsive webpages using CSS Flexbox layout.`},
+            {
+                name : 'Key features' , details : `Responsive design that adapts to different screen sizes and devices,Clean and modern layout using CSS Flexbox
+                Simple navigation bar with links to different sections of the page,Sections for home, about, services, and contact information,
+                Easy-to-read typography and visually appealing color scheme `
+            }
+        ]
     }
+     
 ];
 
  
@@ -79,7 +129,7 @@ export const Projects = () => {
 
     return (
         <>
-            <div className='projects'>
+            <div id='Projects' className='projects'>
                 <div className='container'>
                     <div className='projectsRow'>
                         <h2>Projects</h2>
@@ -119,6 +169,16 @@ export const Projects = () => {
                                                 {
                                                     project.githubUrl ? <a href={project.githubUrl} target='blank' rel='noopener noreferrer' title='GitHub link'>
                                                                     <img className='svgLInks' src={githubIcon} />
+                                                    </a> : ""
+                                                }
+                                                {
+                                                    project.externalLibraries.devUrl ? <a href={project.externalLibraries.devUrl} target='blank' rel='noopener noreferrer' title='External resource developer'>
+                                                        <img className='svgLInks' src={devIcon}/>
+                                                    </a> : ""
+                                                }
+                                                {
+                                                    project.externalLibraries.resourceUrl ? <a href={project.externalLibraries.resourceUrl} target='blank' rel='noopener noreferrer' title='External resource library'>
+                                                        <img className='svgLInks' src={library}/>
                                                     </a> : ""
                                                 }
 

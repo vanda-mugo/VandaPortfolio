@@ -31,6 +31,15 @@ export const NavBar = () : JSX.Element => {
     const handleAnimationComplete = () => {
         console.log('All letters have animated!');
     };
+
+    const scrollToSection = (sectionId : any) => {
+
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        
+        }
+    };
   
 
     return (
@@ -52,17 +61,16 @@ export const NavBar = () : JSX.Element => {
                     </div>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
-                            <Nav.Link href="#home" className={activeLink === "home" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-                            <Nav.Link href="#skills" className={activeLink === "skills" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('skills')}>Skills</Nav.Link>
-                            <Nav.Link href="#projects" className={activeLink === "projects" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('projects')}>Projects</Nav.Link>
+                            <Nav.Link href="#Skills" className={activeLink === "skills" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('skills')}>skills</Nav.Link>
+                            <Nav.Link href="#Projects" className={activeLink === "projects" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('projects')}>projects</Nav.Link>
+                            <Nav.Link href="#Services" className={activeLink === "services" ? "active navbar-link" : "navbar-link"} onClick={() => onUpdateActiveLink('services')}>services</Nav.Link>
                         </Nav>
                         <span className="navbar-text">
                             <div className="social-icon">
-                                <a href="#"><img src={navIcon1} alt="" /></a>
-                                <a className='gitIcon' href="#"><img src={navIcon2} alt="" /></a>
-                                <a href="#"><img src={navIcon3} alt="" /></a>
+                                <a href="https://www.linkedin.com/in/john-mugo-699466112/" target='blank' rel='noopener noreferrer' title='LinkedIn link'><img src={navIcon1} alt="" /></a>
+                                <a className='gitIcon' href="https://github.com/vanda-mugo" target='blank' rel='noopener noreferrer' title='GitHub link'><img src={navIcon2} alt="" /></a>
                             </div>
-                            <button className="btn btn-primary" onClick={() => console.log('connect')}><span>Lets Connect</span></button>
+                            <button className="btn btn-primary" onClick={() => scrollToSection("Contact")}><span>Lets Connect</span></button>
                         </span>
                     </Navbar.Collapse>
                 </div>
@@ -74,5 +82,6 @@ export const NavBar = () : JSX.Element => {
 
 /*
  <Navbar.Brand href="#home"><img src={logo} alt="Vanda-logo" /></Navbar.Brand>
+                                <a href="#"><img src={navIcon3} alt="" /></a>
 
 */

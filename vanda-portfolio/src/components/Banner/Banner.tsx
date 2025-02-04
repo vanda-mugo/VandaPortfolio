@@ -19,7 +19,7 @@ export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [text, setText] = useState<string>('');
     // initialise toRotate array with strings
-    const toRotate : string[] = ['Web Developer', 'Designer', 'Freelancer', 'C++ Developer', 'Software Engineer'];
+    const toRotate : string[] = ['Software Engineer','C++ Developer' , 'FullStack Developer', 'UI/UX Designer', 'Graphic Designer', "Vector illustrator" ];
     // delta can range anywhere between 200 to 300, this is milliseconds 
     const [delta, setDelta] = useState(300 - Math.random() * 100);
     const period = 1500;
@@ -81,7 +81,16 @@ export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element
     };
     const handleIsMouseLeave = () =>{
         setIsHovered(false);
-    }
+    };
+
+    const scrollToSection = (sectionId : any) => {
+
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        
+        }
+    };
 
     return (
         <section className="banner" id="home">
@@ -101,8 +110,8 @@ export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element
                                                                                 pauseBetweenAnimations={1}
                                                                                 /></span></h1>
                                     <h1>I'm a <span className="txt-rotate"  data-rotate='["Web Developer", "Designer", "Freelancer", "C++ Developer", "Software Engineer"]'><span className="wrap">{text}</span></span></h1>
-                                    <p>dummy text of the printing and typesetting industry </p>
-                                    <button onClick={():void => console.log('connect')}>Lets connect<ArrowRightCircle size={25} /></button>
+                                    <p><span>Niche : </span> Algorithm Optimization, Data Structures,Design Patterns </p>
+                                    <button onClick={():void => scrollToSection("contact") }>Lets connect<ArrowRightCircle size={25} /></button>
                                     <button onClick={toggleEffect}>{ splashEffect ? "Splash Cursor Off" : "Splash Cursor On"}</button>
                                 </div>
                             }

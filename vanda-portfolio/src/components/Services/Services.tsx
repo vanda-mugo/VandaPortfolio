@@ -2,7 +2,7 @@ import React from "react";
 import './Services.css';
 import PixelTransition from '../PixelTransition/PixelTransition';
 import PixelCard from '../PixelCard/PixelCard'; 
-import c2 from '../../assets/ServicesBackgrounds/c2.jpg';
+import c2 from '../../assets/ServicesBackgrounds/c2.png';
 import c22 from '../../assets/ServicesBackgrounds/c22.jpg';
 import c3 from '../../assets/ServicesBackgrounds/c3.jpg';
 import c33 from '../../assets/ServicesBackgrounds/c33.jpg';
@@ -21,7 +21,7 @@ export const Services = () => {
     };
 
     return (
-        <div className="services wrapper">
+        <div id="Services" className="services wrapper">
             <div className="headerLine">Services</div>
             <div className="container">
                 <input
@@ -81,11 +81,21 @@ export const Services = () => {
                 {selectedService === "graphicDesign" ? (
                         <PixelTransition
                             firstContent={
-                            <img
-                                src={c2}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                                <div
+                                style={{
+                                width: "100%",
+                                height: "100%",
+                                display: "grid",
+                                placeItems: "center",
+                                backgroundColor: "#000",
+                                textAlign : "left",
+                                }}
+                            >   
+                                <div className="c2">
+                                    <h3>Front End Engineering</h3>
+                                </div>
+                            </div>
+
 
                             }
                             secondContent={
@@ -252,3 +262,12 @@ export const Services = () => {
         </div>
     );
 };
+
+
+/**
+ * <img
+                                src={c22}
+                                alt="default pixel transition content, a cat!"
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+ */

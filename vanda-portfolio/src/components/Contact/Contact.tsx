@@ -7,7 +7,7 @@ import DecryptedText from '../DecryptedText/DecryptedText';
 export const Contact = () => {
 	return (
         <>
-            <div className="container contact">
+            <div id="Contact" className="container contact">
                 <div>
                     <div><h2>Contact Me</h2></div>
                     <div><h3><DecryptedText

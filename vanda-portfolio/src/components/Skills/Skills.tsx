@@ -122,7 +122,7 @@ export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience 
   };
 
   return (
-    <section className='skills'>
+    <section id='Skills' className='skills'>
         <div className="container">
             <PixelCard variant='default'>
               <div className="skill-row">

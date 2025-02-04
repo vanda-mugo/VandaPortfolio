@@ -90,19 +90,10 @@ input:checked + label .description {
     transform: translateY(0) !important;
 }
 
-/*
-.card[for="c1"] {
-    background-image: url('../../assets/icons/ServicesBackgrounds/vanda.PNG');
+
+.c2{
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.card[for="c2"] {
-    background-image: url('../../assets/icons/ServicesBackgrounds/vanda.PNG');
-}
-.card[for="c3"] {
-    background-image: url('../../assets/icons/ServicesBackgrounds/vanda.PNG');
-}
-.card[for="c4"] {
-    background-image: url('../../assets/icons/ServicesBackgrounds/vanda.PNG');
-}
-.card[for="c5"] {
-    background-image: url('../../assets/icons/ServicesBackgrounds/vanda.PNG');
-}*/

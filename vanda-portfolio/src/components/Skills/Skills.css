@@ -11,15 +11,19 @@
     text-align: center;
   }
 
+  .pixel-card{
+    height: 500px;
+    margin: 30px;
+  }
+
 .container .skill-row{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     padding:20px;
     text-align: center;
-    min-height: 500px;
     background-color: hsla(0, 0%, 0%, 0.3);
     border-radius: 60px;
     margin-bottom: 30px;
@@ -43,6 +47,27 @@
 .skill-slide ul li img:hover{
     transform: scale(1.1);
     filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); /* Glowing effect */
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 1024px) {
+    .skill-slide ul li img{
+        width: 80px; /* Adjust size for medium screens */
+    }
+}
+
+/* Small screens (phones) */
+@media (max-width: 768px) {
+    .skill-slide ul li img{
+        width: 60px; /* Adjust size for small screens */
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .skill-slide ul li img{
+        width: 40px; /* Adjust size for extra small screens */
+    }
 }
 
 @keyframes zigzag {

@@ -28,7 +28,10 @@ import  git from '../../assets/icons/ToolIcons/git.svg';
 import  vscode from '../../assets/icons/ToolIcons/vscode.svg';
 import  adobeIllustrator from '../../assets/icons/ToolIcons/adobeIllustrator.svg';
 
-import  PixelCard  from '../PixelCard/PixelCard';
+//import  PixelCard  from '../PixelCard/PixelCard';
+
+import { lazy, Suspense } from "react";
+const PixelCard = lazy(() => import('../PixelCard/PixelCard'));
 
 interface Skill {
   category: string;
@@ -80,9 +83,11 @@ interface SkillsProps {
   toggleExperience: () => void;
   showExperience: boolean;
 }
+//{toggleExperience, showExperience }
 
-export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience }) => {
+const Skills: React.FC<SkillsProps> = () => {
   const settings = {
+    centerMode : true,
     dots: true,
     infinite: true,
     speed: 500,
@@ -91,6 +96,7 @@ export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience 
     slidesToScroll: 1,
     swipe: true,
     touchMove: true,
+    swipeToSlide : true,
     autoplay: true,
     autoplaySpeed: 5000,
     responsive: [
@@ -124,7 +130,8 @@ export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience 
   return (
     <section id='Skills' className='skills'>
         <div className="container">
-            <PixelCard variant='default'>
+        <Suspense fallback={<div>Loading...</div>}>
+            <PixelCard variant="default" gap={8} speed={40} colors="#f8fafc,#f1f5f9,#cbd5e1" noFocus={false} className="" >
               <div className="skill-row">
                   <h2>Skills</h2>
                   <Slider {...settings}>
@@ -144,13 +151,18 @@ export const Skills: React.FC<SkillsProps> = ({toggleExperience, showExperience 
                   </Slider>
               </div>
             </PixelCard>
-            <div>
-                <button  className="experienceButton" onClick={toggleExperience}>
-                    {showExperience ? <div><span className='one'>Hide</span><span className='two'>Experience</span></div> : <div><span className='one'>Show</span><span className='two'>Experience</span></div>}
-                </button>
-            </div>
+         </Suspense> 
         </div>
     </section>
   );
 };
 
+export default Skills;
+
+/**
+ * <div>
+                <button  className="experienceButton" onClick={toggleExperience}>
+                    {showExperience ? <div><span className='one'>Hide</span><span className='two'>Experience</span></div> : <div><span className='one'>Show</span><span className='two'>Experience</span></div>}
+                </button>
+            </div>
+ */

@@ -1,11 +1,14 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import logo from '../../assets/img/logo.svg';
 import navIcon1 from '../../assets/img/nav-icon1.svg';
 import navIcon2 from '../../assets/img/nav-icon2.svg';
-import navIcon3 from '../../assets/img/nav-icon3.svg';
-import SplitText from '../SplitText/SplitText';
+import { lazy, Suspense } from "react";
+ 
+
+const SplitText = lazy(() => import('../SplitText/SplitText'));
+
 import './NavBar.css';
+
 
 export const NavBar = () : JSX.Element => {
     const [activeLink, setActiveLink] = useState('home');
@@ -46,7 +49,8 @@ export const NavBar = () : JSX.Element => {
         <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
             <Container>
                 <div className="navbar-content">
-                    <div className="navbar-left">  
+                    <div className="navbar-left"> 
+                    <Suspense fallback={<div>Loading...</div>}> 
                         <SplitText
                             text="Vanda"
                             className="text-2xl font-semibold text-center"
@@ -58,6 +62,7 @@ export const NavBar = () : JSX.Element => {
                             rootMargin="-50px"
                             onLetterAnimationComplete={handleAnimationComplete}
                         />
+                    </Suspense>
                     </div>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">

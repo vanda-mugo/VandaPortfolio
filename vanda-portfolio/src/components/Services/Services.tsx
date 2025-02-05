@@ -1,19 +1,12 @@
 import React from "react";
 import './Services.css';
-import PixelTransition from '../PixelTransition/PixelTransition';
-import PixelCard from '../PixelCard/PixelCard'; 
-import c2 from '../../assets/ServicesBackgrounds/c2.png';
-import c22 from '../../assets/ServicesBackgrounds/c22.jpg';
-import c3 from '../../assets/ServicesBackgrounds/c3.jpg';
-import c33 from '../../assets/ServicesBackgrounds/c33.jpg';
-import c4 from '../../assets/ServicesBackgrounds/c4.jpg';
-import c44 from '../../assets/ServicesBackgrounds/c44.jpg';
-import c5 from '../../assets/ServicesBackgrounds/c5.jpg';
-import cc5 from '../../assets/ServicesBackgrounds/cc5.jpg';
+import { lazy, Suspense } from "react";
+const PixelTransition = lazy(() => import('../PixelTransition/PixelTransition'));
+/*import { linearGradient } from "framer-motion/client";*/
 
 
 
-export const Services = () => {
+const Services = () => {
     const [selectedService, setSelectedService] = React.useState("FrontEnd-Development");
 
     const handleServiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,38 +27,47 @@ export const Services = () => {
                 />
                 <label htmlFor="c1" className="card">
                 {selectedService === "FrontEnd-Development" ? (
+                            <Suspense fallback={<div>Loading...</div>}>
                             <PixelTransition
                             firstContent={
-                            <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F91%2F9b%2F79%2F919b7945c8de403223d06a1936ab5d2a.jpg&f=1&nofb=1&ipt=664661ad07743cc5fd8ff44b298d0ca0ebb70fada12429a1c6e7f2b67f6c9b44&ipo=images"
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="cardContent" >   
+                                <div className="c1">
+                                    <h3>Front End Engineering</h3>
+                                </div>
+                            </div>
 
                             }
                             secondContent={
-                            <div
+                            <div className="secondContent"
                                 style={{
                                 width: "100%",
                                 height: "100%",
                                 display: "grid",
                                 placeItems: "center",
-                                backgroundColor: "#111"
+                                backgroundColor: "#000",
+                                textAlign: "center",
                                 }}
                             >
-                                <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmiro.medium.com%2Fmax%2F3200%2F1*kstvj_yU58Mqyedi7sqY8Q.png&f=1&nofb=1&ipt=68ee2c1007014637f94bb427e2ada19206758ad8812d8290018008822889009f&ipo=images"
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                                <div className="c1">
+                                    <h4>FrontEnd Development/Engineering</h4>
+                                    <ul>
+                                        <li>Responsive Design</li>
+                                        <li>Interactive design</li>
+                                        <li>Interactive UI components</li>
+                                        <li>Performance Optimization</li>
+                                        <li>Cross Browser Compatibility</li>
+                                    </ul>
+                                </div>
+                                
                             </div>
                             
                             }
-                            gridSize={12}
-                            pixelColor='cyan'
+                            gridSize={10}
+                            pixelColor='rgba(0, 0, 0, 1)'
                             animationStepDuration={0.6}
                             className="custom-pixel-card"
                         /> 
+                        </Suspense>
                         ): (<div className="icon"></div>)}
                 </label>
 
@@ -79,48 +81,47 @@ export const Services = () => {
                 />
                 <label htmlFor="c2" className="card">
                 {selectedService === "graphicDesign" ? (
+                        <Suspense fallback={<div>Loading...</div>}>
                         <PixelTransition
                             firstContent={
-                                <div
-                                style={{
-                                width: "100%",
-                                height: "100%",
-                                display: "grid",
-                                placeItems: "center",
-                                backgroundColor: "#000",
-                                textAlign : "left",
-                                }}
-                            >   
+                            <div className="cardContent">   
                                 <div className="c2">
-                                    <h3>Front End Engineering</h3>
+                                    <h3>Graphic Design</h3>
                                 </div>
                             </div>
 
 
                             }
                             secondContent={
-                            <div
+                            <div className="secondContent"
                                 style={{
                                 width: "100%",
                                 height: "100%",
                                 display: "grid",
                                 placeItems: "center",
-                                backgroundColor: "#111"
+                                backgroundColor: "#000",
+                                textAlign: "center",
                                 }}
                             >
-                                <img
-                                src={c22}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="c2">
+                                <h4>Graphic Design/Digital Design</h4>
+                                <ul>
+                                    <li>Vector Illustrations</li>
+                                    <li>Flat Art Illustrations</li>
+                                    <li>Logo Design</li>
+                                    <li>Branding and Identity</li>
+                                    <li>Custom Graphics</li>
+                                </ul>
+                            </div>
                             </div>
                             
                             }
                             gridSize={10}
-                            pixelColor='cyan'
+                            pixelColor='rgba(0, 0, 0, 1)'
                             animationStepDuration={0.4}
                             className="custom-pixel-card"
                         /> 
+                    </Suspense>
                         ): (<div className="icon"></div>)}
                 </label>
 
@@ -134,38 +135,47 @@ export const Services = () => {
                 />
                 <label htmlFor="c3" className="card">
                 {selectedService === "BackEnd-Development" ? (
+                        <Suspense fallback={<div>Loading...</div>}>
                         <PixelTransition
                             firstContent={
-                            <img
-                                src={c3}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="cardContent">   
+                                <div className="c3">
+                                    <h3>UI/UX Design</h3>
+                                </div>
+                            </div>
 
                             }
                             secondContent={
-                            <div
+                            <div className="secondContent"
                                 style={{
                                 width: "100%",
                                 height: "100%",
                                 display: "grid",
                                 placeItems: "center",
-                                backgroundColor: "#111"
+                                backgroundColor: "#000",
+                                textAlign: "center",
                                 }}
                             >
-                                <img
-                                src={c33}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="c3">
+                                <h4>UI/UX Interface Design</h4>
+                                <ul>
+                                    <li>Wireframing</li>
+                                    <li>Prototyping</li>
+                                    <li>Visual Design</li>
+                                    <li>Interaction Design</li>
+                                    <li>Usability Testing</li>
+                                    <li>Creative custom design</li>
+                                </ul>
+                            </div>
                             </div>
                             
                             }
                             gridSize={12}
-                            pixelColor='cyan'
+                            pixelColor='rgb(0,0,0,1)'
                             animationStepDuration={0.4}
                             className="custom-pixel-card"
                         /> 
+                        </Suspense>
                         ): (<div className="icon"></div>)}
                 </label>
 
@@ -179,38 +189,44 @@ export const Services = () => {
                 />
                 <label htmlFor="c4" className="card">
                 {selectedService === "Flat-Art-Design" ? (
+                        <Suspense fallback={<div>Loading...</div>}>
                         <PixelTransition
                             firstContent={
-                            <img
-                                src={c4}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="cardContent">   
+                                <div className="c4">
+                                    <h3>Drone Videography</h3>
+                                </div>
+                            </div>
 
                             }
                             secondContent={
-                            <div
+                            <div className="secondContent"
                                 style={{
                                 width: "100%",
                                 height: "100%",
                                 display: "grid",
                                 placeItems: "center",
-                                backgroundColor: "#111"
+                                backgroundColor: "#000",
+                                textAlign: "center",
                                 }}
                             >
-                                <img
-                                src={c44}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="c4">
+                                <h4>Drone Videography/Photography</h4>
+                                <ul>
+                                    <li>FPV Videography</li>
+                                    <li>Aerial Photography</li>
+                                    <li>Camera Drone Videography</li>
+                                </ul>
+                            </div>
                             </div>
                             
                             }
                             gridSize={12}
-                            pixelColor='cyan'
+                            pixelColor='rgb(0,0,0,1)'
                             animationStepDuration={0.4}
                             className="custom-pixel-card"
                         /> 
+                        </Suspense>
                         ): (<div className="icon"></div>)}
                 </label>
 
@@ -224,38 +240,44 @@ export const Services = () => {
                 />
                 <label htmlFor="c5" className="card">
                 {selectedService === "Drone-Videography" ? (
+                        <Suspense fallback={<div>Loading...</div>}>
                         <PixelTransition
                             firstContent={
-                            <img
-                                src={c5}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="cardContent">   
+                                <div className="c5">
+                                    <h3>Software Engineering</h3>
+                                </div>
+                            </div>
 
                             }
                             secondContent={
-                            <div
+                            <div className="secondContent"
                                 style={{
                                 width: "100%",
                                 height: "100%",
                                 display: "grid",
                                 placeItems: "center",
-                                backgroundColor: "#111"
+                                backgroundColor: "#000",
+                                textAlign: "center",
                                 }}
                             >
-                                <img
-                                src={cc5}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
+                            <div className="c5">
+                                <h4>Software Engineering Services</h4>
+                                <ul>
+                                    <li>C++ Programming</li>
+                                    <li>Python Programming</li>
+                                    <li>Quality assurance and Testing</li>
+                                </ul>
+                            </div>
                             </div>
                             
                             }
                             gridSize={12}
-                            pixelColor='rgba(0,255,255,1)'
+                            pixelColor='rgba(0,0,0,1)'
                             animationStepDuration={0.4}
                             className="custom-pixel-card"
                         /> 
+                        </Suspense>
                         ): (<div className="icon"></div>)}
                 </label>
             </div>
@@ -263,11 +285,4 @@ export const Services = () => {
     );
 };
 
-
-/**
- * <img
-                                src={c22}
-                                alt="default pixel transition content, a cat!"
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
- */
+export default Services;

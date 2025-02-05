@@ -4,14 +4,21 @@
     align-items:center;
     justify-content: right;
     width: 100%;
+    background:  linear-gradient(45deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5), rgba(255, 255, 0, 0.5), rgba(0, 127, 255, 0.5), rgba(152, 255, 152, 0.5));
+    animation: gradientAnimation 16s ease infinite;
+    background-size: 300% 300%;
+    height:500px ;
+    border-radius: 80px;
+    text-align: right;
 }
 
 .contact img{
-    margin: 30px 0;
+    margin: 100px 100px 100px 0px;
     height: 300px;
     width: auto;
     border-radius: 20px;
     background-color: black;
+    
 }
 
 
@@ -24,8 +31,30 @@
 
 .contact h3{
     margin-right: 30px;
+    font-size: 2.0rem;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #00C9FF, #92FE9D, #F3FFE2, #FFAAAA, #AA00FF);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 8s ease infinite;
 }
 
-.contact h3:hover{
+#Contact a:hover{
     color: cyan;
+}
+#Contact{
+    margin-bottom: 100px;
+
+}
+
+
+
+#Contact a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;  
+    margin-right: 40px;
+  
 }

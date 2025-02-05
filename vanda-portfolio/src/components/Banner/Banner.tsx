@@ -6,7 +6,11 @@ import { useState, useEffect } from "react";
 import './Banner.css';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import TrueFocus from '../TrueFocus/TrueFocus';
+import { lazy, Suspense } from "react";
+
+
+const TrueFocus =  lazy(() => import('../TrueFocus/TrueFocus'));
+
 
 
 interface BannerProps {
@@ -101,14 +105,14 @@ export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element
                             {({ isVisible  }) => 
                                 <div className={isVisible ? 'animate__animated animate__fadeIn' : ''}>    
                                     <span className="tagline">Welcome to my Portfolio</span>
-                                    <h1>{"Hi I'm "}<span className="devname" ><TrueFocus 
+                                    <h1>{"Hi I'm "}<span className="devname" ><Suspense fallback={<div>Loading...</div>}><TrueFocus 
                                                                                 sentence="John Mugo"
                                                                                 manualMode={false}
                                                                                 blurAmount={7}
                                                                                 borderColor="red"
                                                                                 animationDuration={1}
                                                                                 pauseBetweenAnimations={1}
-                                                                                /></span></h1>
+                                                                                /></Suspense></span></h1>
                                     <h1>I'm a <span className="txt-rotate"  data-rotate='["Web Developer", "Designer", "Freelancer", "C++ Developer", "Software Engineer"]'><span className="wrap">{text}</span></span></h1>
                                     <p><span>Niche : </span> Algorithm Optimization, Data Structures,Design Patterns </p>
                                     <button onClick={():void => scrollToSection("contact") }>Lets connect<ArrowRightCircle size={25} /></button>

@@ -1,6 +1,6 @@
 import './Experience.css';
 import SpotlightCard from '../Spotlight/SpotlightCard';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 
 
@@ -36,7 +36,7 @@ export const Experience = () : JSX.Element => {
                         </SpotlightCard>
                         <div className={`line ${showRectangle1 ? 'pulsing' : ''}`}></div>
                         <div className={`rectangle ${showRectangle1 ? 'expanded' : ''}`}>
-                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle1 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)">
+                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle1 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)" onClick={handleClick1}>
                                     {showRectangle1 && <p><span><span className='sectionHeader'>Quality Control & Inspection:</span> Conducted meticulous quality control, assessment, 
                                     and repair of electronic boards post-manufacturing, ensuring product integrity and user safety.</span>
                                     <span><span className='sectionHeader'>Precision & Assurance:</span>Developed a keen eye for precision and thoroughness, guaranteeing the reliability 
@@ -51,7 +51,7 @@ export const Experience = () : JSX.Element => {
                         </SpotlightCard>
                         <div className={`line ${showRectangle2 ? 'pulsing' : ''}`}></div>
                         <div className={`rectangle ${showRectangle2 ? 'expanded' : ''}`}>
-                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle2 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)">
+                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle2 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)" onClick={handleClick2}>
                                     {showRectangle2 && <p><span><span className='sectionHeader'>Quality Control & Inspection:</span> Conducted meticulous quality control, assessment, 
                                     and repair of electronic boards post-manufacturing, ensuring product integrity and user safety.</span>
                                     <span><span className='sectionHeader'>Precision & Assurance:</span>Developed a keen eye for precision and thoroughness, guaranteeing the reliability 
@@ -65,7 +65,7 @@ export const Experience = () : JSX.Element => {
                         </SpotlightCard>
                         <div className={`line ${showRectangle3 ? 'pulsing' : ''}`}></div>
                         <div className={`rectangle ${showRectangle3 ? 'expanded' : ''}`}>
-                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle3 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)">
+                            <SpotlightCard className={`testAutomationSpotlight ${showRectangle3 ? 'expanded' : ''}`} spotlightColor="rgba(0, 229, 255, 0.2)" onClick={handleClick3}>
                                     {showRectangle3 && <p><span><span className='sectionHeader'>Quality Control & Inspection:</span> Conducted meticulous quality control, assessment, 
                                     and repair of electronic boards post-manufacturing, ensuring product integrity and user safety.</span>
                                     <span><span className='sectionHeader'>Precision & Assurance:</span>Developed a keen eye for precision and thoroughness, guaranteeing the reliability 

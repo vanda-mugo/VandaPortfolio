@@ -5,12 +5,12 @@ import './PixelTransition.css';
 function PixelTransition({
   firstContent,
   secondContent,
-  gridSize = 15,
+  gridSize = 12,
   pixelColor = 'currentColor',
   animationStepDuration = 0.3,
   className = '',
   style = {},
-  aspectRatio = '100%',
+  aspectRatio = '60%',
 }) {
   const containerRef = useRef(null);
   const pixelGridRef = useRef(null);

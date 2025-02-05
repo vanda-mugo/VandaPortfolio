@@ -14,7 +14,6 @@
     overflow: hidden;
     display: grid;
     place-items: center;
-    aspect-ratio: 2.64 / 1;
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 60px;
     isolation: isolate;

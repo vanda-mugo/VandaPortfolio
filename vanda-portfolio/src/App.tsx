@@ -1,14 +1,16 @@
 import './App.css';
+import { lazy, Suspense } from "react";
 import { NavBar } from './components/NavBar/NavBar';
 import { Banner } from './components/Banner/Banner';
-import { Skills } from './components/Skills/Skills';
-import { Services } from './components/Services/Services';
-import { Experience } from './components/Experience/Experience';
+const Skills = lazy(() => import('./components/Skills/Skills'));
+//import { Skills } from './components/Skills/Skills';
+const Services = lazy(() => import('./components/Services/Services'));
+//import { Experience } from './components/Experience/Experience';
 import SplashCursor from  './components/SplashCursor/SplashCursor';
 import { Contact } from './components/Contact/Contact';
 import { Projects } from './components/Projects/Projects';
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 
 function App() {
@@ -32,12 +34,13 @@ function App() {
       }
       <NavBar />
       <Banner splashEffect={splashEffect} toggleEffect={toggleEffect} />
+      <Suspense fallback={<div>Loading Services...</div>}>
       < Skills toggleExperience={toggleExperience} showExperience={showExperience}/>
-      {
-        showExperience && (<Experience />)
-      }
+      </Suspense>
       <Projects />
+      <Suspense fallback={<div>Loading Services...</div>}>
       <Services  />
+      </Suspense>
       <Contact />
     </div>
   )
@@ -47,3 +50,9 @@ export default App
 
 
 //      < SplashCursor />
+
+/*
+{
+        showExperience && (<Experience />)
+      }
+*/

@@ -64,7 +64,7 @@ const Services = () => {
                             }
                             gridSize={10}
                             pixelColor='rgba(0, 0, 0, 1)'
-                            animationStepDuration={0.6}
+                            animationStepDuration={0.3}
                             className="custom-pixel-card"
                         /> 
                         </Suspense>
@@ -118,7 +118,7 @@ const Services = () => {
                             }
                             gridSize={10}
                             pixelColor='rgba(0, 0, 0, 1)'
-                            animationStepDuration={0.4}
+                            animationStepDuration={0.3}
                             className="custom-pixel-card"
                         /> 
                     </Suspense>
@@ -172,7 +172,7 @@ const Services = () => {
                             }
                             gridSize={12}
                             pixelColor='rgb(0,0,0,1)'
-                            animationStepDuration={0.4}
+                            animationStepDuration={0.3}
                             className="custom-pixel-card"
                         /> 
                         </Suspense>
@@ -223,7 +223,7 @@ const Services = () => {
                             }
                             gridSize={12}
                             pixelColor='rgb(0,0,0,1)'
-                            animationStepDuration={0.4}
+                            animationStepDuration={0.3}
                             className="custom-pixel-card"
                         /> 
                         </Suspense>
@@ -274,7 +274,7 @@ const Services = () => {
                             }
                             gridSize={12}
                             pixelColor='rgba(0,0,0,1)'
-                            animationStepDuration={0.4}
+                            animationStepDuration={0.3}
                             className="custom-pixel-card"
                         /> 
                         </Suspense>

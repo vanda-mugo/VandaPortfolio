@@ -1,6 +1,4 @@
 {
-  "version": 2,
-  "name": "vanda-portfolio",
   "builds": [
     {
       "src": "package.json",
@@ -29,10 +27,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  ]
 }

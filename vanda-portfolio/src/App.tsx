@@ -1,15 +1,15 @@
-import './App.css';
+import "./App.css";
 import { lazy, Suspense } from "react";
-import { NavBar } from './components/NavBar/NavBar';
-import { Banner } from './components/Banner/Banner';
-const Skills = lazy(() => import('./components/Skills/Skills'));
-const Services = lazy(() => import('./components/Services/Services'));
+import { NavBar } from "./components/NavBar/NavBar";
+import { Banner } from "./components/Banner/Banner";
+const Skills = lazy(() => import("./components/Skills/Skills"));
+const Services = lazy(() => import("./components/Services/Services"));
 import { Experience } from "./components/Experience/Experience";
-import SplashCursor from  './components/SplashCursor/SplashCursor';
-import { Contact } from './components/Contact/Contact';
-import { Projects } from './components/Projects/Projects';
+import SplashCursor from "./components/SplashCursor/SplashCursor";
+import { Contact } from "./components/Contact/Contact";
+import { Projects } from "./components/Projects/Projects";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 function App() {
   const [showExperience, setShowExperience] = useState(false);

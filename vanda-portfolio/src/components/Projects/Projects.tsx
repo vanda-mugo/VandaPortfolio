@@ -22,17 +22,10 @@ const ProjectDetails: projectsDetails[] = [
     techStack: [
       "React-Native",
       "EXPO",
-      "React",
       "TypeScript",
-      "JavaScript",
-      "Node.js",
       "Firebase",
       "Firestore",
       "Redux Toolkit",
-      "React Navigation",
-      "Chart.js",
-      "Jest",
-      "Git",
     ],
     url: "https://github.com/vanda-mugo/BetaHealth",
     githubUrl: "",
@@ -261,7 +254,11 @@ export const Projects = () => {
                             rel="noopener noreferrer"
                             title="GitHub link"
                           >
-                            <img className="svgLInks" src={githubIcon} alt="GitHub" />
+                            <img
+                              className="svgLInks"
+                              src={githubIcon}
+                              alt="GitHub"
+                            />
                           </a>
                         ) : (
                           ""
@@ -273,7 +270,11 @@ export const Projects = () => {
                             rel="noopener noreferrer"
                             title="External resource developer"
                           >
-                            <img className="svgLInks" src={devIcon} alt="Developer" />
+                            <img
+                              className="svgLInks"
+                              src={devIcon}
+                              alt="Developer"
+                            />
                           </a>
                         ) : (
                           ""
@@ -285,7 +286,11 @@ export const Projects = () => {
                             rel="noopener noreferrer"
                             title="External resource library"
                           >
-                            <img className="svgLInks" src={library} alt="Library" />
+                            <img
+                              className="svgLInks"
+                              src={library}
+                              alt="Library"
+                            />
                           </a>
                         ) : (
                           ""

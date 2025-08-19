@@ -390,6 +390,9 @@
   width: 280px;
   height: 280px;
   cursor: pointer;
+  /* Better touch target for mobile */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 @media (min-width: 768px) {
@@ -413,6 +416,10 @@
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   filter: brightness(1.1) contrast(1.1);
   animation: float 3s ease-in-out infinite;
+  /* Improve touch interactions */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* Minimalist floating animation for the main image */
@@ -437,12 +444,23 @@
 }
 
 .profile-image.profile-alt {
-  /* On hover: stop floating, show dev image with subtle scale */
+  /* On hover/touch: stop floating, show dev image with subtle scale */
   animation: none;
   transform: scale(1.02);
   filter: brightness(1.2) contrast(1.2) saturate(1.1);
   border-radius: 10px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced mobile touch states */
+@media (max-width: 768px) {
+  .profile-image-container:active .profile-image.profile-main {
+    transform: scale(0.98);
+  }
+  
+  .profile-image-container:active .profile-image.profile-alt {
+    transform: scale(1.0);
+  }
 }
 
 /* ===== RESPONSIVE OPTIMIZATIONS ===== */

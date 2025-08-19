@@ -56,24 +56,42 @@ const TypingAnimation = memo(({ words }: { words: string[] }) => {
 
 TypingAnimation.displayName = "TypingAnimation";
 
-// Memoized image component with hover effect
+// Memoized image component with hover and touch effects
 const ProfileImage = memo(() => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+
+  // Combined state for showing alt image
+  const showAltImage = isHovered || isTouched;
+
+  const handleTouchStart = () => {
+    setIsTouched(true);
+    setIsHovered(true); // Ensure hover state is also set for consistent styling
+  };
+
+  const handleTouchEnd = () => {
+    // Keep the image for a bit longer on touch end for better UX
+    setTimeout(() => {
+      setIsTouched(false);
+      setIsHovered(false);
+    }, 150);
+  };
 
   return (
     <div
       className="profile-image-container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => setIsHovered(true)}
-      onTouchEnd={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
     >
       <img
         className={`profile-image ${
-          isHovered ? "profile-alt" : "profile-main"
+          showAltImage ? "profile-alt" : "profile-main"
         }`}
-        src={isHovered ? vandaImg : headerImg}
-        alt={isHovered ? "Developer Profile" : "Header Illustration"}
+        src={showAltImage ? vandaImg : headerImg}
+        alt={showAltImage ? "Developer Profile" : "Header Illustration"}
         loading="lazy"
       />
     </div>

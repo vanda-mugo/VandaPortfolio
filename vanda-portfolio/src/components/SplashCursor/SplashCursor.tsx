@@ -75,18 +75,6 @@ export default function SplashCursor({
 }: SplashCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Mobile detection state
-  const isMobileDevice = (() => {
-    if (typeof window === "undefined") return false;
-    const userAgentMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    const hasTouchScreen = "ontouchstart" in window;
-    const isSmallScreen = window.innerWidth <= 768;
-    return userAgentMobile || (hasTouchScreen && isSmallScreen);
-  })();
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -1614,65 +1602,6 @@ export default function SplashCursor({
           display: "block",
         }}
       />
-
-      {/* Mobile touch hint overlay */}
-      {isMobileDevice && (
-        <>
-          <div
-            className="mobile-touch-hint"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-              zIndex: 51,
-              opacity: 0.7,
-              animation: "fadeInOut 3s ease-in-out infinite",
-            }}
-          >
-            <div
-              style={{
-                background: "rgba(0, 255, 255, 0.1)",
-                border: "2px solid rgba(0, 255, 255, 0.3)",
-                borderRadius: "50%",
-                padding: "20px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "24px",
-                animation: "pulse 2s ease-in-out infinite",
-              }}
-            >
-              👆
-            </div>
-            <p
-              style={{
-                textAlign: "center",
-                color: "rgba(255, 255, 255, 0.8)",
-                fontSize: "14px",
-                marginTop: "10px",
-                fontWeight: "500",
-                margin: "10px 0 0 0",
-              }}
-            >
-              Tap screen to create effects
-            </p>
-          </div>
-
-          <style>{`
-            @keyframes fadeInOut {
-              0%, 100% { opacity: 0; }
-              50% { opacity: 0.7; }
-            }
-            
-            @keyframes pulse {
-              0%, 100% { transform: scale(1); }
-              50% { transform: scale(1.1); }
-            }
-          `}</style>
-        </>
-      )}
     </div>
   );
 }

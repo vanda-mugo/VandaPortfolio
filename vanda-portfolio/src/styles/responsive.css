@@ -1,0 +1,282 @@
+/* Mobile-First Responsive Design System */
+/* This file contains global responsive utilities and breakpoints */
+
+/* ========== MOBILE MENU UTILITIES ========== */
+/* Prevent body scroll when mobile menu is open */
+body.mobile-menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ========== BREAKPOINTS ========== */
+/* Following common breakpoints for maximum compatibility */
+:root {
+  /* Breakpoints */
+  --breakpoint-xs: 480px;    /* Extra small phones */
+  --breakpoint-sm: 576px;    /* Small phones */
+  --breakpoint-md: 768px;    /* Tablets */
+  --breakpoint-lg: 992px;    /* Small laptops */
+  --breakpoint-xl: 1200px;   /* Desktop */
+  --breakpoint-xxl: 1400px;  /* Large desktop */
+  
+  /* Responsive spacing */
+  --spacing-xs: 0.5rem;   /* 8px */
+  --spacing-sm: 1rem;     /* 16px */
+  --spacing-md: 1.5rem;   /* 24px */
+  --spacing-lg: 2rem;     /* 32px */
+  --spacing-xl: 3rem;     /* 48px */
+  --spacing-xxl: 4rem;    /* 64px */
+  
+  /* Responsive typography */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 4rem;       /* 64px */
+}
+
+/* ========== UTILITY CLASSES ========== */
+
+/* Display utilities */
+.mobile-only { display: none; }
+.desktop-only { display: block; }
+
+@media (max-width: 768px) {
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+  .mobile-hidden { display: none !important; }
+}
+
+/* Responsive containers */
+.container-responsive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+
+@media (min-width: 576px) {
+  .container-responsive {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (min-width: 992px) {
+  .container-responsive {
+    padding: 0 var(--spacing-xl);
+  }
+}
+
+/* Responsive text sizes */
+.text-responsive-sm {
+  font-size: var(--text-sm);
+}
+
+.text-responsive-base {
+  font-size: var(--text-base);
+}
+
+.text-responsive-lg {
+  font-size: var(--text-lg);
+}
+
+.text-responsive-xl {
+  font-size: var(--text-xl);
+}
+
+.text-responsive-2xl {
+  font-size: var(--text-2xl);
+}
+
+@media (min-width: 768px) {
+  .text-responsive-sm { font-size: var(--text-base); }
+  .text-responsive-base { font-size: var(--text-lg); }
+  .text-responsive-lg { font-size: var(--text-xl); }
+  .text-responsive-xl { font-size: var(--text-2xl); }
+  .text-responsive-2xl { font-size: var(--text-3xl); }
+}
+
+@media (min-width: 992px) {
+  .text-responsive-sm { font-size: var(--text-lg); }
+  .text-responsive-base { font-size: var(--text-xl); }
+  .text-responsive-lg { font-size: var(--text-2xl); }
+  .text-responsive-xl { font-size: var(--text-3xl); }
+  .text-responsive-2xl { font-size: var(--text-4xl); }
+}
+
+/* Responsive spacing utilities */
+.p-responsive { padding: var(--spacing-sm); }
+.px-responsive { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+.py-responsive { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
+.m-responsive { margin: var(--spacing-sm); }
+.mx-responsive { margin-left: var(--spacing-sm); margin-right: var(--spacing-sm); }
+.my-responsive { margin-top: var(--spacing-sm); margin-bottom: var(--spacing-sm); }
+
+@media (min-width: 768px) {
+  .p-responsive { padding: var(--spacing-md); }
+  .px-responsive { padding-left: var(--spacing-md); padding-right: var(--spacing-md); }
+  .py-responsive { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+  .m-responsive { margin: var(--spacing-md); }
+  .mx-responsive { margin-left: var(--spacing-md); margin-right: var(--spacing-md); }
+  .my-responsive { margin-top: var(--spacing-md); margin-bottom: var(--spacing-md); }
+}
+
+@media (min-width: 992px) {
+  .p-responsive { padding: var(--spacing-lg); }
+  .px-responsive { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
+  .py-responsive { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
+  .m-responsive { margin: var(--spacing-lg); }
+  .mx-responsive { margin-left: var(--spacing-lg); margin-right: var(--spacing-lg); }
+  .my-responsive { margin-top: var(--spacing-lg); margin-bottom: var(--spacing-lg); }
+}
+
+/* Responsive flexbox utilities */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+    gap: var(--spacing-md);
+  }
+}
+
+.flex-responsive-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .flex-responsive-reverse {
+    flex-direction: row;
+    gap: var(--spacing-md);
+  }
+}
+
+/* Grid utilities */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-sm);
+}
+
+@media (min-width: 576px) {
+  .grid-responsive-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-responsive {
+    gap: var(--spacing-md);
+  }
+  
+  .grid-responsive-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .grid-responsive-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Touch-friendly buttons */
+.btn-touch {
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  font-size: var(--text-base);
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn-touch:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Safe area padding for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
+  }
+}
+
+/* Scrollable horizontal containers */
+.scroll-horizontal {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-horizontal > * {
+  flex-shrink: 0;
+}
+
+/* Responsive images */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive videos */
+.video-responsive {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.video-responsive iframe,
+.video-responsive video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile-specific animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

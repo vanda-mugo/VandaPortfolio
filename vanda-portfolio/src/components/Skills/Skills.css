@@ -1,99 +1,551 @@
 
-.container{
+/* ========== MOBILE-FIRST SKILLS COMPONENT ========== */
+/* Research-based design for optimal mobile UX */
+
+.skills {
+    padding: 60px 0;
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.9) 0%, rgba(30, 30, 30, 0.9) 100%);
     position: relative;
-    display: block;
-    box-sizing: border-box;
 }
 
-.skill-slide {
-    padding-top:50px;
-    border-radius: 5px;
+.skills .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* ========== SKILLS HEADER ========== */
+.skills-header {
     text-align: center;
-  }
+    margin-bottom: 40px;
+}
 
-  .pixel-card{
-    height: 500px;
-    margin: 30px;
-  }
+.skills-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
 
-.container .skill-row{
-    position: absolute;
-    top: 0;
-    left: 0;
+.skills-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Desktop header styles */
+@media (min-width: 768px) {
+    .skills-title {
+        font-size: 2.5rem;
+    }
+    
+    .skills-subtitle {
+        font-size: 18px;
+    }
+}
+
+/* ========== LOADING STATE ========== */
+.skills-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 255, 255, 0.3);
+    border-top: 3px solid #00ffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ========== DIRECT CONTENT WRAPPER (Debug) ========== */
+.skills-direct-content {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
+
+/* ========== PIXEL CARD CONTAINER ========== */
+.skills-pixel-card {
+    height: auto;
+    min-height: 400px;
+    margin: 0;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.skill-row {
+    position: relative;
     width: 100%;
     height: 100%;
-    padding:20px;
-    text-align: center;
-    background-color: hsla(0, 0%, 0%, 0.3);
-    border-radius: 60px;
-    margin-bottom: 30px;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
 }
 
-.skill-slide ul{
-    list-style: none;
-    padding: 0;
-    margin: 30px auto;
+/* Desktop skill row */
+@media (min-width: 768px) {
+    .skill-row {
+        padding: 40px 30px;
+    }
+}
+
+/* ========== SKILL SLIDE ========== */
+.skill-slide {
+    padding: 20px 0;
+    text-align: center;
+    outline: none; /* Remove focus outline for touch devices */
+}
+
+.skill-category {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* ========== CATEGORY HEADER ========== */
+.category-header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
     flex-wrap: wrap;
 }
-.skill-slide ul li img{
-    width: 150px;
-    height: 150px;
-    margin: 40px 10px 0 10px;
-    transition: filter 0.3s ease, transform 0.3s ease-in-out; /* Smooth transitions */
+
+.category-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #00ffff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Removed category count styling since numbering system is removed */
+/*
+.category-count {
+    background: rgba(0, 255, 255, 0.2);
+    color: #00ffff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+*/
+
+/* Desktop category header */
+@media (min-width: 768px) {
+    .category-title {
+        font-size: 1.8rem;
     }
-
-.skill-slide ul li img:hover{
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); /* Glowing effect */
-}
-
-/* Medium screens (tablets) */
-@media (max-width: 1024px) {
-    .skill-slide ul li img{
-        width: 80px; /* Adjust size for medium screens */
+    
+    .category-count {
+        font-size: 14px;
+        padding: 6px 16px;
     }
 }
 
-/* Small screens (phones) */
-@media (max-width: 768px) {
-    .skill-slide ul li img{
-        width: 60px; /* Adjust size for small screens */
+/* ========== SKILLS GRID ========== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Tablet grid */
+@media (min-width: 480px) {
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 500px;
+        gap: 24px;
     }
 }
 
-/* Extra small screens */
-@media (max-width: 480px) {
-    .skill-slide ul li img{
-        width: 40px; /* Adjust size for extra small screens */
+/* Desktop grid */
+@media (min-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 600px;
+        gap: 30px;
     }
 }
 
-@keyframes zigzag {
-    0% { transform: translate(-50%, -50%); }
-    25% { transform: translate(-40%, -40%); }
-    50% { transform: translate(-50%, -30%); }
-    75% { transform: translate(-60%, -40%); }
-    100% { transform: translate(-50%, -50%); }
-}
-
-.experienceButton{
-    color: #fff;
-    background: none;
-    border: none;
-    margin-left: 60px;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.8;
-    padding: 10px 20px;
+/* ========== SKILL ITEM ========== */
+.skill-item {
     display: flex;
-
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
-.experienceButton:hover{
-    color: cyan;
+.skill-item:hover {
+    transform: translateY(-4px);
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
 }
-.one{
-    margin-right: 10px;
+
+/* Desktop skill item */
+@media (min-width: 768px) {
+    .skill-item {
+        padding: 24px 20px;
+        gap: 16px;
+    }
+}
+
+/* ========== SKILL ICON ========== */
+.skill-icon-container {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    filter: brightness(0.9);
+}
+
+.skill-item:hover .skill-icon {
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+    transform: scale(1.1);
+}
+
+.skill-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-glow {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Desktop icon sizes */
+@media (min-width: 768px) {
+    .skill-icon-container {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .skill-glow {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* ========== SKILL NAME ========== */
+.skill-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+.skill-item:hover .skill-name {
+    color: #00ffff;
+}
+
+/* Desktop skill name */
+@media (min-width: 768px) {
+    .skill-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+
+/* ========== SKILL LEVEL BAR ========== */
+.skill-level {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.level-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.level-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ffff 0%, #0099cc 100%);
+    border-radius: 2px;
+    width: 0%;
+    animation: fillLevel 2s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.skill-item:hover .level-fill {
+    background: linear-gradient(90deg, #00ffff 0%, #66ffff 100%);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes fillLevel {
+    from {
+        width: 0%;
+    }
+    to {
+        width: var(--level-width, 85%);
+    }
+}
+
+/* ========== MODERN SWIPE INDICATOR ========== */
+.slider-hints {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.swipe-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.swipe-gesture {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.finger-trace {
+    position: relative;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 255, 255, 0.3) 20%, 
+        rgba(0, 255, 255, 0.8) 50%, 
+        rgba(0, 255, 255, 0.3) 80%, 
+        transparent 100%
+    );
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.finger-dot {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #00ffff;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 12px rgba(0, 255, 255, 0.8),
+        0 0 24px rgba(0, 255, 255, 0.4);
+    animation: fingerSwipe 2.5s ease-in-out infinite;
+}
+
+.swipe-arrows {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.arrow-left, .arrow-right {
+    color: #00ffff;
+    animation: arrowPulse 2s ease-in-out infinite;
+}
+
+.arrow-left {
+    animation-delay: 0.3s;
+}
+
+.arrow-right {
+    animation-delay: 0.6s;
+}
+
+.hint-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.progress-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.progress-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    animation: dotRotate 5s linear infinite;
+}
+
+.progress-dots .dot.active {
+    background: #00ffff;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+    transform: scale(1.2);
+}
+
+.progress-dots .dot:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.progress-dots .dot:nth-child(3) {
+    animation-delay: 2s;
+}
+
+.progress-dots .dot:nth-child(4) {
+    animation-delay: 3s;
+}
+
+.progress-dots .dot:nth-child(5) {
+    animation-delay: 4s;
+}
+
+/* ========== SWIPE ANIMATIONS ========== */
+@keyframes fingerSwipe {
+    0% {
+        left: -4px;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    15% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    85% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        left: 56px;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes arrowPulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes dotRotate {
+    0%, 20% {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: none;
+        transform: scale(1);
+    }
+    21%, 40% {
+        background: #00ffff;
+        box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+        transform: scale(1.2);
+    }
+    41%, 100% {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: none;
+        transform: scale(1);
+    }
+}
+
+/* Hide on desktop and show enhanced dots */
+@media (min-width: 768px) {
+    .slider-hints {
+        display: none;
+    }
+}
+
+/* ========== SLICK SLIDER CUSTOMIZATION ========== */
+.skills .slick-dots {
+    bottom: -50px;
+}
+
+.skills .slick-dots li button:before {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+}
+
+.skills .slick-dots li.slick-active button:before {
+    color: #00ffff;
+    opacity: 1;
+}
+
+.skills .slick-slide {
+    padding: 0 10px;
+}
+
+.skills .slick-track {
+    display: flex;
+    align-items: stretch;
+}
+
+.skills .slick-slide > div {
+    height: 100%;
+}
+
+/* Desktop dots positioning */
+@media (min-width: 768px) {
+    .skills .slick-dots {
+        bottom: -60px;
+    }
+    
+    .skills .slick-dots li button:before {
+        font-size: 14px;
+    }
 }

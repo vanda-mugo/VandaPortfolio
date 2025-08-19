@@ -7,6 +7,11 @@ interface ColorRGB {
   b: number;
 }
 
+// Extended Navigator interface for device memory API
+interface ExtendedNavigator extends Navigator {
+  deviceMemory?: number;
+}
+
 interface SplashCursorProps {
   SIM_RESOLUTION?: number;
   DYE_RESOLUTION?: number;
@@ -70,24 +75,94 @@ export default function SplashCursor({
 }: SplashCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Mobile detection state
+  const isMobileDevice = (() => {
+    if (typeof window === "undefined") return false;
+    const userAgentMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    const hasTouchScreen = "ontouchstart" in window;
+    const isSmallScreen = window.innerWidth <= 768;
+    return userAgentMobile || (hasTouchScreen && isSmallScreen);
+  })();
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Enhanced mobile detection with multiple methods
+    const isMobile = (() => {
+      // User agent check
+      const userAgentMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+
+      // Touch capability check
+      const hasTouchScreen =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+      // Screen size check
+      const isSmallScreen =
+        window.innerWidth <= 768 || window.innerHeight <= 768;
+
+      // Performance check - if device has limited memory or processing power
+      const extendedNavigator = navigator as ExtendedNavigator;
+      const hasLimitedResources =
+        extendedNavigator.deviceMemory && extendedNavigator.deviceMemory < 4;
+
+      return (
+        userAgentMobile ||
+        (hasTouchScreen && isSmallScreen) ||
+        hasLimitedResources
+      );
+    })();
+
+    // Enhanced performance optimization based on device capabilities
+    const getOptimizedConfig = () => {
+      if (isMobile) {
+        // Ultra-low settings for mobile
+        return {
+          SIM_RESOLUTION: 32, // Very low resolution
+          DYE_RESOLUTION: 256, // Much lower dye resolution
+          CAPTURE_RESOLUTION: 128, // Lower capture resolution
+          PRESSURE_ITERATIONS: 5, // Minimal iterations
+          SHADING: false, // Disable shading
+          CURL: 1, // Reduced curl effect
+          SPLAT_FORCE: 3000, // Reduced force for smoother performance
+          DENSITY_DISSIPATION: 5, // Faster dissipation for less computation
+        };
+      } else {
+        // Full quality for desktop
+        return {
+          SIM_RESOLUTION: SIM_RESOLUTION!,
+          DYE_RESOLUTION: DYE_RESOLUTION!,
+          CAPTURE_RESOLUTION: CAPTURE_RESOLUTION!,
+          PRESSURE_ITERATIONS: PRESSURE_ITERATIONS!,
+          SHADING: SHADING,
+          CURL: CURL!,
+          SPLAT_FORCE: SPLAT_FORCE!,
+          DENSITY_DISSIPATION: DENSITY_DISSIPATION!,
+        };
+      }
+    };
+
+    const optimizedConfig = getOptimizedConfig();
     const pointers: Pointer[] = [pointerPrototype()];
 
     const config = {
-      SIM_RESOLUTION: SIM_RESOLUTION!,
-      DYE_RESOLUTION: DYE_RESOLUTION!,
-      CAPTURE_RESOLUTION: CAPTURE_RESOLUTION!,
-      DENSITY_DISSIPATION: DENSITY_DISSIPATION!,
+      SIM_RESOLUTION: optimizedConfig.SIM_RESOLUTION,
+      DYE_RESOLUTION: optimizedConfig.DYE_RESOLUTION,
+      CAPTURE_RESOLUTION: optimizedConfig.CAPTURE_RESOLUTION,
+      DENSITY_DISSIPATION: optimizedConfig.DENSITY_DISSIPATION,
       VELOCITY_DISSIPATION: VELOCITY_DISSIPATION!,
       PRESSURE: PRESSURE!,
-      PRESSURE_ITERATIONS: PRESSURE_ITERATIONS!,
-      CURL: CURL!,
+      PRESSURE_ITERATIONS: optimizedConfig.PRESSURE_ITERATIONS,
+      CURL: optimizedConfig.CURL,
       SPLAT_RADIUS: SPLAT_RADIUS!,
-      SPLAT_FORCE: SPLAT_FORCE!,
-      SHADING,
+      SPLAT_FORCE: optimizedConfig.SPLAT_FORCE,
+      SHADING: optimizedConfig.SHADING,
       COLOR_UPDATE_SPEED: COLOR_UPDATE_SPEED!,
       PAUSED: false,
       BACK_COLOR,
@@ -1539,6 +1614,65 @@ export default function SplashCursor({
           display: "block",
         }}
       />
+
+      {/* Mobile touch hint overlay */}
+      {isMobileDevice && (
+        <>
+          <div
+            className="mobile-touch-hint"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              pointerEvents: "none",
+              zIndex: 51,
+              opacity: 0.7,
+              animation: "fadeInOut 3s ease-in-out infinite",
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(0, 255, 255, 0.1)",
+                border: "2px solid rgba(0, 255, 255, 0.3)",
+                borderRadius: "50%",
+                padding: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                animation: "pulse 2s ease-in-out infinite",
+              }}
+            >
+              👆
+            </div>
+            <p
+              style={{
+                textAlign: "center",
+                color: "rgba(255, 255, 255, 0.8)",
+                fontSize: "14px",
+                marginTop: "10px",
+                fontWeight: "500",
+                margin: "10px 0 0 0",
+              }}
+            >
+              Tap screen to create effects
+            </p>
+          </div>
+
+          <style>{`
+            @keyframes fadeInOut {
+              0%, 100% { opacity: 0; }
+              50% { opacity: 0.7; }
+            }
+            
+            @keyframes pulse {
+              0%, 100% { transform: scale(1); }
+              50% { transform: scale(1.1); }
+            }
+          `}</style>
+        </>
+      )}
     </div>
   );
 }

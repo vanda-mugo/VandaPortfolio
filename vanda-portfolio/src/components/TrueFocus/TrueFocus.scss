@@ -1,26 +1,45 @@
 .focus-container {
-    position: relative;
-    display: flex;
-    gap: 1em;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    }
-    
-    /* Words */
-    .focus-word {
-    position: relative;
-    font-size: 65px;
-    font-weight: 700;
-    cursor: pointer;
-    transition:
-      filter 0.3s ease,
-      color 0.3s ease;
-    }
-    
-    .focus-word.active {
-    filter: blur(0);
-    }
+  position: relative;
+  display: inline-flex;
+  gap: 0.3em;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+/* Words */
+.focus-word {
+  position: relative;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    filter 0.3s ease,
+    color 0.3s ease;
+  color: #fff; /* Fallback color */
+  white-space: nowrap;
+}
+
+.focus-word.active {
+  filter: blur(0) !important;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  .focus-container {
+    gap: 0.2em;
+  }
+  
+  .focus-word {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .focus-word {
+    font-size: clamp(1.5rem, 12vw, 2.5rem);
+  }
+}
     
     .focus-frame {
     position: absolute;
@@ -33,12 +52,12 @@
     
     .corner {
     position: absolute;
-    width: 1rem;
-    height: 1rem;
-    border: 3px solid var(--border-color, #fff);
-    filter: drop-shadow(0px 0px 4px var(--border-color, #fff));
+    width: clamp(0.8rem, 2vw, 1rem);
+    height: clamp(0.8rem, 2vw, 1rem);
+    border: 3px solid var(--border-color, #ef4444);
+    filter: drop-shadow(0px 0px 4px var(--border-color, #ef4444));
     border-radius: 3px;
-    transition: none;
+    transition: all 0.3s ease;
     }
     
     .top-left {
@@ -68,3 +87,32 @@
     border-left: none;
     border-top: none;
     }
+
+/* Mobile optimizations for focus frame */
+@media (max-width: 768px) {
+  .corner {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-width: 2px;
+  }
+  
+  .top-left,
+  .top-right {
+    top: -8px;
+  }
+  
+  .bottom-left,
+  .bottom-right {
+    bottom: -8px;
+  }
+  
+  .top-left,
+  .bottom-left {
+    left: -8px;
+  }
+  
+  .top-right,
+  .bottom-right {
+    right: -8px;
+  }
+}

@@ -1,151 +1,197 @@
-import { Container, Row, Col } from "react-bootstrap";
 import { ArrowRightCircle } from "react-bootstrap-icons";
-import headerImg from '../../assets/img/header-img.svg';
-import vandaImg from '../../assets/img/johnMugo.png';
-import { useState, useEffect } from "react";
-import './Banner.css';
-import 'animate.css';
-import TrackVisibility from 'react-on-screen';
+import headerImg from "../../assets/img/header-img.svg";
+import vandaImg from "../../assets/img/johnMugo.png";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
+import "./Banner.css";
 import { lazy, Suspense } from "react";
 
-
-const TrueFocus =  lazy(() => import('../TrueFocus/TrueFocus'));
-
-
+const TrueFocus = lazy(() => import("../TrueFocus/TrueFocus"));
 
 interface BannerProps {
-    splashEffect: boolean;
-    toggleEffect: () => void;
+  splashEffect: boolean;
+  toggleEffect: () => void;
 }
 
-export const Banner = ({ splashEffect, toggleEffect }: BannerProps): JSX.Element => {
-    const [loopNum, setLoopNum] = useState<number>(0);
-    const [isDeleting, setIsDeleting] = useState<boolean>(false);
-    const [text, setText] = useState<string>('');
-    // initialise toRotate array with strings
-    const toRotate : string[] = ['Software Engineer','C++ Developer' , 'FullStack Developer', 'UI/UX Designer', 'Graphic Designer', "Vector illustrator" ];
-    // delta can range anywhere between 200 to 300, this is milliseconds 
-    const [delta, setDelta] = useState(300 - Math.random() * 100);
-    const period = 1500;
-    const [isHovered, setIsHovered] = useState(false);
+// Memoized typing animation component for better performance
+const TypingAnimation = memo(({ words }: { words: string[] }) => {
+  const [loopNum, setLoopNum] = useState<number>(0);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [text, setText] = useState<string>("");
+  const [delta, setDelta] = useState(300 - Math.random() * 100);
+  const period = 1500;
 
-    // this useEffect will run each time the text state changes 
-    useEffect(() => {
-        //  initialising a variable called ticker that runs every period instance of delta time
-        // this can  run every 200ms to 300ms based on delta
-        // variable ticker stores the reference to the setInterval function,
-        // this enables us to clear the interval when the component is unmounted or changes in 
-        // dependencies in this case text
-        let ticker = setInterval(() => {
-            tick();
-        },delta)
-        // Clear the interval when the component unmounts or when the useEffect hook is called again
-        return () => {
-            clearInterval(ticker);
-        };   
-    },[text]);// The useEffect hook depends on the text state
+  const tick = useCallback((): void => {
+    const i: number = loopNum % words.length;
+    const fullText = words[i];
+    const updatedText = isDeleting
+      ? fullText.substring(0, text.length - 1)
+      : fullText.substring(0, text.length + 1);
 
-    const tick = (): void => {
-        // initially loopNum is 0, so i will be 0
-        let i : number = loopNum % toRotate.length; // initially will be 0
-        // the loopNum determines the string in the toRotate array
-        // get the full text from toRotate array, initially will be 'Web Developer'
-        let fullText = toRotate[i];
-        // initially isDeleting is false, so updatedText will be 'W'
-        // initially text is empty string, so updatedText will be 'W'
-        let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+    setText(updatedText);
 
-        // initially set to 'W'// this runs every 200ms to 300ms
-        // note by that in react state updates are asynchronous, therefore the current tick() function will not be able to see the updated text state
-        setText(updatedText);
-        // initially isDeleting is false, so delta will be 300
-        if(isDeleting){
-            // the instance that isDeleting is true, we will set delta to half the previous value to speed up the deleting process
-            setDelta(prevDelta => prevDelta/2);
-        }
-
-        if(!isDeleting && updatedText === fullText) {
-            // in the instance that isDeleting is false and updatedText is equal to fullText, we need to set isDeleting to true
-            // set delta to 2000ms, that means that the first letter will be displayed for 2 seconds before its deleted
-            // the rest of the words will be displayed for half the previous letters timing before they are deleted
-            setDelta(period);
-            setIsDeleting(true);
-        }else if(isDeleting && updatedText === '') {
-            // in the case that the isDeleting is true and updatedText is empty string, we need to set isDeleting to false
-            // We need to set the delta to 500ms, this is the time it takes to display the next word
-            // we also need to increment the loopNum to display the next word
-            setDelta(250);
-            setIsDeleting(false);
-            setLoopNum(loopNum + 1);
-        }
+    if (isDeleting) {
+      setDelta((prevDelta) => prevDelta / 2);
     }
 
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
-    const handleIsMouseLeave = () =>{
-        setIsHovered(false);
-    };
+    if (!isDeleting && updatedText === fullText) {
+      setDelta(period);
+      setIsDeleting(true);
+    } else if (isDeleting && updatedText === "") {
+      setDelta(250);
+      setIsDeleting(false);
+      setLoopNum(loopNum + 1);
+    }
+  }, [loopNum, words, isDeleting, text.length, period]);
 
-    const scrollToSection = (sectionId : any) => {
+  useEffect(() => {
+    const ticker = setInterval(() => {
+      tick();
+    }, delta);
 
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        
-        }
-    };
+    return () => clearInterval(ticker);
+  }, [text, delta, tick]);
+
+  return <span className="wrap">{text}</span>;
+});
+
+TypingAnimation.displayName = "TypingAnimation";
+
+// Memoized image component with hover effect
+const ProfileImage = memo(() => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className="profile-image-container"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+    >
+      <img
+        className={`profile-image ${
+          isHovered ? "profile-alt" : "profile-main"
+        }`}
+        src={isHovered ? vandaImg : headerImg}
+        alt={isHovered ? "Developer Profile" : "Header Illustration"}
+        loading="lazy"
+      />
+    </div>
+  );
+});
+
+ProfileImage.displayName = "ProfileImage";
+
+export const Banner = memo(
+  ({ splashEffect, toggleEffect }: BannerProps): JSX.Element => {
+    // Memoized array to prevent re-creation on every render
+    const toRotate = useMemo(
+      () => [
+        "Software Engineer",
+        "C++ Developer",
+        "FullStack Developer",
+        "UI/UX Designer",
+        "Graphic Designer",
+        "Vector illustrator",
+      ],
+      []
+    );
+
+    const scrollToSection = useCallback((sectionId: string) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }, []);
 
     return (
-        <section className="banner" id="home">
-            <Container>
-                <Row className="align-items-center">
-                    <Col xs={12} md={6} xl={7}>
-                        <TrackVisibility>
-                            {({ isVisible  }) => 
-                                <div className={isVisible ? 'animate__animated animate__fadeIn' : ''}>    
-                                    <span className="tagline">Welcome to my Portfolio</span>
-                                    <h1>{"Hi I'm "}<span className="devname" ><Suspense fallback={<div>Loading...</div>}><TrueFocus 
-                                                                                sentence="John Mugo"
-                                                                                manualMode={false}
-                                                                                blurAmount={7}
-                                                                                borderColor="red"
-                                                                                animationDuration={1}
-                                                                                pauseBetweenAnimations={1}
-                                                                                /></Suspense></span></h1>
-                                    <h1>I'm a <span className="txt-rotate"  data-rotate='["Web Developer", "Designer", "Freelancer", "C++ Developer", "Software Engineer"]'><span className="wrap">{text}</span></span></h1>
-                                    <p><span>Niche : </span> Algorithm Optimization, Data Structures,Design Patterns </p>
-                                    <button onClick={():void => scrollToSection("Contact") }>Lets connect<ArrowRightCircle size={25} /></button>
-                                    <button onClick={toggleEffect}>{ splashEffect ? "Splash Cursor Off" : "Splash Cursor On"}</button>
-                                </div>
-                            }
-                        </TrackVisibility>
-                    </Col>
-                    <Col xs={12} md={6} xl={5} id="header-img">
-                        <TrackVisibility>
-                            {({ isVisible  }) => 
-                                <div    onMouseEnter={handleMouseEnter}
-                                        onMouseLeave={handleIsMouseLeave}>
-                                            {
-                                                isHovered ? 
-                                                <div>
-                                                    <img className={`iconA ${isHovered ? 'show' : 'hide'}`} src={vandaImg} alt="Developer Image" />
-                                                </div>
-                                                : 
-                                                <div className={isVisible ? 'animate__animated animate__zoomIn' : ''}>
-                                                    <img className={`iconB ${!isHovered ? 'show' : 'hide'}`} src={headerImg} alt="Header img" />
-                                                </div>
-                                            }
-                                </div>
-                                
-                            }
-                        </TrackVisibility>
-                    </Col>
-                </Row>
-            </Container>
-        </section>
-    )
-}
+      <section className="banner" id="home">
+        <div className="banner-container">
+          <div className="banner-content">
+            {/* Text Content */}
+            <div className="banner-text">
+              <div className="banner-text-content">
+                <span className="tagline">Welcome to my Portfolio</span>
 
-// note by clearing the interval when the component unmounts, we are preventing memory leaks. This ensures that only one setInterval is 
-// running at a time. This is a good practice to follow when working with setInterval in react components.
+                <h1 className="banner-title">
+                  <span className="greeting">Hi I'm </span>
+                  <span className="devname">
+                    <Suspense
+                      fallback={
+                        <span className="name-fallback">John Mugo</span>
+                      }
+                    >
+                      <TrueFocus
+                        sentence="John Mugo"
+                        manualMode={false}
+                        blurAmount={3}
+                        borderColor="#ef4444"
+                        glowColor="rgba(239, 68, 68, 0.6)"
+                        animationDuration={1}
+                        pauseBetweenAnimations={1.5}
+                      />
+                    </Suspense>
+                  </span>
+                </h1>
+
+                <h2 className="banner-subtitle">
+                  I'm a{" "}
+                  <span className="txt-rotate">
+                    <TypingAnimation words={toRotate} />
+                  </span>
+                </h2>
+
+                <p className="banner-description">
+                  <span className="niche-label">Niche: </span>
+                  Algorithm Optimization, Data Structures, Design Patterns
+                </p>
+
+                {/* Action Buttons */}
+                <div className="banner-actions">
+                  <button
+                    className="connect-btn primary"
+                    onClick={() => scrollToSection("contact")}
+                    type="button"
+                    aria-label="Navigate to contact section"
+                  >
+                    <span>Let's Connect</span>
+                    <ArrowRightCircle size={20} />
+                  </button>
+
+                  {/* Splash Toggle */}
+                  <div className="splash-toggle-container">
+                    <label className="splash-toggle" htmlFor="splash-effect">
+                      <input
+                        id="splash-effect"
+                        type="checkbox"
+                        checked={splashEffect}
+                        onChange={toggleEffect}
+                        className="toggle-input"
+                      />
+                      <span className="toggle-slider" />
+                      <span className="toggle-label">
+                        {splashEffect ? "🌊 Splash On" : "✨ Splash Off"}
+                      </span>
+                    </label>
+                    <small className="toggle-description">
+                      {splashEffect
+                        ? "Touch screen to create fluid effects"
+                        : "Enable interactive background"}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Image Content */}
+            <div className="banner-image">
+              <ProfileImage />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+);
+
+Banner.displayName = "Banner";

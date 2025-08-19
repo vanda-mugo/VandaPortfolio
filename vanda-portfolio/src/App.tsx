@@ -1,4 +1,5 @@
 import "./App.css";
+import "./styles/responsive.css";
 import { lazy, Suspense } from "react";
 import { NavBar } from "./components/NavBar/NavBar";
 import { Banner } from "./components/Banner/Banner";
@@ -12,12 +13,7 @@ import { Projects } from "./components/Projects/Projects";
 import { useState } from "react";
 
 function App() {
-  const [showExperience, setShowExperience] = useState(false);
   const [splashEffect, setSplashEffect] = useState(true);
-
-  const toggleExperience = () => {
-    setShowExperience(!showExperience);
-  };
 
   const toggleEffect = () => {
     setSplashEffect(!splashEffect);
@@ -29,12 +25,9 @@ function App() {
       <NavBar />
       <Banner splashEffect={splashEffect} toggleEffect={toggleEffect} />
       <Suspense fallback={<div>Loading Skills...</div>}>
-        <Skills
-          toggleExperience={toggleExperience}
-          showExperience={showExperience}
-        />
+        <Skills />
       </Suspense>
-      {showExperience && <Experience />}
+      <Experience />
       <Projects />
       <Suspense fallback={<div>Loading Services...</div>}>
         <Services />

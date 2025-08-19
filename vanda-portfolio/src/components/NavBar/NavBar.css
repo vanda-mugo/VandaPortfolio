@@ -1,152 +1,433 @@
-nav.navbar{
-    padding: 15px 0;
-    box-sizing: border-box;
-    /* always to be visible above all other elements */
-    z-index: 9999;
-    /* this is because you want the navbar to always be visible at the top */
+/* ========== MODERN MOBILE-FIRST NAVBAR ========== */
+/* Research-based design following 2024 UX best practices */
+
+.custom-navbar {
     position: fixed;
-    width: 100%;
-    transition: 0.5s ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0;
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
-nav.navbar a.navbar-brand{
-    width: 10%;
+.custom-navbar.scrolled {
+    background: rgba(18, 18, 18, 0.95);
+    border-bottom-color: rgba(0, 255, 255, 0.2);
 }
 
-nav.navbar .navbar-content{
+.navbar-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 60px;
-}
-nav.navbar .navbar-nav .nav-link.navbar-link{
-    /* links within the Nav component*/
-    font-weight: 400;
-    color: #fff;
-    letter-spacing: 0.6px;
-    padding: 0 20px;
-    font-size: 16px;
-    text-decoration: none;
-    opacity: 0.6;
+    padding: 16px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-nav.navbar .navbar-nav a.nav-link.navbar-link:hover,
-nav.navbar .navbar-nav a.nav-link.navbar-link.active{
-    opacity: 1;
-    transition: 0.5s ease-in-out;
-    color: aqua;
-}
-.navbar-content .navbar-collapse{
-    display: flex;
-    align-items: center;
+/* ========== BRAND/LOGO ========== */
+.navbar-brand {
+    z-index: 1001;
 }
 
-span.navbar-text{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.social-icon{
-    display: inline-block;
-    margin: 0 15px;
-}
-
-nav.navbar.scrolled{
-    /* once scrolled the background color of the navbar is set to 
-    dark grey which is the color apart from the beginning part where we have
-    a galaxy like appearance*/
-    background-color: #121212;
-}
-
-
-.social-icon a{
-    width: 50px;
-    height: 50px;
-    margin:auto 5px;
-    display: inline-flex;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    padding: 5px;
-    line-height: 1;
-    justify-content: center;
-    align-items: center;
-}
-
-.social-icon a::before{
-    content: "";
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    background-color: cyan;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: 0.3s ease-in-out;
-}
-
-.social-icon a:hover::before {
-    transform: scale(1);
-}
-  
-.social-icon a img {
-    width: 70%;
-    z-index: 1;
-    transition: 0.3s ease-in-out;
-}
-
-
-.social-icon a:hover img {
-    filter: brightness(0) saturate(100%) invert(0%) sepia(7%) saturate(98%) hue-rotate(346deg) brightness(95%) contrast(86%);
-}
-  
-
-.navbar-text button{
-    font-size: 18px;
+.brand-text {
+    font-size: 28px;
     font-weight: 700;
-    height: 40px;
-    border: 1px solid #fff;
-    padding:0 20px;
-    background-color: transparent;
-    color: #fff;
-    border-radius: 5px;
-    transition: 0.3s ease-in-out;
-    position: relative;
-} 
-
-/*ensures the span element which in this case contains 
-the button remains layered above all other elements within the button*/ 
-.navbar-text button span{
-    z-index: 1;
-}
-/*sets up a pseudo before element*/
-
-.navbar-text button::before{
-    content: "";
-    width: 0%;
-    height: 100%;
-    background-color: cyan;
-    transition: 0.3s ease-in-out;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: -1;
+    color: #ffffff;
+    letter-spacing: -0.5px;
 }
 
-.navbar-text button:hover{
-    color: #121212;
+@media (min-width: 768px) {
+    .navbar-content {
+        padding: 20px 40px;
+    }
+    
+    .brand-text {
+        font-size: 32px;
+    }
 }
 
-/* declares what happens to the pseudo element when you hover above */
-.navbar-text button:hover::before{
-    content: "";
-    width: 100%;
-    height: 100%;
-    position: absolute;
+/* ========== DESKTOP NAVIGATION ========== */
+.desktop-nav {
+    display: none; /* Hidden on mobile */
+    align-items: center;
+    gap: 40px;
 }
 
-.navbar-left{
-    font-size: 40px;
-    font-weight: 600;
+.nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
     letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00ffff, #0099cc);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #00ffff;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.desktop-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-link:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00ffff;
+    transform: translateY(-2px);
+}
+
+.social-link img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(1);
+    transition: filter 0.3s ease;
+}
+
+.social-link:hover img {
+    filter: brightness(0) saturate(100%) invert(64%) sepia(98%) saturate(2618%) hue-rotate(160deg);
+}
+
+.connect-btn {
+    background: linear-gradient(135deg, #00ffff 0%, #0099cc 100%);
+    color: #121212;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.connect-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Show desktop nav on tablets and larger */
+@media (min-width: 768px) {
+    .desktop-nav {
+        display: flex;
+    }
+}
+
+/* ========== MOBILE MENU BUTTON ========== */
+.mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 44px; /* Touch-friendly size */
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1002; /* Higher than mobile menu */
+    position: relative;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Add subtle glow when menu is open to indicate it's the close button */
+.mobile-menu-btn.menu-open {
+    background-color: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    animation: subtlePulse 2s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+}
+
+.hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: #ffffff;
+    margin: 3px 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    border-radius: 1px;
+}
+
+.hamburger-line.active:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+    background: #00ffff;
+}
+
+.hamburger-line.active:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger-line.active:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+    background: #00ffff;
+}
+
+/* Hide mobile button on desktop */
+@media (min-width: 768px) {
+    .mobile-menu-btn {
+        display: none;
+    }
+}
+
+/* ========== MOBILE MENU OVERLAY ========== */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.98) 0%, rgba(30, 30, 30, 0.98) 100%);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.mobile-menu-header h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+.close-instruction {
+    opacity: 0;
+    animation: fadeInInstruction 0.5s ease 0.8s forwards;
+}
+
+.close-instruction span {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+@keyframes fadeInInstruction {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== MOBILE NAVIGATION ITEMS ========== */
+.mobile-nav {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.2);
+}
+
+.nav-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00ffff;
+    flex-shrink: 0;
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav-title {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.nav-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* ========== MOBILE CONNECT SECTION ========== */
+.mobile-connect-section {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-card:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.social-card img {
+    width: 32px;
+    height: 32px;
+    filter: brightness(1);
+    transition: filter 0.3s ease;
+}
+
+.social-card:hover img {
+    filter: brightness(0) saturate(100%) invert(64%) sepia(98%) saturate(2618%) hue-rotate(160deg);
+}
+
+.social-card span {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.social-card:hover span {
+    color: #00ffff;
+}
+
+.mobile-connect-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00ffff 0%, #0099cc 100%);
+    color: #121212;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.mobile-connect-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Hide mobile menu on desktop */
+@media (min-width: 768px) {
+    .mobile-menu {
+        display: none;
+    }
 }
 

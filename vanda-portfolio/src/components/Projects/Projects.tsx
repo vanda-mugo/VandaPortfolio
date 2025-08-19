@@ -1,309 +1,456 @@
-import "../Skills/slick.css";
-import "../Skills/slick-theme.css";
-import Slider from "react-slick";
+import React, { useState, useEffect, useRef } from "react";
 import "./Projects.css";
-import link from "../../assets//img/link.svg";
+
+// Import icons
+import linkIcon from "../../assets/img/link.svg";
 import githubIcon from "../../assets/img/nav-icon2.svg";
 import devIcon from "../../assets/img/devIcon.svg";
-import library from "../../assets/img/library.svg";
+import libraryIcon from "../../assets/img/library.svg";
 
-interface projectsDetails {
+interface ProjectDetails {
+  id: string;
   title: string;
+  category: "Mobile App" | "Web App" | "System" | "Automation" | "Portfolio";
+  status: "Live" | "In Development" | "Beta" | "Completed";
   techStack: string[];
-  url: string;
-  githubUrl: string;
-  externalLibraries: { devUrl: string; resourceUrl: string };
-  description: { name: string; details: string }[];
+  url?: string;
+  githubUrl?: string;
+  externalLibraries: { devUrl?: string; resourceUrl?: string };
+  shortDescription: string;
+  features: string[];
+  objectives: string;
+  challenges?: string;
+  preview?: string;
 }
 
-const ProjectDetails: projectsDetails[] = [
+const projectsData: ProjectDetails[] = [
   {
+    id: "vitalect",
     title: "Vitalect",
+    category: "Mobile App",
+    status: "Beta",
     techStack: [
-      "React-Native",
-      "EXPO",
+      "React Native",
       "TypeScript",
       "Firebase",
       "Firestore",
       "Redux Toolkit",
+      "EXPO",
     ],
     url: "https://github.com/vanda-mugo/BetaHealth",
-    githubUrl: "",
-    externalLibraries: { devUrl: "", resourceUrl: "" },
-    description: [
-      {
-        name: "Objective",
-        details:
-          "A comprehensive vital tracking mobile application that helps users monitor, track, and escalate health issues centered around chronic conditions in this case diabetes and hypertension.",
-      },
-      {
-        name: "Features",
-        details:
-          "Real-time health data tracking, secure patient records, appointment scheduling, medication reminders, journaling and telemedicine integration.",
-      },
-      {
-        name: "Architecture",
-        details:
-          "Cross-platform mobile app built with React Native and EXPO, featuring offline-first data synchronization.",
-      },
-      {
-        name: "Vision",
-        details:
-          "We believe in data and analysing medical related data gives better insights into health management and decision making. This in turn gives us an ability to provide better holistic health care solutions and services to our users.",
-      },
-      {
-        name: "Status",
-        details:
-          "The project is currently in development, with plans to integrate more features and improve user experience based on feedback. We currently have a beta version available for testing and feedback.",
-      },
+    githubUrl: "https://github.com/vanda-mugo/BetaHealth",
+    externalLibraries: {},
+    shortDescription:
+      "Comprehensive vital tracking mobile app for chronic conditions management",
+    objectives:
+      "Monitor, track, and escalate health issues centered around diabetes and hypertension",
+    features: [
+      "Real-time health data tracking",
+      "Secure patient records",
+      "Appointment scheduling",
+      "Medication reminders",
+      "Health journaling",
+      "Telemedicine integration",
     ],
+    challenges:
+      "Cross-platform compatibility and offline-first data synchronization",
   },
   {
-    title: "Lane Change Assist System",
-    techStack: ["C++", "Matlab", "Prescan API", "CMake", "VS Code", "Git"],
-    url: "",
-    githubUrl: "",
-    externalLibraries: { devUrl: "", resourceUrl: "" },
-    description: [
-      {
-        name: "Objective",
-        details:
-          "Develop an LCAS system to avert collisions during lane changes.",
-      },
-      {
-        name: "Technology",
-        details:
-          "Utilized TIS radar for long-range narrow and short-range wide detection.",
-      },
-      {
-        name: "Development",
-        details:
-          "Implemented in C++ using the Prescan API for simulating various scenarios and conditions.",
-      },
-    ],
-  },
-  {
-    title: "ILV2 Test Automation",
-    techStack: [
-      "Python",
-      "Froglogic Squish",
-      "Qt",
-      "Gitlab",
-      "Git",
-      "Linux",
-      "Jira",
-    ],
-    url: "",
-    githubUrl: "",
-    externalLibraries: { devUrl: "", resourceUrl: "" },
-    description: [
-      {
-        name: "Automated Testing",
-        details:
-          "Designed, created, and maintained automated test scripts using Python and Froglogic Squish for Qt applications.",
-      },
-      {
-        name: "Tool Usage",
-        details:
-          "Leveraged Bash, Shell, Git, GitLab Version Control, and Jira for various Automotive Engineering software development tasks and quality assurance.",
-      },
-    ],
-  },
-  {
+    id: "jamming",
     title: "Jamming",
-    techStack: ["JavaScript", "React", "Spotify API", "Git", "CSS", "HTML"],
+    category: "Web App",
+    status: "Live",
+    techStack: ["React", "JavaScript", "Spotify API", "CSS3", "HTML5"],
     url: "https://vandajamming.netlify.app/",
     githubUrl: "https://github.com/vanda-mugo/Jammming",
-    externalLibraries: { devUrl: "", resourceUrl: "" },
-    description: [
-      {
-        name: "Objective",
-        details:
-          "Develop a web application that seamlessly integrates with the Spotify platform to practice the interaction with the API. The application allows users to edit existing playlists, create new playlists, and search for songs from Spotify's extensive music library directly within the application.",
-      },
-      {
-        name: "Authentication",
-        details:
-          "OAuth: Integrated Spotify's authentication system for secure user access. This allows users to log in with their Spotify credentials and grants the application access to their Spotify data, such as playlists and user information. To authenticate with PKCE for better security of access Token",
-      },
-      {
-        name: "Status",
-        details:
-          "Being in development mode you can only access this application by having your email manually included within a list in the developer dashboard. To intergrate Spotify UX/UI features to improve user experience and also be in compliance with Spotify Developer terms for usage of their content",
-      },
+    externalLibraries: {},
+    shortDescription: "Spotify playlist manager with seamless API integration",
+    objectives:
+      "Create and edit Spotify playlists with secure OAuth authentication",
+    features: [
+      "Spotify OAuth integration",
+      "Playlist creation & editing",
+      "Music library search",
+      "PKCE authentication",
+      "Real-time synchronization",
     ],
+    challenges: "OAuth implementation and Spotify API rate limiting",
   },
   {
+    id: "lane-assist",
+    title: "Lane Change Assist System",
+    category: "System",
+    status: "Completed",
+    techStack: ["C++", "MATLAB", "Prescan API", "CMake", "Git"],
+    externalLibraries: {},
+    shortDescription:
+      "Automotive safety system to prevent lane-change collisions",
+    objectives: "Develop LCAS system to avert collisions during lane changes",
+    features: [
+      "TIS radar integration",
+      "Long-range narrow detection",
+      "Short-range wide detection",
+      "Real-time collision prevention",
+      "Scenario simulation",
+    ],
+    challenges: "Real-time processing and sensor data fusion",
+  },
+  {
+    id: "ilv2-automation",
+    title: "ILV2 Test Automation",
+    category: "Automation",
+    status: "Completed",
+    techStack: ["Python", "Froglogic Squish", "Qt", "GitLab", "Linux", "Jira"],
+    externalLibraries: {},
+    shortDescription:
+      "Automated testing framework for automotive software quality assurance",
+    objectives:
+      "Design and maintain automated test scripts for Qt applications",
+    features: [
+      "Python test automation",
+      "Qt application testing",
+      "CI/CD integration",
+      "Test reporting",
+      "Quality assurance workflows",
+    ],
+    challenges: "Complex UI automation and test reliability",
+  },
+  {
+    id: "portfolio",
     title: "Personal Portfolio",
-    techStack: ["Typescript", "Bootstrap", "React", "HTML5", "CSS3"],
-    url: "",
+    category: "Portfolio",
+    status: "In Development",
+    techStack: ["TypeScript", "React", "CSS3", "HTML5", "Vite"],
     githubUrl: "https://github.com/vanda-mugo/VandaPortfolio",
     externalLibraries: {
       devUrl: "https://davidhaz.com/",
       resourceUrl: "https://www.reactbits.dev/",
     },
-    description: [
-      {
-        name: "Objective",
-        details:
-          "To create a personal portfolio that highlights my emerging expertise in JavaScript, TypeScript, React, CSS, and HTML, as I embark on my journey into full-stack engineering. Additionally, it showcases my skills and experience as a C++ developer and test automation engineer in Python. The portfolio aims to provide an immersive and impressive UI/UX experience, making it a pleasure to navigate.",
-      },
-      {
-        name: "Key features",
-        details:
-          "Contains different components each intentionally placed to offer meaningfull information each in regards to the Portfolio and links to the relevant reasources",
-      },
-      {
-        name: "External libraries used",
-        details: "Reactbits by David Haz",
-      },
+    shortDescription:
+      "Modern portfolio showcasing full-stack development expertise",
+    objectives:
+      "Create an immersive portfolio highlighting JavaScript, TypeScript, and React skills",
+    features: [
+      "Responsive design",
+      "Modern animations",
+      "Mobile-first approach",
+      "Glassmorphism UI",
+      "Performance optimized",
     ],
-  },
-  {
-    title: "Company landing site",
-    techStack: ["CSS3", "HTML5"],
-    url: "https://vanda-mugo.github.io/companyLandingSite/",
-    githubUrl: "https://github.com/vanda-mugo/companyLandingSite",
-    externalLibraries: { devUrl: "", resourceUrl: "" },
-    description: [
-      {
-        name: "Objective",
-        details:
-          "This project is a simple, responsive company landing site created using HTML and CSS. The purpose of this project is to illustrate the functionality of making responsive webpages using CSS Flexbox layout.",
-      },
-      {
-        name: "Key features",
-        details:
-          "Responsive design that adapts to different screen sizes and devices, Clean and modern layout using CSS Flexbox Simple navigation bar with links to different sections of the page, Sections for home, about, services, and contact information, Easy-to-read typography and visually appealing color scheme",
-      },
-    ],
+    challenges: "Cross-browser compatibility and performance optimization",
   },
 ];
 
-export const Projects = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    arrows: false,
-    slidesToScroll: 1,
-    swipe: true,
-    touchMove: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
+const Projects: React.FC = () => {
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string>("All");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [visibleCards, setVisibleCards] = useState<string[]>([]);
+  const projectsRef = useRef<HTMLDivElement>(null);
+
+  const categories = [
+    "All",
+    "Mobile App",
+    "Web App",
+    "System",
+    "Automation",
+    "Portfolio",
+  ];
+
+  // Enhanced filtering with search
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesFilter = filter === "All" || project.category === filter;
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.shortDescription
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      project.techStack.some((tech) =>
+        tech.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    return matchesFilter && matchesSearch;
+  });
+
+  // Intersection Observer for card animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cardId = entry.target.getAttribute("data-project-id");
+            if (cardId && !visibleCards.includes(cardId)) {
+              setVisibleCards((prev) => [...prev, cardId]);
+            }
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "50px" }
+    );
+
+    const cards = document.querySelectorAll(".project-card");
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, [filteredProjects, visibleCards]);
+
+  // Simulate loading for filter changes
+  useEffect(() => {
+    if (filter !== "All" || searchTerm) {
+      setIsLoading(true);
+      setVisibleCards([]);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [filter, searchTerm]);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Live":
+        return "#10b981";
+      case "Beta":
+        return "#f59e0b";
+      case "In Development":
+        return "#3b82f6";
+      case "Completed":
+        return "#8b5cf6";
+      default:
+        return "#6b7280";
+    }
+  };
+
+  const toggleProjectDetails = (projectId: string) => {
+    setSelectedProject(selectedProject === projectId ? null : projectId);
   };
 
   return (
-    <>
-      <div id="Projects" className="projects">
-        <div className="container">
-          <div className="projectsRow">
-            <h2>Projects</h2>
-            <Slider {...settings}>
-              {ProjectDetails.map((project, index) => (
-                <div key={index} className="project-slide">
-                  <h3 className="title mainHead">{project.title}</h3>
-                  <ul>
-                    <li>
-                      <ul>
-                        {project.description.map((projectInfo, index) => {
-                          return (
-                            <li key={index}>
-                              <h3>
-                                <span className="title">
-                                  {projectInfo.name} :{" "}
-                                </span>
-                                <span>{projectInfo.details}</span>
-                              </h3>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </li>
-                    <div className="item2">
-                      <li>
-                        <ul className="list2">
-                          <div>
-                            <h5 className="stack">
-                              <span>Tech Stack : </span>
-                            </h5>
-                            {project.techStack.map((stack, index) => (
-                              <li key={index}>{stack}</li>
-                            ))}
-                          </div>
-                        </ul>
-                      </li>
-                      <div className="links social-icon">
-                        {project.url ? (
-                          <a
-                            href={project.url}
-                            target="blank"
-                            rel="noopener noreferrer"
-                            title="Preview Project"
-                          >
-                            <img className="svgLInks" src={link} alt="Link" />
-                          </a>
-                        ) : (
-                          ""
-                        )}
-                        {project.githubUrl ? (
-                          <a
-                            href={project.githubUrl}
-                            target="blank"
-                            rel="noopener noreferrer"
-                            title="GitHub link"
-                          >
-                            <img
-                              className="svgLInks"
-                              src={githubIcon}
-                              alt="GitHub"
-                            />
-                          </a>
-                        ) : (
-                          ""
-                        )}
-                        {project.externalLibraries.devUrl ? (
-                          <a
-                            href={project.externalLibraries.devUrl}
-                            target="blank"
-                            rel="noopener noreferrer"
-                            title="External resource developer"
-                          >
-                            <img
-                              className="svgLInks"
-                              src={devIcon}
-                              alt="Developer"
-                            />
-                          </a>
-                        ) : (
-                          ""
-                        )}
-                        {project.externalLibraries.resourceUrl ? (
-                          <a
-                            href={project.externalLibraries.resourceUrl}
-                            target="blank"
-                            rel="noopener noreferrer"
-                            title="External resource library"
-                          >
-                            <img
-                              className="svgLInks"
-                              src={library}
-                              alt="Library"
-                            />
-                          </a>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
-                  </ul>
-                </div>
-              ))}
-            </Slider>
+    <section id="Projects" className="projects" ref={projectsRef}>
+      <div className="container">
+        <div className="projects-header">
+          <h2 className="projects-title">Featured Projects</h2>
+          <p className="projects-subtitle">
+            Showcasing my development journey and technical expertise
+          </p>
+
+          {/* Enhanced Search Bar */}
+          <div className="search-container">
+            <div className="search-wrapper">
+              <svg
+                className="search-icon"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+              >
+                <path
+                  d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  fill="currentColor"
+                />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search projects, technologies..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              {searchTerm && (
+                <button
+                  className="clear-search"
+                  onClick={() => setSearchTerm("")}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Enhanced Filter Tabs */}
+        <div className="project-filters">
+          <div className="filter-scroll">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`filter-btn ${filter === category ? "active" : ""}`}
+                onClick={() => setFilter(category)}
+              >
+                {category}
+                <span className="filter-count">
+                  {category === "All"
+                    ? projectsData.length
+                    : projectsData.filter((p) => p.category === category)
+                        .length}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Projects Grid with Loading State */}
+        <div className={`projects-grid ${isLoading ? "loading" : ""}`}>
+          {filteredProjects.length === 0 ? (
+            <div className="no-results">
+              <div className="no-results-icon">🔍</div>
+              <h3>No projects found</h3>
+              <p>Try adjusting your search terms or filters</p>
+              <button
+                className="reset-filters"
+                onClick={() => {
+                  setFilter("All");
+                  setSearchTerm("");
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            filteredProjects.map((project, index) => (
+              <div
+                key={project.id}
+                className={`project-card ${
+                  visibleCards.includes(project.id) ? "animate-in" : ""
+                }`}
+                data-project-id={project.id}
+                style={{ "--delay": `${index * 0.1}s` } as React.CSSProperties}
+              >
+                <div className="card-header">
+                  <div className="project-meta">
+                    <span className="project-category">{project.category}</span>
+                    <span
+                      className="project-status"
+                      style={{
+                        backgroundColor: getStatusColor(project.status),
+                      }}
+                    >
+                      {project.status}
+                    </span>
+                  </div>
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">
+                    {project.shortDescription}
+                  </p>
+                </div>
+
+                <div className="card-content">
+                  <div className="tech-stack">
+                    {project.techStack.slice(0, 4).map((tech, index) => (
+                      <span key={index} className="tech-chip">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.techStack.length > 4 && (
+                      <span className="tech-more">
+                        +{project.techStack.length - 4} more
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="project-actions">
+                    <button
+                      className="details-btn"
+                      onClick={() => toggleProjectDetails(project.id)}
+                      aria-expanded={selectedProject === project.id}
+                    >
+                      {selectedProject === project.id
+                        ? "Less Details"
+                        : "More Details"}
+                    </button>
+
+                    <div className="project-links">
+                      {project.url && (
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View Project"
+                          className="link-btn"
+                        >
+                          <img src={linkIcon} alt="External Link" />
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View Source Code"
+                          className="link-btn"
+                        >
+                          <img src={githubIcon} alt="GitHub" />
+                        </a>
+                      )}
+                      {project.externalLibraries.devUrl && (
+                        <a
+                          href={project.externalLibraries.devUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Developer Resource"
+                          className="link-btn"
+                        >
+                          <img src={devIcon} alt="Developer" />
+                        </a>
+                      )}
+                      {project.externalLibraries.resourceUrl && (
+                        <a
+                          href={project.externalLibraries.resourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Resource Library"
+                          className="link-btn"
+                        >
+                          <img src={libraryIcon} alt="Library" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Expandable Details */}
+                  {selectedProject === project.id && (
+                    <div className="project-details">
+                      <div className="details-section">
+                        <h4>Objectives</h4>
+                        <p>{project.objectives}</p>
+                      </div>
+
+                      <div className="details-section">
+                        <h4>Key Features</h4>
+                        <ul className="features-list">
+                          {project.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {project.challenges && (
+                        <div className="details-section">
+                          <h4>Technical Challenges</h4>
+                          <p>{project.challenges}</p>
+                        </div>
+                      )}
+
+                      <div className="details-section">
+                        <h4>Complete Tech Stack</h4>
+                        <div className="all-tech-stack">
+                          {project.techStack.map((tech, index) => (
+                            <span key={index} className="tech-chip">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </>
+    </section>
   );
 };
+
+export { Projects };

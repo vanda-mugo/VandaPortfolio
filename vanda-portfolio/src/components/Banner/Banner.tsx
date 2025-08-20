@@ -64,17 +64,18 @@ const ProfileImage = memo(() => {
   // Combined state for showing alt image
   const showAltImage = isHovered || isTouched;
 
-  const handleTouchStart = () => {
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent potential scrolling issues
     setIsTouched(true);
     setIsHovered(true); // Ensure hover state is also set for consistent styling
   };
 
   const handleTouchEnd = () => {
-    // Keep the image for a bit longer on touch end for better UX
+    // Keep image visible for a moment for better UX on touch devices
     setTimeout(() => {
       setIsTouched(false);
       setIsHovered(false);
-    }, 150);
+    }, 300);
   };
 
   return (

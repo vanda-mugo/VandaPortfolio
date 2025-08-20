@@ -110,7 +110,7 @@ export const NavBar = (): JSX.Element => {
                 Projects
               </a>
               <a
-                href="#Services"
+                href="#services"
                 className={
                   activeLink === "services" ? "nav-link active" : "nav-link"
                 }
@@ -143,7 +143,7 @@ export const NavBar = (): JSX.Element => {
               </div>
               <button
                 className="connect-btn"
-                onClick={() => scrollToSection("Contact")}
+                onClick={() => scrollToSection("contact")}
               >
                 Let's Connect
               </button>
@@ -245,7 +245,7 @@ export const NavBar = (): JSX.Element => {
           </a>
 
           <a
-            href="#Services"
+            href="#services"
             className={`mobile-nav-item ${
               activeLink === "services" ? "active" : ""
             }`}
@@ -301,7 +301,7 @@ export const NavBar = (): JSX.Element => {
           </div>
           <button
             className="mobile-connect-btn"
-            onClick={() => scrollToSection("Contact")}
+            onClick={() => scrollToSection("contact")}
           >
             Get In Touch
           </button>

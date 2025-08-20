@@ -37,7 +37,7 @@ const projectsData: ProjectDetails[] = [
       "Redux Toolkit",
       "EXPO",
     ],
-    url: "https://github.com/vanda-mugo/BetaHealth",
+    url: "https://drive.google.com/file/d/1UZWfiaeI7wOcwMMZ2Y4f9H-1g-7CuE17/view?usp=sharing",
     githubUrl: "https://github.com/vanda-mugo/BetaHealth",
     externalLibraries: {},
     shortDescription:

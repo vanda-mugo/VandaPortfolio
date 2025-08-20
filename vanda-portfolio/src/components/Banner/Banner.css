@@ -448,18 +448,30 @@
   animation: none;
   transform: scale(1.02);
   filter: brightness(1.2) contrast(1.2) saturate(1.1);
-  border-radius: 10px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  /* Removed border-radius and box-shadow to eliminate card appearance */
 }
 
 /* Enhanced mobile touch states */
 @media (max-width: 768px) {
+  .profile-image-container {
+    /* Improve touch responsiveness */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
   .profile-image-container:active .profile-image.profile-main {
     transform: scale(0.98);
   }
   
   .profile-image-container:active .profile-image.profile-alt {
     transform: scale(1.0);
+  }
+  
+  /* Ensure immediate touch feedback */
+  .profile-image-container:focus .profile-image,
+  .profile-image-container:focus-visible .profile-image {
+    outline: none;
   }
 }
 

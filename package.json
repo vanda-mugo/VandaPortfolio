@@ -1,0 +1,9 @@
+{
+  "name": "vanda-portfolio-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd vanda-portfolio && npm run build",
+    "install": "cd vanda-portfolio && npm install"
+  }
+}

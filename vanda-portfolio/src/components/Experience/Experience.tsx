@@ -16,10 +16,46 @@ interface ExperienceItem {
 
 const experienceData: ExperienceItem[] = [
   {
+    id: "fullstack-developer",
+    title: "Fullstack Developer",
+    company: "Freelance",
+    duration: "Jul 2024 - Present",
+    location: "Nairobi County, Kenya · On-site",
+    description: [
+      "Dedicated to advancing expertise in Fullstack web application development, focusing on crafting interactive, responsive, and user-centered applications.",
+      "Designed and implemented projects hosted on GitHub, leveraging React and Redux for dynamic and visually appealing front-end interfaces.",
+      "Developed robust and scalable back-end applications using Node.js with Express.js framework.",
+      "Successfully developed numerous applications that integrate external APIs, showcasing strong skills in creating seamless user experiences.",
+      "Maintained focus on usability, responsiveness, and performance optimization at the forefront of every project.",
+    ],
+    keyAchievements: [
+      "Built and deployed multiple full-stack applications with modern web technologies",
+      "Implemented responsive design patterns ensuring cross-device compatibility",
+      "Successfully integrated multiple external APIs for enhanced application functionality",
+      "Demonstrated proficiency in both front-end and back-end development paradigms",
+      "Maintained high code quality standards with emphasis on performance optimization",
+    ],
+    technologies: [
+      "React",
+      "Redux",
+      "Node.js",
+      "Express.js",
+      "JavaScript",
+      "TypeScript",
+      "HTML5",
+      "CSS3",
+      "RESTful APIs",
+      "Git",
+      "GitHub",
+      "Responsive Design",
+    ],
+    spotlightColor: "rgba(99, 102, 241, 0.3)",
+  },
+  {
     id: "cpp-developer",
     title: "C++ Developer",
     company: "Advanced Automotive Systems",
-    duration: "2023 - Present",
+    duration: "2022 - 2024",
     location: "Remote - Warsaw, Poland",
     description: [
       "Developed and maintained high-performance automotive software systems using modern C++ standards and Tis radar sensors.",
@@ -49,7 +85,7 @@ const experienceData: ExperienceItem[] = [
     id: "test-automation",
     title: "Test Automation Engineer",
     company: "Automotive Quality Solutions",
-    duration: "2022 - 2023",
+    duration: "2021 - 2022",
     location: "Remote - Warsaw, Poland",
     description: [
       "Designed and maintained comprehensive automated testing frameworks for Qt-based automotive applications.",
@@ -78,7 +114,7 @@ const experienceData: ExperienceItem[] = [
     id: "electronic-engineer",
     title: "Electronic Engineer",
     company: "Precision Electronics Manufacturing",
-    duration: "2021 - 2022",
+    duration: "2021 - 2021",
     location: "Nairobi, Kenya",
     description: [
       "Conducted comprehensive quality control and assessment of electronic circuit boards in manufacturing environments.",
@@ -315,11 +351,11 @@ export const Experience = (): JSX.Element => {
               <span className="stat-label">Roles</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">3+</span>
+              <span className="stat-number">4+</span>
               <span className="stat-label">Years</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">15+</span>
+              <span className="stat-number">20+</span>
               <span className="stat-label">Technologies</span>
             </div>
           </div>

@@ -12,7 +12,7 @@ interface ContactForm {
   message: string;
 }
 
-export const Contact = () => {
+const Contact = () => {
   const [showContactModal, setShowContactModal] = useState<boolean>(false);
   const [contactForm, setContactForm] = useState<ContactForm>({
     name: "",
@@ -533,3 +533,5 @@ Sent from your portfolio contact form.
     </>
   );
 };
+
+export default Contact;

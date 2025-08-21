@@ -454,3 +454,5 @@ const Projects: React.FC = () => {
 };
 
 export { Projects };
+
+export default Projects;

@@ -139,7 +139,7 @@ const experienceData: ExperienceItem[] = [
   },
 ];
 
-export const Experience = (): JSX.Element => {
+const Experience = (): JSX.Element => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [visibleItems, setVisibleItems] = useState<Set<string>>(
     new Set(experienceData.map((exp) => exp.id)) // Make all items visible by default as fallback
@@ -367,3 +367,5 @@ export const Experience = (): JSX.Element => {
     </section>
   );
 };
+
+export default Experience;

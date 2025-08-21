@@ -1,6 +1,6 @@
 import { ArrowRightCircle } from "react-bootstrap-icons";
 import headerImg from "../../assets/img/header-img.svg";
-import vandaImg from "../../assets/img/johnMugo.png";
+import vandaImg from "../../assets/img/johnMugo.webp";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import "./Banner.css";
 import { lazy, Suspense } from "react";
@@ -87,14 +87,21 @@ const ProfileImage = memo(() => {
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
     >
-      <img
-        className={`profile-image ${
-          showAltImage ? "profile-alt" : "profile-main"
-        }`}
-        src={showAltImage ? vandaImg : headerImg}
-        alt={showAltImage ? "Developer Profile" : "Header Illustration"}
-        loading="lazy"
-      />
+      <picture>
+        <source
+          srcSet={showAltImage ? vandaImg : headerImg}
+          type={showAltImage ? "image/webp" : "image/svg+xml"}
+        />
+        <img
+          className={`profile-image ${
+            showAltImage ? "profile-alt" : "profile-main"
+          }`}
+          src={showAltImage ? vandaImg : headerImg}
+          alt={showAltImage ? "Developer Profile" : "Header Illustration"}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
     </div>
   );
 });

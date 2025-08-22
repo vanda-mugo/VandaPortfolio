@@ -62,7 +62,6 @@ interface StravaStats {
 class StravaService {
   private clientId = import.meta.env.VITE_STRAVA_CLIENT_ID;
   private clientSecret = import.meta.env.VITE_STRAVA_CLIENT_SECRET;
-  private refreshToken = import.meta.env.VITE_STRAVA_REFRESH_TOKEN;
   private baseUrl = "https://www.strava.com/api/v3";
   private accessToken: string = import.meta.env.VITE_STRAVA_ACCESS_TOKEN;
   private tokenExpiry: number = 0;

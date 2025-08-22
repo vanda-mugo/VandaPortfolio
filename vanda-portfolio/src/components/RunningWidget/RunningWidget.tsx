@@ -31,10 +31,6 @@ const RunningWidget: React.FC = () => {
   const [monthlyStats, setMonthlyStats] = useState<MonthlyStats | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const [athleteData, setAthleteData] = useState<{
-    id: number;
-    username?: string;
-  } | null>(null);
 
   useEffect(() => {
     const fetchRunningData = async () => {
@@ -43,7 +39,6 @@ const RunningWidget: React.FC = () => {
 
         // Get athlete info first
         const athlete = await stravaService.getAthlete();
-        setAthleteData({ id: athlete.id, username: athlete.username });
 
         // Get detailed stats
         const stats = await stravaService.getAthleteStats(athlete.id);
@@ -82,10 +77,16 @@ const RunningWidget: React.FC = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleStravaLinkClick = (e: React.MouseEvent) => {
+  const handleStravaLinkClick = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent widget expansion
-    const profileUrl = stravaService.getProfileUrl(athleteData?.username);
-    window.open(profileUrl, "_blank", "noopener,noreferrer");
+    try {
+      const profileUrl = await stravaService.getProfileUrl();
+      window.open(profileUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      console.error("Error opening Strava profile:", error);
+      // Fallback to main Strava site
+      window.open("https://www.strava.com/", "_blank", "noopener,noreferrer");
+    }
   };
 
   if (runningData.loading) {

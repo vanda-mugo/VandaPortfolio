@@ -340,11 +340,15 @@ class StravaService {
   }
 
   // Get Strava profile URL
-  getProfileUrl(username?: string): string {
-    if (username) {
-      return `https://www.strava.com/athletes/${username}`;
+  async getProfileUrl(): Promise<string> {
+    try {
+      const athlete = await this.getAthlete();
+      return `https://www.strava.com/athletes/${athlete.id}`;
+    } catch (error) {
+      console.error("Error getting athlete for profile URL:", error);
+      // Return a generic Strava URL as fallback
+      return "https://www.strava.com/";
     }
-    return "https://www.strava.com/athletes/173889"; // Your athlete ID as fallback
   }
 }
 

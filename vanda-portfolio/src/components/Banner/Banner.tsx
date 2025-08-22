@@ -6,6 +6,7 @@ import "./Banner.css";
 import { lazy, Suspense } from "react";
 
 const TrueFocus = lazy(() => import("../TrueFocus/TrueFocus"));
+const RunningWidget = lazy(() => import("../RunningWidget/RunningWidget"));
 
 interface BannerProps {
   splashEffect: boolean;
@@ -205,6 +206,17 @@ export const Banner = memo(
                         : "Enable interactive background"}
                     </small>
                   </div>
+                </div>
+
+                {/* Running Widget */}
+                <div className="banner-widget">
+                  <Suspense
+                    fallback={
+                      <div className="widget-loading">Loading stats...</div>
+                    }
+                  >
+                    <RunningWidget />
+                  </Suspense>
                 </div>
               </div>
             </div>

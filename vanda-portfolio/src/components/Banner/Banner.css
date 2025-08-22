@@ -568,3 +568,26 @@
     border: 2px solid #fff;
   }
 }
+
+/* ===== WIDGET INTEGRATION STYLES ===== */
+.banner-widget {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.widget-loading {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  padding: 1rem;
+  text-align: center;
+  font-family: 'Centra', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .banner-widget {
+    margin-top: 1.5rem;
+    justify-content: center;
+  }
+}

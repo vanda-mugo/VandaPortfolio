@@ -151,7 +151,7 @@ export const Banner = memo(
                       <TrueFocus
                         sentence="John Mugo"
                         manualMode={false}
-                        blurAmount={3}
+                        blurAmount={7}
                         borderColor="#ef4444"
                         glowColor="rgba(239, 68, 68, 0.6)"
                         animationDuration={1}

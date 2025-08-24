@@ -303,16 +303,18 @@ const Services: React.FC = () => {
 
   const scrollToContact = (service: ServiceItem) => {
     // Scroll to contact section
-    const contactSection = document.getElementById('contact');
+    const contactSection = document.getElementById("contact");
     if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-      
+      contactSection.scrollIntoView({ behavior: "smooth" });
+
       // Optional: Pre-fill contact form with service info
       // You could dispatch an event or use context to pre-fill the contact form
       setTimeout(() => {
         const serviceInfo = `I'm interested in ${service.title}. ${service.shortDescription}`;
-        const messageTextarea = document.querySelector('#contact textarea, #contact [name="message"]') as HTMLTextAreaElement;
-        if (messageTextarea && messageTextarea.value === '') {
+        const messageTextarea = document.querySelector(
+          '#contact textarea, #contact [name="message"]'
+        ) as HTMLTextAreaElement;
+        if (messageTextarea && messageTextarea.value === "") {
           messageTextarea.value = serviceInfo;
           messageTextarea.focus();
         }
@@ -584,7 +586,7 @@ Sent from your portfolio website quote form.
                     </div>
 
                     <div className="service-cta">
-                      <button 
+                      <button
                         className="cta-button primary"
                         onClick={() => scrollToContact(service)}
                         aria-label={`Get started with ${service.title}`}
@@ -592,7 +594,7 @@ Sent from your portfolio website quote form.
                         Get Started
                         <span className="cta-arrow">→</span>
                       </button>
-                      <button 
+                      <button
                         className="cta-button secondary"
                         onClick={() => openQuoteModal(service)}
                         aria-label={`Schedule consultation for ${service.title}`}

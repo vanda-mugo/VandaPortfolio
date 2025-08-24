@@ -34,6 +34,7 @@ const projectsData: ProjectDetails[] = [
       "TypeScript",
       "Firebase",
       "Firestore",
+      "Redux",
       "Redux Toolkit",
       "EXPO",
     ],
@@ -51,6 +52,7 @@ const projectsData: ProjectDetails[] = [
       "Medication reminders",
       "Health journaling",
       "Telemedicine integration",
+      "Vital data long term analysis",
     ],
     challenges:
       "Cross-platform compatibility and offline-first data synchronization",
@@ -143,6 +145,9 @@ const projectsData: ProjectDetails[] = [
 
 const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [expandedTechStack, setExpandedTechStack] = useState<string | null>(
+    null
+  );
   const [filter, setFilter] = useState<string>("All");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -223,6 +228,12 @@ const Projects: React.FC = () => {
 
   const toggleProjectDetails = (projectId: string) => {
     setSelectedProject(selectedProject === projectId ? null : projectId);
+  };
+
+  const toggleTechStack = (projectId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedTechStack(expandedTechStack === projectId ? null : projectId);
   };
 
   return (
@@ -336,15 +347,29 @@ const Projects: React.FC = () => {
 
                 <div className="card-content">
                   <div className="tech-stack">
-                    {project.techStack.slice(0, 4).map((tech, index) => (
+                    {(expandedTechStack === project.id
+                      ? project.techStack
+                      : project.techStack.slice(0, 4)
+                    ).map((tech, index) => (
                       <span key={index} className="tech-chip">
                         {tech}
                       </span>
                     ))}
                     {project.techStack.length > 4 && (
-                      <span className="tech-more">
-                        +{project.techStack.length - 4} more
-                      </span>
+                      <button
+                        className="tech-more-btn"
+                        onClick={(e) => toggleTechStack(project.id, e)}
+                        type="button"
+                        aria-label={
+                          expandedTechStack === project.id
+                            ? "Show fewer technologies"
+                            : `Show all ${project.techStack.length} technologies`
+                        }
+                      >
+                        {expandedTechStack === project.id
+                          ? "Show Less"
+                          : `+${project.techStack.length - 4} more`}
+                      </button>
                     )}
                   </div>
 

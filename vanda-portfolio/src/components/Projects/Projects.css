@@ -465,6 +465,30 @@
   border: 1px solid rgba(0, 255, 255, 0.3);
 }
 
+.tech-more-btn {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tech-more-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.tech-more-btn:active {
+  transform: translateY(0);
+  background: rgba(0, 255, 255, 0.3);
+}
+
 /* ========== PROJECT ACTIONS ========== */
 .project-actions {
   display: flex;

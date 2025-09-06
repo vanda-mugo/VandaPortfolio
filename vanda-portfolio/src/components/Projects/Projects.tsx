@@ -53,10 +53,8 @@ const projectScreenshots: Record<string, Array<{src: string, alt: string, catego
 
 // Screenshot Gallery Component
 const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const screenshots = projectScreenshots[projectId] || [];
-
-  if (screenshots.length === 0) return null;
 
   const groupedScreenshots = screenshots.reduce((acc, screenshot) => {
     if (!acc[screenshot.category]) {
@@ -66,6 +64,43 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
     return acc;
   }, {} as Record<string, typeof screenshots>);
 
+  const navigateImage = React.useCallback((direction: 'prev' | 'next') => {
+    if (selectedImageIndex === null) return;
+    
+    const newIndex = direction === 'prev' 
+      ? (selectedImageIndex - 1 + screenshots.length) % screenshots.length
+      : (selectedImageIndex + 1) % screenshots.length;
+    
+    setSelectedImageIndex(newIndex);
+  }, [selectedImageIndex, screenshots.length]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedImageIndex === null) return;
+      
+      switch (e.key) {
+        case 'ArrowLeft':
+          navigateImage('prev');
+          break;
+        case 'ArrowRight':
+          navigateImage('next');
+          break;
+        case 'Escape':
+          setSelectedImageIndex(null);
+          break;
+      }
+    };
+
+    if (selectedImageIndex !== null) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [selectedImageIndex, navigateImage]);
+
+  const selectedScreenshot = selectedImageIndex !== null ? screenshots[selectedImageIndex] : null;
+
+  if (screenshots.length === 0) return null;
+
   return (
     <div className="screenshot-gallery">
       <h4>App Screenshots</h4>
@@ -74,44 +109,99 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
           <div key={category} className="gallery-category">
             <h5 className="category-title">{category}</h5>
             <div className="gallery-grid">
-              {categoryScreenshots.map((screenshot, index) => (
-                <div 
-                  key={index} 
-                  className="gallery-item"
-                  onClick={() => setSelectedImage(screenshot.src)}
-                >
-                  <img 
-                    src={screenshot.src} 
-                    alt={screenshot.alt}
-                    className="gallery-thumbnail"
-                    loading="lazy"
-                  />
-                  <div className="gallery-overlay">
-                    <span className="view-icon">🔍</span>
+              {categoryScreenshots.map((screenshot, index) => {
+                const globalIndex = screenshots.findIndex(s => s.src === screenshot.src);
+                return (
+                  <div 
+                    key={index} 
+                    className="gallery-item"
+                    onClick={() => setSelectedImageIndex(globalIndex)}
+                  >
+                    <img 
+                      src={screenshot.src} 
+                      alt={screenshot.alt}
+                      className="gallery-thumbnail"
+                      loading="lazy"
+                    />
+                    <div className="gallery-overlay">
+                      <span className="view-icon">🔍</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal for enlarged view */}
-      {selectedImage && (
-        <div className="gallery-modal" onClick={() => setSelectedImage(null)}>
+      {/* Enhanced Modal for selected screenshot */}
+      {selectedImageIndex !== null && selectedScreenshot && (
+        <div className="gallery-modal" onClick={() => setSelectedImageIndex(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="modal-close"
-              onClick={() => setSelectedImage(null)}
-              aria-label="Close modal"
-            >
-              ×
-            </button>
-            <img 
-              src={selectedImage} 
-              alt="Enlarged screenshot"
-              className="modal-image"
-            />
+            <div className="modal-header">
+              <div className="modal-info">
+                <h3 className="modal-title">{selectedScreenshot.alt}</h3>
+                <span className="modal-category">{selectedScreenshot.category}</span>
+                <span className="modal-counter">
+                  {selectedImageIndex + 1} of {screenshots.length}
+                </span>
+              </div>
+              <button 
+                className="modal-close"
+                onClick={() => setSelectedImageIndex(null)}
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="modal-image-container">
+              <button 
+                className="modal-nav modal-nav-prev"
+                onClick={() => navigateImage('prev')}
+                aria-label="Previous image"
+                disabled={screenshots.length <= 1}
+              >
+                ←
+              </button>
+              
+              <img 
+                src={selectedScreenshot.src} 
+                alt={selectedScreenshot.alt}
+                className="modal-image"
+              />
+              
+              <button 
+                className="modal-nav modal-nav-next"
+                onClick={() => navigateImage('next')}
+                aria-label="Next image"
+                disabled={screenshots.length <= 1}
+              >
+                →
+              </button>
+            </div>
+            
+            <div className="modal-thumbnails">
+              {screenshots.map((screenshot, index) => (
+                <div 
+                  key={index}
+                  className={`modal-thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                  onClick={() => setSelectedImageIndex(index)}
+                >
+                  <img 
+                    src={screenshot.src} 
+                    alt={screenshot.alt}
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+            
+            <div className="modal-footer">
+              <p className="modal-hint">
+                Use arrow keys to navigate • Press ESC to close
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -122,7 +212,7 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
 const projectsData: ProjectDetails[] = [
   {
     id: "vitalect",
-    title: "Vitalect",
+    title: "VitaLect",
     category: "Mobile App",
     status: "Beta",
     techStack: [
@@ -138,20 +228,23 @@ const projectsData: ProjectDetails[] = [
     githubUrl: "https://github.com/vanda-mugo/BetaHealth",
     externalLibraries: {},
     shortDescription:
-      "Comprehensive vital tracking mobile app for chronic conditions management",
+      "VitaLect: Empowering Chronic Disease Management Through Data - A vitals tracking application designed to support individuals living with hypertension and diabetes.",
     objectives:
-      "Monitor, track, and escalate health issues centered around diabetes and hypertension",
+      "VitaLect leverages predictive analytics and machine learning to provide personalized insights for chronic disease management. Our holistic approach considers lifestyle, emotional well-being, and medication adherence to deliver actionable notifications and help users understand the full context of their health journey.",
     features: [
-      "Real-time health data tracking",
-      "Secure patient records",
-      "Appointment scheduling",
-      "Medication reminders",
-      "Health journaling",
-      "Telemedicine integration",
-      "Vital data long term analysis",
+      "Daily blood pressure readings (systolic, diastolic, pulse)",
+      "Blood sugar tracking (morning and random readings)",
+      "Personal health journaling for meals and emotional state",
+      "Medication adherence monitoring",
+      "Predictive analytics using advanced machine learning",
+      "Personalized health insights and recommendations",
+      "Holistic management approach",
+      "Real-time health alerts and notifications",
+      "Long-term trend analysis",
+      "Secure patient data management",
     ],
     challenges:
-      "Cross-platform compatibility and offline-first data synchronization",
+      "Implementing accurate predictive models for health analytics, ensuring data privacy compliance, and creating an intuitive interface for users to consistently log health metrics while maintaining cross-platform compatibility.",
   },
   {
     id: "jamming",

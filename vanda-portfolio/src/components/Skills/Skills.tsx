@@ -30,6 +30,11 @@ import git from "../../assets/icons/ToolIcons/git.svg";
 import vscode from "../../assets/icons/ToolIcons/vscode.svg";
 import adobeIllustrator from "../../assets/icons/ToolIcons/adobeIllustrator.svg";
 
+// New skill icons
+import docker from "../../assets/img/docker-mark-blue.svg";
+import nestjs from "../../assets/img/nest.svg";
+import redis from "../../assets/img/redis.png";
+
 //import  PixelCard  from '../PixelCard/PixelCard';
 
 // Temporarily removed for debugging
@@ -64,6 +69,7 @@ const skills: Skill[] = [
     items: [
       { name: "Node.js", icon: node },
       { name: "Express", icon: express },
+      { name: "NestJS", icon: nestjs },
       { name: "GraphQL", icon: graphql },
       { name: "Firebase", icon: firebase },
     ],
@@ -74,6 +80,7 @@ const skills: Skill[] = [
       { name: "MySQL", icon: mysql },
       { name: "MongoDB", icon: mongodb },
       { name: "PostgreSQL", icon: postresql },
+      { name: "Redis", icon: redis },
       { name: "SQLite", icon: sqlite },
       { name: "Firestore", icon: firestore },
     ],
@@ -83,6 +90,7 @@ const skills: Skill[] = [
     items: [
       { name: "Git", icon: git },
       { name: "VS Code", icon: vscode },
+      { name: "Docker", icon: docker },
       { name: "Adobe Illustrator", icon: adobeIllustrator },
     ],
   },

@@ -1,12 +1,14 @@
 import { ArrowRightCircle } from "react-bootstrap-icons";
 import headerImg from "../../assets/img/header-img.svg";
 import vandaImg from "../../assets/img/johnMugo.webp";
+import devIcon from "../../assets/img/devIcon.webp";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import "./Banner.css";
 import { lazy, Suspense } from "react";
 
 const TrueFocus = lazy(() => import("../TrueFocus/TrueFocus"));
 const RunningWidget = lazy(() => import("../RunningWidget/RunningWidget"));
+const CurrentFocus = lazy(() => import("../CurrentFocus/CurrentFocus"));
 
 interface BannerProps {
   splashEffect: boolean;
@@ -61,22 +63,58 @@ TypingAnimation.displayName = "TypingAnimation";
 const ProfileImage = memo(() => {
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
+  const [showDevMode, setShowDevMode] = useState(false);
 
-  // Combined state for showing alt image
-  const showAltImage = isHovered || isTouched;
+  // Cycle through different states: normal -> profile -> dev
+  const getImageState = () => {
+    if (showDevMode) return 'dev';
+    if (isHovered || isTouched) return 'profile';
+    return 'normal';
+  };
+
+  const imageState = getImageState();
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent potential scrolling issues
+    e.preventDefault();
     setIsTouched(true);
-    setIsHovered(true); // Ensure hover state is also set for consistent styling
+    setIsHovered(true);
   };
 
   const handleTouchEnd = () => {
-    // Keep image visible for a moment for better UX on touch devices
     setTimeout(() => {
       setIsTouched(false);
       setIsHovered(false);
     }, 300);
+  };
+
+  // Double click to toggle dev mode
+  const handleDoubleClick = () => {
+    setShowDevMode(!showDevMode);
+    console.log('Dev mode toggled to:', !showDevMode);
+  };
+
+  const getImageSrc = () => {
+    switch (imageState) {
+      case 'dev': return devIcon;
+      case 'profile': return vandaImg;
+      default: return headerImg;
+    }
+  };
+
+  const getImageType = () => {
+    switch (imageState) {
+      case 'dev': return "image/webp";
+      case 'profile': return "image/webp";
+      default: return "image/svg+xml";
+    }
+  };
+
+  const getAltText = () => {
+    switch (imageState) {
+      case 'dev': return "Developer Animation";
+      case 'profile': return "Developer Profile";
+      default: return "Header Illustration";
+    }
   };
 
   return (
@@ -87,18 +125,21 @@ const ProfileImage = memo(() => {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
+      onClick={handleDoubleClick}
+      title=""
     >
       <picture>
         <source
-          srcSet={showAltImage ? vandaImg : headerImg}
-          type={showAltImage ? "image/webp" : "image/svg+xml"}
+          srcSet={getImageSrc()}
+          type={getImageType()}
         />
         <img
           className={`profile-image ${
-            showAltImage ? "profile-alt" : "profile-main"
+            imageState === 'dev' ? 'profile-dev' : 
+            imageState === 'profile' ? 'profile-alt' : 'profile-main'
           }`}
-          src={showAltImage ? vandaImg : headerImg}
-          alt={showAltImage ? "Developer Profile" : "Header Illustration"}
+          src={getImageSrc()}
+          alt={getAltText()}
           loading="lazy"
           decoding="async"
         />
@@ -134,8 +175,9 @@ export const Banner = memo(
     return (
       <section className="banner" id="home">
         <div className="banner-container">
-          <div className="banner-content">
-            {/* Text Content */}
+          {/* Top Section: Profile Info & Image - Flex Row/Column */}
+          <div className="banner-profile-section">
+            {/* Profile Text Content */}
             <div className="banner-text">
               <div className="banner-text-content">
                 <span className="tagline">Welcome to my Portfolio</span>
@@ -221,10 +263,21 @@ export const Banner = memo(
               </div>
             </div>
 
-            {/* Image Content */}
+            {/* Profile Image */}
             <div className="banner-image">
               <ProfileImage />
             </div>
+          </div>
+
+          {/* Bottom Section: Current Focus - Full Width */}
+          <div className="banner-focus-section">
+            <Suspense
+              fallback={
+                <div className="focus-loading">Loading current focus...</div>
+              }
+            >
+              <CurrentFocus />
+            </Suspense>
           </div>
         </div>
       </section>

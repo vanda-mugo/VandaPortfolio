@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 80px 0;
+  padding: 160px 0 80px 0; /* Increased top padding from 120px to 160px */
   background: linear-gradient(135deg, 
     rgba(15, 15, 23, 0.98) 0%, 
     rgba(25, 25, 40, 0.98) 50%, 
@@ -33,27 +33,49 @@
   padding: 0 20px;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  min-height: 100vh;
 }
 
-.banner-content {
-  display: grid;
-  grid-template-columns: 1fr;
+/* ===== TOP SECTION: PROFILE INFO & IMAGE ===== */
+
+.banner-profile-section {
+  display: flex;
+  flex-direction: column;
   gap: 40px;
   align-items: center;
+  flex: 1;
+  justify-content: center;
   min-height: 60vh;
 }
 
 @media (min-width: 768px) {
-  .banner-content {
-    grid-template-columns: 1fr 1fr;
+  .banner-profile-section {
+    flex-direction: row;
     gap: 60px;
+    align-items: center;
   }
 }
 
 @media (min-width: 1024px) {
-  .banner-content {
-    grid-template-columns: 1.2fr 0.8fr;
+  .banner-profile-section {
     gap: 80px;
+  }
+}
+
+/* ===== BOTTOM SECTION: CURRENT FOCUS ===== */
+
+.banner-focus-section {
+  width: 100%;
+  margin-top: auto;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .banner-focus-section {
+    margin-top: 2rem;
   }
 }
 
@@ -61,24 +83,33 @@
 
 .banner-text {
   text-align: center;
-  order: 2;
+  flex: 1;
+  max-width: 600px;
 }
 
 @media (min-width: 768px) {
   .banner-text {
     text-align: left;
-    order: 1;
+    flex: 1.2;
   }
 }
 
 .banner-text-content {
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===== IMAGE SECTION ===== */
+
+.banner-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
 }
 
 @media (min-width: 768px) {
-  .banner-text-content {
-    margin: 0;
+  .banner-image {
+    flex: 0.8;
   }
 }
 
@@ -376,12 +407,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  order: 1;
+  flex: 0 0 auto;
 }
 
 @media (min-width: 768px) {
   .banner-image {
-    order: 2;
+    flex: 0.8;
   }
 }
 
@@ -449,6 +480,37 @@
   /* Removed border-radius and box-shadow to eliminate card appearance */
 }
 
+.profile-image.profile-dev {
+  /* Dev mode: subtle enhanced animation and styling */
+  animation: float 2s ease-in-out infinite, pulse 2s ease-in-out infinite alternate;
+  transform: scale(1.03);
+  filter: brightness(1.2) contrast(1.2) saturate(1.1) hue-rotate(5deg);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+@keyframes pulse {
+  0% { 
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+  }
+  100% { 
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+}
+
 /* Enhanced mobile touch states */
 @media (max-width: 768px) {
   .profile-image-container {
@@ -477,15 +539,17 @@
 
 @media (max-width: 480px) {
   .banner {
-    padding: 60px 0;
+    padding: 100px 0 60px 0; /* Increased top padding for mobile too */
   }
   
   .banner-container {
     padding: 0 15px;
+    gap: 40px;
   }
   
-  .banner-content {
+  .banner-profile-section {
     gap: 30px;
+    min-height: 50vh;
   }
   
   .profile-image-container {
@@ -512,6 +576,10 @@
   .profile-image-container {
     width: 220px;
     height: 220px;
+  }
+  
+  .banner-container {
+    gap: 30px;
   }
 }
 
@@ -581,6 +649,15 @@
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
   padding: 1rem;
+  text-align: center;
+  font-family: 'Centra', sans-serif;
+}
+
+/* ===== FOCUS SECTION LOADING ===== */
+.focus-loading {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  padding: 1.5rem;
   text-align: center;
   font-family: 'Centra', sans-serif;
 }

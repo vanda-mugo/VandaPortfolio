@@ -72,6 +72,174 @@ const TypingAnimation = memo(({ words }: { words: string[] }) => {
 
 TypingAnimation.displayName = "TypingAnimation";
 
+// Code overlay component for dev image with syntax highlighting
+const CodeOverlay = memo(() => {
+  const [displayedCode, setDisplayedCode] = useState("");
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+
+  const codeBlocks = useMemo(
+    () => [
+      // Block 1: Personal Profile
+      [
+        "interface Developer {",
+        "  readonly name: 'John Mugo';",
+        "  skills: ('React' | 'Nest' | 'C++'| 'Python')[];",
+        "  passion: 'Algorithm Optimization';",
+        "  expertise: 'Full Stack Development';",
+        "}",
+        "",
+        "const johnMugo: Developer = {",
+        "  name: 'John Mugo',",
+        "  skills: ['React', 'TypeScript', 'C++', 'NestJS'],",
+        "  passion: 'Algorithm Optimization',",
+        "  expertise: 'Full Stack Development'",
+        "};",
+      ],
+      // Block 2: Current Focus
+      [
+        "type Focus = {",
+        "  architecture: 'Microservices';",
+        "  database: 'PostgreSQL';",
+        "  containerization: 'Docker' | 'Kubernetes';",
+        "};",
+        "",
+        "const currentFocus: Focus = {",
+        "  architecture: 'Microservices','EDA','Kafka',",
+        "  database: 'PostgreSQL',",
+        "  containerization: 'Docker'",
+        "  caching: 'Redis'",
+        "};",
+      ],
+      // Block 3: Skills & Tools
+      [
+        "enum TechStack {",
+        "  FRONTEND = 'React Native', 'React'",
+        "  BACKEND = 'Node.js',",
+        "  DATABASE = 'PostgreSQL',",
+        "  DESIGN = 'UI/UX',",
+        "  GRAPHICS = 'Vector Illustration','Adobe Illustrator'",
+        "}",
+        "",
+        "const buildPortfolio = (): Promise<Success> => {",
+        "  return innovation + creativity;",
+        "};",
+      ],
+      // Block 4: Philosophy
+      [
+        "abstract class Developer {",
+        "  abstract solve(problem: Challenge): Solution;",
+        "}",
+        "",
+        "class JohnMugo extends Developer {",
+        "  solve(problem: Challenge): Solution {",
+        "    return this.optimizeAlgorithm(problem);",
+        "  }",
+        "",
+        "  // Always learning, always growing",
+        "  async evolve(): Promise<void> {",
+        "    await this.learnNewTechnology();",
+        "  }",
+        "}",
+      ],
+    ],
+    []
+  );
+
+  // Start typing after component mounts
+  useEffect(() => {
+    const startTimer = setTimeout(() => {
+      setIsTyping(true);
+    }, 7000); // Increased from 2000ms to 7000ms for consistency
+
+    return () => clearTimeout(startTimer);
+  }, []);
+
+  // Main typing logic
+  useEffect(() => {
+    if (!isTyping) return;
+
+    const currentBlock = codeBlocks[currentBlockIndex];
+
+    const typeCode = () => {
+      if (currentLineIndex < currentBlock.length) {
+        const currentLine = currentBlock[currentLineIndex];
+
+        if (currentCharIndex < currentLine.length) {
+          // Type next character
+          setDisplayedCode((prev) => prev + currentLine[currentCharIndex]);
+          setCurrentCharIndex((prev) => prev + 1);
+        } else {
+          // Line complete, move to next line
+          setDisplayedCode((prev) => prev + "\n");
+          setCurrentLineIndex((prev) => prev + 1);
+          setCurrentCharIndex(0);
+        }
+      } else {
+        // Block complete, wait then start next block
+        setIsTyping(false);
+
+        setTimeout(() => {
+          // Clear screen and move to next block
+          setDisplayedCode("");
+          setCurrentLineIndex(0);
+          setCurrentCharIndex(0);
+          setCurrentBlockIndex((prev) => (prev + 1) % codeBlocks.length);
+
+          // Start typing again after 7 second delay with cursor blinking
+          setTimeout(() => {
+            setIsTyping(true);
+          }, 7000); // Increased from 1000ms to 7000ms (7 seconds)
+        }, 3000); // Show completed block for 3 seconds
+
+        return; // Exit this typing session
+      }
+    };
+
+    const timer = setTimeout(typeCode, 60 + Math.random() * 40); // 60-100ms per character
+    return () => clearTimeout(timer);
+  }, [
+    currentLineIndex,
+    currentCharIndex,
+    currentBlockIndex,
+    codeBlocks,
+    isTyping,
+  ]);
+
+  // Syntax highlighting function
+  const highlightSyntax = (code: string) => {
+    return code
+      .replace(
+        /(interface|type|enum|class|abstract|extends|const|let|async|await|return|readonly)/g,
+        '<span class="keyword">$1</span>'
+      )
+      .replace(
+        /(string|number|boolean|Promise|void|Developer|Challenge|Solution)/g,
+        '<span class="type">$1</span>'
+      )
+      .replace(/('.*?'|".*?")/g, '<span class="string">$1</span>')
+      .replace(/(\/\/.*$)/gm, '<span class="comment">$1</span>')
+      .replace(/(\{|\}|\[|\]|\(|\))/g, '<span class="bracket">$1</span>')
+      .replace(/(:)/g, '<span class="operator">$1</span>');
+  };
+
+  return (
+    <div className="code-overlay">
+      <pre
+        className="code-text"
+        dangerouslySetInnerHTML={{
+          __html:
+            highlightSyntax(displayedCode) + '<span class="cursor">|</span>',
+        }}
+      />
+    </div>
+  );
+});
+
+CodeOverlay.displayName = "CodeOverlay";
+
 // Memoized image component with optimized state management and smooth transitions
 const ProfileImage = memo(() => {
   const [isHovered, setIsHovered] = useState(false);
@@ -79,7 +247,7 @@ const ProfileImage = memo(() => {
   const [showDevMode, setShowDevMode] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-switch to dev mode after 7 seconds with cleanup and smooth transition
+  // Auto-switch to dev mode after 3 seconds with cleanup and smooth transition
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!showDevMode) {
@@ -87,14 +255,14 @@ const ProfileImage = memo(() => {
         // Longer delay to allow complete fade-out
         setTimeout(() => {
           setShowDevMode(true);
-          console.log("Auto-switched to dev mode after 7 seconds");
+          console.log("Auto-switched to dev mode after 3 seconds");
         }, 800); // Increased from 300ms to 800ms
         // End transition after fade-in completes
         setTimeout(() => {
           setIsTransitioning(false);
         }, 2000); // Increased from 900ms to 2000ms
       }
-    }, 7000);
+    }, 3000); // Reduced from 7000ms to 3000ms
 
     return () => clearTimeout(timer);
   }, [showDevMode]);
@@ -191,6 +359,9 @@ const ProfileImage = memo(() => {
         loading="lazy"
         decoding="async"
       />
+
+      {/* Code Overlay - Only show when dev image is visible */}
+      {imageState === "dev" && !isTransitioning && <CodeOverlay />}
     </div>
   );
 });

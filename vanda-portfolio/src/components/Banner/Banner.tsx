@@ -72,57 +72,62 @@ const TypingAnimation = memo(({ words }: { words: string[] }) => {
 
 TypingAnimation.displayName = "TypingAnimation";
 
-// Memoized image component with optimized state management
+// Memoized image component with optimized state management and smooth transitions
 const ProfileImage = memo(() => {
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [showDevMode, setShowDevMode] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-switch to dev mode after 7 seconds with cleanup
+  // Auto-switch to dev mode after 7 seconds with cleanup and smooth transition
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!showDevMode) {
-        setShowDevMode(true);
-        console.log("Auto-switched to dev mode after 7 seconds");
+        setIsTransitioning(true);
+        // Longer delay to allow complete fade-out
+        setTimeout(() => {
+          setShowDevMode(true);
+          console.log("Auto-switched to dev mode after 7 seconds");
+        }, 800); // Increased from 300ms to 800ms
+        // End transition after fade-in completes
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 2000); // Increased from 900ms to 2000ms
       }
     }, 7000);
 
     return () => clearTimeout(timer);
   }, [showDevMode]);
 
+  // Handle manual dev mode toggle with smooth transition
+  const handleDoubleClick = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setShowDevMode((prev) => {
+        console.log("Dev mode toggled to:", !prev);
+        return !prev;
+      });
+    }, 800); // Increased from 300ms to 800ms
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 2000); // Increased from 900ms to 2000ms
+  }, []);
+
   // Memoized image state calculation to prevent recalculation
   const imageState = useMemo(() => {
-    if (showDevMode) return "dev";
-    if (isHovered || isTouched) return "profile";
-    return "normal";
-  }, [showDevMode, isHovered, isTouched]);
-
-  // Memoized image source to prevent object recreation
-  const imageConfig = useMemo(() => {
-    switch (imageState) {
-      case "dev":
-        return {
-          src: devIcon,
-          type: "image/webp",
-          alt: "Developer Animation",
-          class: "profile-dev",
-        };
-      case "profile":
-        return {
-          src: vandaImg,
-          type: "image/webp",
-          alt: "Developer Profile",
-          class: "profile-alt",
-        };
-      default:
-        return {
-          src: headerImg,
-          type: "image/svg+xml",
-          alt: "Header Illustration",
-          class: "profile-main",
-        };
-    }
-  }, [imageState]);
+    const state = showDevMode
+      ? "dev"
+      : isHovered || isTouched
+      ? "profile"
+      : "normal";
+    console.log("Image state:", state, {
+      showDevMode,
+      isHovered,
+      isTouched,
+      isTransitioning,
+    });
+    return state;
+  }, [showDevMode, isHovered, isTouched, isTransitioning]);
 
   // Optimized event handlers with useCallback
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -138,19 +143,14 @@ const ProfileImage = memo(() => {
     }, 300);
   }, []);
 
-  const handleDoubleClick = useCallback(() => {
-    setShowDevMode((prev) => {
-      console.log("Dev mode toggled to:", !prev);
-      return !prev;
-    });
-  }, []);
-
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
   return (
     <div
-      className="profile-image-container"
+      className={`profile-image-container ${
+        isTransitioning ? "transitioning" : ""
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
@@ -159,16 +159,38 @@ const ProfileImage = memo(() => {
       onClick={handleDoubleClick}
       title=""
     >
-      <picture>
-        <source srcSet={imageConfig.src} type={imageConfig.type} />
-        <img
-          className={`profile-image ${imageConfig.class}`}
-          src={imageConfig.src}
-          alt={imageConfig.alt}
-          loading="lazy"
-          decoding="async"
-        />
-      </picture>
+      {/* Header Image - Always present */}
+      <img
+        className={`profile-image profile-main ${
+          imageState === "normal" && !isTransitioning ? "visible" : ""
+        }`}
+        src={headerImg}
+        alt="Header Illustration"
+        loading="lazy"
+        decoding="async"
+      />
+
+      {/* Profile Image - Hover/Touch state */}
+      <img
+        className={`profile-image profile-alt ${
+          imageState === "profile" && !isTransitioning ? "visible" : ""
+        }`}
+        src={vandaImg}
+        alt="Developer Profile"
+        loading="lazy"
+        decoding="async"
+      />
+
+      {/* Dev Image - Auto/Manual dev mode */}
+      <img
+        className={`profile-image profile-dev ${
+          imageState === "dev" && !isTransitioning ? "visible" : ""
+        } ${isTransitioning && showDevMode ? "fade-in" : ""}`}
+        src={devIcon}
+        alt="Developer Animation"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 });
@@ -228,9 +250,9 @@ export const Banner = memo(
                   </span>
                 </h1>
 
-                <h2 className="banner-subtitle">
-                  I'm a{" "}
-                  <span className="txt-rotate">
+                <h2 className="banner-subtitle">I'm a </h2>
+                <h2>
+                  <span className="txt-rotate banner-subtitle">
                     <TypingAnimation words={toRotate} />
                   </span>
                 </h2>

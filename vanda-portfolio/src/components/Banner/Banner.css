@@ -211,14 +211,14 @@
   font-size: clamp(1.5rem, 6vw, 2.5rem);
   font-weight: 600;
   color: #fff;
-  margin-bottom: 45px;
+  margin-bottom: 20px;
   line-height: 1.2;
 }
 
 @media (min-width: 768px) {
   .banner-subtitle {
     font-size: clamp(1.8rem, 4vw, 3rem);
-    margin-bottom: 50px;
+    margin-bottom: 10px;
   }
 }
 
@@ -430,20 +430,16 @@
   z-index: 2;
 }
 
-/* Optimize picture element for WebP */
-.profile-image-container picture {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
+/* All profile images positioned absolutely for smooth transitions */
 .profile-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   filter: brightness(1.1) contrast(1.1);
-  animation: float 3s ease-in-out infinite;
   /* Improve touch interactions */
   user-select: none;
   -webkit-user-select: none;
@@ -456,9 +452,86 @@
   /* WebP optimization */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
-  /* Ensure smooth loading */
-  opacity: 1;
+  /* Initially hidden */
+  opacity: 0;
   background-color: transparent;
+}
+
+/* Visibility states - ensure only one image is visible */
+.profile-image {
+  opacity: 0 !important; /* Default hidden state */
+  animation: none;
+}
+
+.profile-image.visible {
+  opacity: 1 !important;
+  animation: float 3s ease-in-out infinite;
+}
+
+.profile-image.hidden {
+  opacity: 0 !important;
+  animation: none;
+}
+
+/* Smooth transition effects for complete disappear/reappear */
+.profile-image-container.transitioning .profile-image.visible {
+  opacity: 0; /* Fade out current image */
+  transform: scale(0.85) translateZ(0) rotateY(15deg);
+  filter: brightness(0.3) contrast(0.3) blur(8px);
+  transition: opacity 0.8s ease-out, 
+              transform 0.8s ease-out, 
+              filter 0.8s ease-out;
+  animation: none; /* Stop floating during transition */
+}
+
+.profile-image-container.transitioning .profile-image.fade-in {
+  opacity: 1; /* Fade in new image */
+  transform: scale(1.05) translateZ(0) rotateY(0deg);
+  filter: brightness(1.2) contrast(1.2) blur(0px);
+  transition: opacity 1.0s ease-in, 
+              transform 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              filter 1.0s ease-in;
+  transition-delay: 0.4s; /* Delay for complete separation */
+  animation: reappearBounce 1.2s ease-out;
+  animation-delay: 0.4s;
+}
+
+/* Dramatic reappear animation */
+@keyframes reappearBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(30px) rotateY(-15deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.08) translateY(-5px) rotateY(2deg);
+  }
+  80% {
+    opacity: 0.95;
+    transform: scale(0.98) translateY(2px) rotateY(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px) rotateY(0deg);
+  }
+}
+
+/* Enhanced floating animation that respects transitions */
+.profile-image:not(.fade-transition) {
+  animation: float 3s ease-in-out infinite;
+}
+
+.profile-image.fade-transition {
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+
+@keyframes floatSubtle {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+  }
+  50% { 
+    transform: translateY(-8px) scale(1.02);
+  }
 }
 
 /* Minimalist floating animation for the main image */

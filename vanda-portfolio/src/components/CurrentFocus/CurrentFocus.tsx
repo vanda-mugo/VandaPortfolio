@@ -203,20 +203,22 @@ const CurrentFocus: React.FC = () => {
 
   // Handle category filtering with special logic for scaling
   const handleCategoryClick = (categoryId: string) => {
-    console.log('Category clicked:', categoryId);
+    console.log("Category clicked:", categoryId);
     setActiveCategory(categoryId);
-    
+
     // If scaling is selected, automatically show Docker/Kubernetes content
     if (categoryId === "scaling") {
-      console.log('Scaling category detected, finding Container Orchestration card...');
-      // Find and expand the Container Orchestration card
-      const orchestrationCard = focusAreas.find(area => 
-        area.name === "Container Orchestration Stack"
+      console.log(
+        "Scaling category detected, finding Container Orchestration card..."
       );
-      console.log('Found orchestration card:', orchestrationCard);
+      // Find and expand the Container Orchestration card
+      const orchestrationCard = focusAreas.find(
+        (area) => area.name === "Container Orchestration Stack"
+      );
+      console.log("Found orchestration card:", orchestrationCard);
       if (orchestrationCard) {
         setExpandedCard(orchestrationCard.name);
-        console.log('Expanded card set to:', orchestrationCard.name);
+        console.log("Expanded card set to:", orchestrationCard.name);
       }
     }
   };
@@ -263,7 +265,7 @@ const CurrentFocus: React.FC = () => {
                 <span className="badge-icon">🎯</span>
                 <span className="badge-text">Currently Upskilling</span>
               </div>
-              
+
               {!isExpanded && (
                 <>
                   <h3 className="focus-title">
@@ -271,13 +273,16 @@ const CurrentFocus: React.FC = () => {
                     <span className="highlight"> Scalable Solutions</span>
                   </h3>
                   <p className="focus-subtitle">
-                    Building enterprise-grade ERP system with React Native & NestJS while mastering system design principles
+                    Building enterprise-grade ERP system with React Native &
+                    NestJS while mastering system design principles
                   </p>
                 </>
               )}
-              
+
               <button className="expand-btn" type="button">
-                <span className={`expand-arrow ${isExpanded ? "expanded" : ""}`}>
+                <span
+                  className={`expand-arrow ${isExpanded ? "expanded" : ""}`}
+                >
                   {isExpanded ? "↑" : "↓"}
                 </span>
                 <span className="expand-text">
@@ -288,7 +293,11 @@ const CurrentFocus: React.FC = () => {
           </div>
 
           {/* Expandable Content */}
-          <div className={`widget-content ${isExpanded ? "expanded" : "collapsed"}`}>
+          <div
+            className={`widget-content ${
+              isExpanded ? "expanded" : "collapsed"
+            }`}
+          >
             {/* Category Filters */}
             <div className="category-filters">
               {categories.map((category) => (
@@ -299,7 +308,11 @@ const CurrentFocus: React.FC = () => {
                   } ${category.id === "scaling" ? "scaling-special" : ""}`}
                   onClick={() => handleCategoryClick(category.id)}
                   type="button"
-                  title={category.id === "scaling" ? "Click to see Docker & Kubernetes content" : ""}
+                  title={
+                    category.id === "scaling"
+                      ? "Click to see Docker & Kubernetes content"
+                      : ""
+                  }
                 >
                   <span className="category-icon">{category.icon}</span>
                   <span className="category-label">{category.label}</span>
@@ -357,7 +370,11 @@ const CurrentFocus: React.FC = () => {
                         </div>
                       </div>
                       <div className="expand-indicator">
-                        <span className={`card-arrow ${isCardExpanded ? "expanded" : ""}`}>
+                        <span
+                          className={`card-arrow ${
+                            isCardExpanded ? "expanded" : ""
+                          }`}
+                        >
                           {isCardExpanded ? "−" : "+"}
                         </span>
                       </div>
@@ -393,11 +410,13 @@ const CurrentFocus: React.FC = () => {
                         <div className="detail-section">
                           <h5>🔧 Key Components</h5>
                           <div className="components-grid">
-                            {area.details.keyComponents.map((component, idx) => (
-                              <span key={idx} className="component-tag">
-                                {component}
-                              </span>
-                            ))}
+                            {area.details.keyComponents.map(
+                              (component, idx) => (
+                                <span key={idx} className="component-tag">
+                                  {component}
+                                </span>
+                              )
+                            )}
                           </div>
                         </div>
                       </div>

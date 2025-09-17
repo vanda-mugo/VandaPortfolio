@@ -6,9 +6,22 @@ import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import "./Banner.css";
 import { lazy, Suspense } from "react";
 
-const TrueFocus = lazy(() => import("../TrueFocus/TrueFocus"));
-const RunningWidget = lazy(() => import("../RunningWidget/RunningWidget"));
-const CurrentFocus = lazy(() => import("../CurrentFocus/CurrentFocus"));
+// Lazy load components with better chunk names
+const TrueFocus = lazy(() =>
+  import("../TrueFocus/TrueFocus").then((module) => ({
+    default: module.default,
+  }))
+);
+const RunningWidget = lazy(() =>
+  import("../RunningWidget/RunningWidget").then((module) => ({
+    default: module.default,
+  }))
+);
+const CurrentFocus = lazy(() =>
+  import("../CurrentFocus/CurrentFocus").then((module) => ({
+    default: module.default,
+  }))
+);
 
 interface BannerProps {
   splashEffect: boolean;
@@ -21,8 +34,11 @@ const TypingAnimation = memo(({ words }: { words: string[] }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [delta, setDelta] = useState(300 - Math.random() * 100);
-  const period = 1500;
 
+  // Memoize period to prevent recreation
+  const period = useMemo(() => 1500, []);
+
+  // Memoized tick function to prevent recreation on every render
   const tick = useCallback((): void => {
     const i: number = loopNum % words.length;
     const fullText = words[i];
@@ -47,81 +63,96 @@ const TypingAnimation = memo(({ words }: { words: string[] }) => {
   }, [loopNum, words, isDeleting, text.length, period]);
 
   useEffect(() => {
-    const ticker = setInterval(() => {
-      tick();
-    }, delta);
-
+    const ticker = setInterval(tick, delta);
     return () => clearInterval(ticker);
-  }, [text, delta, tick]);
+  }, [tick, delta]);
 
   return <span className="wrap">{text}</span>;
 });
 
 TypingAnimation.displayName = "TypingAnimation";
 
-// Memoized image component with hover and touch effects
+// Memoized image component with optimized state management
 const ProfileImage = memo(() => {
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [showDevMode, setShowDevMode] = useState(false);
 
-  // Cycle through different states: normal -> profile -> dev
-  const getImageState = () => {
-    if (showDevMode) return 'dev';
-    if (isHovered || isTouched) return 'profile';
-    return 'normal';
-  };
+  // Auto-switch to dev mode after 7 seconds with cleanup
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!showDevMode) {
+        setShowDevMode(true);
+        console.log("Auto-switched to dev mode after 7 seconds");
+      }
+    }, 7000);
 
-  const imageState = getImageState();
+    return () => clearTimeout(timer);
+  }, [showDevMode]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  // Memoized image state calculation to prevent recalculation
+  const imageState = useMemo(() => {
+    if (showDevMode) return "dev";
+    if (isHovered || isTouched) return "profile";
+    return "normal";
+  }, [showDevMode, isHovered, isTouched]);
+
+  // Memoized image source to prevent object recreation
+  const imageConfig = useMemo(() => {
+    switch (imageState) {
+      case "dev":
+        return {
+          src: devIcon,
+          type: "image/webp",
+          alt: "Developer Animation",
+          class: "profile-dev",
+        };
+      case "profile":
+        return {
+          src: vandaImg,
+          type: "image/webp",
+          alt: "Developer Profile",
+          class: "profile-alt",
+        };
+      default:
+        return {
+          src: headerImg,
+          type: "image/svg+xml",
+          alt: "Header Illustration",
+          class: "profile-main",
+        };
+    }
+  }, [imageState]);
+
+  // Optimized event handlers with useCallback
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
     setIsTouched(true);
     setIsHovered(true);
-  };
+  }, []);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     setTimeout(() => {
       setIsTouched(false);
       setIsHovered(false);
     }, 300);
-  };
+  }, []);
 
-  // Double click to toggle dev mode
-  const handleDoubleClick = () => {
-    setShowDevMode(!showDevMode);
-    console.log('Dev mode toggled to:', !showDevMode);
-  };
+  const handleDoubleClick = useCallback(() => {
+    setShowDevMode((prev) => {
+      console.log("Dev mode toggled to:", !prev);
+      return !prev;
+    });
+  }, []);
 
-  const getImageSrc = () => {
-    switch (imageState) {
-      case 'dev': return devIcon;
-      case 'profile': return vandaImg;
-      default: return headerImg;
-    }
-  };
-
-  const getImageType = () => {
-    switch (imageState) {
-      case 'dev': return "image/webp";
-      case 'profile': return "image/webp";
-      default: return "image/svg+xml";
-    }
-  };
-
-  const getAltText = () => {
-    switch (imageState) {
-      case 'dev': return "Developer Animation";
-      case 'profile': return "Developer Profile";
-      default: return "Header Illustration";
-    }
-  };
+  const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
   return (
     <div
       className="profile-image-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
@@ -129,17 +160,11 @@ const ProfileImage = memo(() => {
       title=""
     >
       <picture>
-        <source
-          srcSet={getImageSrc()}
-          type={getImageType()}
-        />
+        <source srcSet={imageConfig.src} type={imageConfig.type} />
         <img
-          className={`profile-image ${
-            imageState === 'dev' ? 'profile-dev' : 
-            imageState === 'profile' ? 'profile-alt' : 'profile-main'
-          }`}
-          src={getImageSrc()}
-          alt={getAltText()}
+          className={`profile-image ${imageConfig.class}`}
+          src={imageConfig.src}
+          alt={imageConfig.alt}
           loading="lazy"
           decoding="async"
         />

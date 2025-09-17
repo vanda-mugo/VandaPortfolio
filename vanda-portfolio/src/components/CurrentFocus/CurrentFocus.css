@@ -210,7 +210,7 @@
   color: #ffffff;
 }
 
-/* Special styling for scaling button */
+/* Special styling for scaling button with moving gradient */
 .category-btn.scaling-special {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
   border-color: rgba(59, 130, 246, 0.4);
@@ -233,10 +233,41 @@
   left: 100%;
 }
 
+/* Moving gradient animation for scaling button text */
+.category-btn.scaling-special .category-label {
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #06b6d4,
+    #10b981,
+    #3b82f6
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moveGradient 3s ease-in-out infinite;
+  font-weight: 600;
+}
+
+@keyframes moveGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 .category-btn.scaling-special.active {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.3) 100%);
   border-color: rgba(59, 130, 246, 0.6);
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.category-btn.scaling-special.active .category-label {
+  animation-duration: 2s; /* Faster animation when active */
 }
 
 .category-icon {

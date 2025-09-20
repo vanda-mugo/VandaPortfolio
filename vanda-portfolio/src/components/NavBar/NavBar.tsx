@@ -1,5 +1,6 @@
 import { Container, Navbar } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import navIcon1 from "../../assets/img/nav-icon1.svg";
 import navIcon2 from "../../assets/img/nav-icon2.svg";
 import { lazy, Suspense } from "react";
@@ -12,6 +13,8 @@ export const NavBar = (): JSX.Element => {
   const [activeLink, setActiveLink] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = (): void => {
@@ -26,10 +29,52 @@ export const NavBar = (): JSX.Element => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Update active link based on current route
+  useEffect(() => {
+    if (
+      location.pathname === "/blog" ||
+      location.pathname.startsWith("/blog/")
+    ) {
+      setActiveLink("blog");
+    } else if (location.pathname === "/") {
+      setActiveLink("home");
+    }
+  }, [location]);
+
   const onUpdateActiveLink = (link: string): void => {
     setActiveLink(link);
     setMobileMenuOpen(false); // Close mobile menu when link is clicked
     document.body.classList.remove("mobile-menu-open"); // Remove scroll lock
+
+    // Handle navigation
+    if (link === "blog") {
+      navigate("/blog");
+    } else {
+      // For portfolio sections, navigate to home first if needed
+      if (location.pathname !== "/") {
+        navigate("/");
+        // Wait for navigation to complete before scrolling
+        setTimeout(() => scrollToSection(getSectionId(link)), 100);
+      } else {
+        scrollToSection(getSectionId(link));
+      }
+    }
+  };
+
+  // Map navigation links to actual section IDs
+  const getSectionId = (link: string): string => {
+    switch (link) {
+      case "skills":
+        return "Skills";
+      case "projects":
+        return "Projects";
+      case "services":
+        return "services";
+      case "contact":
+        return "contact";
+      default:
+        return link;
+    }
   };
 
   const handleAnimationComplete = () => {
@@ -43,6 +88,11 @@ export const NavBar = (): JSX.Element => {
     }
     setMobileMenuOpen(false); // Close mobile menu after scrolling
     document.body.classList.remove("mobile-menu-open"); // Remove scroll lock
+  };
+
+  const handleBrandClick = () => {
+    navigate("/");
+    setActiveLink("home");
   };
 
   const toggleMobileMenu = () => {
@@ -69,7 +119,11 @@ export const NavBar = (): JSX.Element => {
       <Container>
         <div className="navbar-content">
           {/* Logo/Brand - Always visible */}
-          <div className="navbar-brand">
+          <div
+            className="navbar-brand"
+            onClick={handleBrandClick}
+            style={{ cursor: "pointer" }}
+          >
             <Suspense fallback={<div>Loading...</div>}>
               <SplitText
                 text="Vanda"
@@ -91,33 +145,38 @@ export const NavBar = (): JSX.Element => {
           {/* Desktop Navigation - Hidden on mobile */}
           <div className="desktop-nav">
             <nav className="nav-links">
-              <a
-                href="#Skills"
+              <button
                 className={
                   activeLink === "skills" ? "nav-link active" : "nav-link"
                 }
                 onClick={() => onUpdateActiveLink("skills")}
               >
                 Skills
-              </a>
-              <a
-                href="#Projects"
+              </button>
+              <button
                 className={
                   activeLink === "projects" ? "nav-link active" : "nav-link"
                 }
                 onClick={() => onUpdateActiveLink("projects")}
               >
                 Projects
-              </a>
-              <a
-                href="#services"
+              </button>
+              <button
+                className={
+                  activeLink === "blog" ? "nav-link active" : "nav-link"
+                }
+                onClick={() => onUpdateActiveLink("blog")}
+              >
+                Blog
+              </button>
+              <button
                 className={
                   activeLink === "services" ? "nav-link active" : "nav-link"
                 }
                 onClick={() => onUpdateActiveLink("services")}
               >
                 Services
-              </a>
+              </button>
             </nav>
 
             <div className="desktop-actions">
@@ -180,8 +239,7 @@ export const NavBar = (): JSX.Element => {
         </div>
 
         <nav className="mobile-nav">
-          <a
-            href="#Skills"
+          <button
             className={`mobile-nav-item ${
               activeLink === "skills" ? "active" : ""
             }`}
@@ -207,10 +265,9 @@ export const NavBar = (): JSX.Element => {
               <span className="nav-title">Skills</span>
               <span className="nav-description">My technical expertise</span>
             </div>
-          </a>
+          </button>
 
-          <a
-            href="#Projects"
+          <button
             className={`mobile-nav-item ${
               activeLink === "projects" ? "active" : ""
             }`}
@@ -242,10 +299,41 @@ export const NavBar = (): JSX.Element => {
                 Featured work & case studies
               </span>
             </div>
-          </a>
+          </button>
 
-          <a
-            href="#services"
+          <button
+            className={`mobile-nav-item ${
+              activeLink === "blog" ? "active" : ""
+            }`}
+            onClick={() => onUpdateActiveLink("blog")}
+          >
+            <div className="nav-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M7 7H17M7 11H17M7 15H13"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            </div>
+            <div className="nav-content">
+              <span className="nav-title">Blog</span>
+              <span className="nav-description">Insights & thoughts</span>
+            </div>
+          </button>
+
+          <button
             className={`mobile-nav-item ${
               activeLink === "services" ? "active" : ""
             }`}
@@ -275,7 +363,7 @@ export const NavBar = (): JSX.Element => {
               <span className="nav-title">Services</span>
               <span className="nav-description">What I can do for you</span>
             </div>
-          </a>
+          </button>
         </nav>
 
         <div className="mobile-connect-section">

@@ -36,24 +36,69 @@ interface ProjectDetails {
 }
 
 // Screenshot gallery data
-const projectScreenshots: Record<string, Array<{src: string, alt: string, category: string}>> = {
+const projectScreenshots: Record<
+  string,
+  Array<{ src: string; alt: string; category: string }>
+> = {
   vitalect: [
-    { src: vitalectHomePage, alt: "Vitalect Home Page - Dashboard with vital signs tracking", category: "Main Features" },
-    { src: vitalectProfile, alt: "User Profile - Personal health information", category: "Profile Management" },
-    { src: vitalectEditProfile, alt: "Edit Profile - Update personal details", category: "Profile Management" },
-    { src: vitalectEditVitals, alt: "Edit Vitals - Record health measurements", category: "Health Tracking" },
-    { src: vitalectAppointmentsPage, alt: "Appointments - Schedule and manage medical appointments", category: "Appointments" },
-    { src: vitalectAddAppointment, alt: "Add Appointment - Book new medical appointments", category: "Appointments" },
-    { src: vitalectPersonalJournal, alt: "Personal Journal - Health diary and notes", category: "Health Journal" },
-    { src: vitalectJournalEntry, alt: "Journal Entry - Add health observations", category: "Health Journal" },
-    { src: vitalectProfileTab, alt: "Profile Tab - Quick profile overview", category: "Profile Management" },
-    { src: vitalectSignUp, alt: "Sign Up - User registration process", category: "Authentication" },
-  ]
+    {
+      src: vitalectHomePage,
+      alt: "Vitalect Home Page - Dashboard with vital signs tracking",
+      category: "Main Features",
+    },
+    {
+      src: vitalectProfile,
+      alt: "User Profile - Personal health information",
+      category: "Profile Management",
+    },
+    {
+      src: vitalectEditProfile,
+      alt: "Edit Profile - Update personal details",
+      category: "Profile Management",
+    },
+    {
+      src: vitalectEditVitals,
+      alt: "Edit Vitals - Record health measurements",
+      category: "Health Tracking",
+    },
+    {
+      src: vitalectAppointmentsPage,
+      alt: "Appointments - Schedule and manage medical appointments",
+      category: "Appointments",
+    },
+    {
+      src: vitalectAddAppointment,
+      alt: "Add Appointment - Book new medical appointments",
+      category: "Appointments",
+    },
+    {
+      src: vitalectPersonalJournal,
+      alt: "Personal Journal - Health diary and notes",
+      category: "Health Journal",
+    },
+    {
+      src: vitalectJournalEntry,
+      alt: "Journal Entry - Add health observations",
+      category: "Health Journal",
+    },
+    {
+      src: vitalectProfileTab,
+      alt: "Profile Tab - Quick profile overview",
+      category: "Profile Management",
+    },
+    {
+      src: vitalectSignUp,
+      alt: "Sign Up - User registration process",
+      category: "Authentication",
+    },
+  ],
 };
 
 // Screenshot Gallery Component
 const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null
+  );
   const screenshots = projectScreenshots[projectId] || [];
 
   const groupedScreenshots = screenshots.reduce((acc, screenshot) => {
@@ -64,40 +109,45 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
     return acc;
   }, {} as Record<string, typeof screenshots>);
 
-  const navigateImage = React.useCallback((direction: 'prev' | 'next') => {
-    if (selectedImageIndex === null) return;
-    
-    const newIndex = direction === 'prev' 
-      ? (selectedImageIndex - 1 + screenshots.length) % screenshots.length
-      : (selectedImageIndex + 1) % screenshots.length;
-    
-    setSelectedImageIndex(newIndex);
-  }, [selectedImageIndex, screenshots.length]);
+  const navigateImage = React.useCallback(
+    (direction: "prev" | "next") => {
+      if (selectedImageIndex === null) return;
+
+      const newIndex =
+        direction === "prev"
+          ? (selectedImageIndex - 1 + screenshots.length) % screenshots.length
+          : (selectedImageIndex + 1) % screenshots.length;
+
+      setSelectedImageIndex(newIndex);
+    },
+    [selectedImageIndex, screenshots.length]
+  );
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedImageIndex === null) return;
-      
+
       switch (e.key) {
-        case 'ArrowLeft':
-          navigateImage('prev');
+        case "ArrowLeft":
+          navigateImage("prev");
           break;
-        case 'ArrowRight':
-          navigateImage('next');
+        case "ArrowRight":
+          navigateImage("next");
           break;
-        case 'Escape':
+        case "Escape":
           setSelectedImageIndex(null);
           break;
       }
     };
 
     if (selectedImageIndex !== null) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
   }, [selectedImageIndex, navigateImage]);
 
-  const selectedScreenshot = selectedImageIndex !== null ? screenshots[selectedImageIndex] : null;
+  const selectedScreenshot =
+    selectedImageIndex !== null ? screenshots[selectedImageIndex] : null;
 
   if (screenshots.length === 0) return null;
 
@@ -105,48 +155,57 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
     <div className="screenshot-gallery">
       <h4>App Screenshots</h4>
       <div className="gallery-categories">
-        {Object.entries(groupedScreenshots).map(([category, categoryScreenshots]) => (
-          <div key={category} className="gallery-category">
-            <h5 className="category-title">{category}</h5>
-            <div className="gallery-grid">
-              {categoryScreenshots.map((screenshot, index) => {
-                const globalIndex = screenshots.findIndex(s => s.src === screenshot.src);
-                return (
-                  <div 
-                    key={index} 
-                    className="gallery-item"
-                    onClick={() => setSelectedImageIndex(globalIndex)}
-                  >
-                    <img 
-                      src={screenshot.src} 
-                      alt={screenshot.alt}
-                      className="gallery-thumbnail"
-                      loading="lazy"
-                    />
-                    <div className="gallery-overlay">
-                      <span className="view-icon">🔍</span>
+        {Object.entries(groupedScreenshots).map(
+          ([category, categoryScreenshots]) => (
+            <div key={category} className="gallery-category">
+              <h5 className="category-title">{category}</h5>
+              <div className="gallery-grid">
+                {categoryScreenshots.map((screenshot, index) => {
+                  const globalIndex = screenshots.findIndex(
+                    (s) => s.src === screenshot.src
+                  );
+                  return (
+                    <div
+                      key={index}
+                      className="gallery-item"
+                      onClick={() => setSelectedImageIndex(globalIndex)}
+                    >
+                      <img
+                        src={screenshot.src}
+                        alt={screenshot.alt}
+                        className="gallery-thumbnail"
+                        loading="lazy"
+                      />
+                      <div className="gallery-overlay">
+                        <span className="view-icon">🔍</span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
 
       {/* Enhanced Modal for selected screenshot */}
       {selectedImageIndex !== null && selectedScreenshot && (
-        <div className="gallery-modal" onClick={() => setSelectedImageIndex(null)}>
+        <div
+          className="gallery-modal"
+          onClick={() => setSelectedImageIndex(null)}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <div className="modal-info">
                 <h3 className="modal-title">{selectedScreenshot.alt}</h3>
-                <span className="modal-category">{selectedScreenshot.category}</span>
+                <span className="modal-category">
+                  {selectedScreenshot.category}
+                </span>
                 <span className="modal-counter">
                   {selectedImageIndex + 1} of {screenshots.length}
                 </span>
               </div>
-              <button 
+              <button
                 className="modal-close"
                 onClick={() => setSelectedImageIndex(null)}
                 aria-label="Close modal"
@@ -154,49 +213,51 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
                 ×
               </button>
             </div>
-            
+
             <div className="modal-image-container">
-              <button 
+              <button
                 className="modal-nav modal-nav-prev"
-                onClick={() => navigateImage('prev')}
+                onClick={() => navigateImage("prev")}
                 aria-label="Previous image"
                 disabled={screenshots.length <= 1}
               >
                 ←
               </button>
-              
-              <img 
-                src={selectedScreenshot.src} 
+
+              <img
+                src={selectedScreenshot.src}
                 alt={selectedScreenshot.alt}
                 className="modal-image"
               />
-              
-              <button 
+
+              <button
                 className="modal-nav modal-nav-next"
-                onClick={() => navigateImage('next')}
+                onClick={() => navigateImage("next")}
                 aria-label="Next image"
                 disabled={screenshots.length <= 1}
               >
                 →
               </button>
             </div>
-            
+
             <div className="modal-thumbnails">
               {screenshots.map((screenshot, index) => (
-                <div 
+                <div
                   key={index}
-                  className={`modal-thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                  className={`modal-thumbnail ${
+                    index === selectedImageIndex ? "active" : ""
+                  }`}
                   onClick={() => setSelectedImageIndex(index)}
                 >
-                  <img 
-                    src={screenshot.src} 
+                  <img
+                    src={screenshot.src}
                     alt={screenshot.alt}
                     loading="lazy"
                   />
                 </div>
               ))}
             </div>
-            
+
             <div className="modal-footer">
               <p className="modal-hint">
                 Use arrow keys to navigate • Press ESC to close
@@ -224,7 +285,7 @@ const projectsData: ProjectDetails[] = [
       "Redux Toolkit",
       "EXPO",
     ],
-    url: "https://drive.google.com/file/d/1UZWfiaeI7wOcwMMZ2Y4f9H-1g-7CuE17/view?usp=sharing",
+    url: "https://drive.google.com/drive/folders/1znFLwa6jyOHuVO1f6bQ9h64Nlsgfrysu?usp=sharing",
     githubUrl: "https://github.com/vanda-mugo/BetaHealth",
     externalLibraries: {},
     shortDescription:
@@ -671,19 +732,18 @@ const Projects: React.FC = () => {
                               type="button"
                             >
                               <span className="toggle-icon">
-                                {showScreenshots === project.id ? '📱' : '🖼️'}
+                                {showScreenshots === project.id ? "📱" : "🖼️"}
                               </span>
                               <span className="toggle-text">
-                                {showScreenshots === project.id 
-                                  ? 'Hide App Screenshots' 
-                                  : 'View App Screenshots'
-                                }
+                                {showScreenshots === project.id
+                                  ? "Hide App Screenshots"
+                                  : "View App Screenshots"}
                               </span>
                               <span className="toggle-arrow">
-                                {showScreenshots === project.id ? '▲' : '▼'}
+                                {showScreenshots === project.id ? "▲" : "▼"}
                               </span>
                             </button>
-                            
+
                             {showScreenshots === project.id && (
                               <div className="screenshot-gallery-container">
                                 <ScreenshotGallery projectId={project.id} />

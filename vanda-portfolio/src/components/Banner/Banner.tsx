@@ -3,6 +3,7 @@ import headerImg from "../../assets/img/header-img.svg";
 import vandaImg from "../../assets/img/johnMugo.webp";
 import devIcon from "../../assets/img/devIcon.webp";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Banner.css";
 import { lazy, Suspense } from "react";
 
@@ -370,6 +371,8 @@ ProfileImage.displayName = "ProfileImage";
 
 export const Banner = memo(
   ({ splashEffect, toggleEffect }: BannerProps): JSX.Element => {
+    const navigate = useNavigate();
+
     // Memoized array to prevent re-creation on every render
     const toRotate = useMemo(
       () => [
@@ -389,6 +392,10 @@ export const Banner = memo(
         section.scrollIntoView({ behavior: "smooth" });
       }
     }, []);
+
+    const handleBlogClick = useCallback(() => {
+      navigate("/blog");
+    }, [navigate]);
 
     return (
       <section className="banner" id="home">
@@ -443,6 +450,27 @@ export const Banner = memo(
                   >
                     <span>Let's Connect</span>
                     <ArrowRightCircle size={20} />
+                  </button>
+
+                  <button
+                    className="connect-btn secondary"
+                    onClick={handleBlogClick}
+                    type="button"
+                    aria-label="Navigate to blog section"
+                  >
+                    <span>Read My Insights</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M7 7H17M7 11H17M7 15H13"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
                   </button>
 
                   {/* Splash Toggle */}

@@ -25,6 +25,7 @@ import mongodb from "../../assets/icons/DatabaseIcons/mongodb.svg";
 import postresql from "../../assets/icons/DatabaseIcons/postgresql.svg";
 import sqlite from "../../assets/icons/DatabaseIcons/sqlite.svg";
 import firestore from "../../assets/icons/DatabaseIcons/firestore.svg";
+import typeorm from "../../assets/icons/DatabaseIcons/typeorm.svg";
 
 import git from "../../assets/icons/ToolIcons/git.svg";
 import vscode from "../../assets/icons/ToolIcons/vscode.svg";
@@ -83,6 +84,7 @@ const skills: Skill[] = [
       { name: "Redis", icon: redis },
       { name: "SQLite", icon: sqlite },
       { name: "Firestore", icon: firestore },
+      { name: "TypeORM", icon: typeorm },
     ],
   },
   {

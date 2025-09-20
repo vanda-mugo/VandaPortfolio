@@ -16,6 +16,7 @@ const UpskillBanner: React.FC<UpskillBannerProps> = ({ className = "" }) => {
     "Container Orchestration",
     "WebSocket & WebHooks",
     "Redis Caching",
+    "TypeORM",
     "Rate Limiting",
   ];
 

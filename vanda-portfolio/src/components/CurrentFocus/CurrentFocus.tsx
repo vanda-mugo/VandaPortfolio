@@ -11,6 +11,7 @@ import dockerIcon from "../../assets/img/docker-mark-blue.svg";
 import nginxIcon from "../../assets/icons/system/nginx.svg";
 import websocketIcon from "../../assets/icons/system/websocket.svg";
 import postgresIcon from "../../assets/icons/DatabaseIcons/postgresql.svg";
+import typeormIcon from "../../assets/icons/DatabaseIcons/typeorm.svg";
 
 interface FocusArea {
   name: string;
@@ -159,13 +160,13 @@ const focusAreas: FocusArea[] = [
   {
     name: "PostgreSQL Database",
     icon: postgresIcon,
-    icons: [postgresIcon],
+    icons: [postgresIcon, typeormIcon],
     description:
-      "Enterprise-grade relational database for ERP system data management",
+      "Enterprise-grade relational database with TypeORM for ERP system data management",
     category: "database",
     details: {
       overview:
-        "PostgreSQL serves as the primary relational database for our ERP system, providing ACID compliance, complex queries, and robust data integrity essential for financial and business operations.",
+        "PostgreSQL serves as the primary relational database for our ERP system, providing ACID compliance, complex queries, and robust data integrity essential for financial and business operations. TypeORM acts as the Object-Relational Mapping layer, enabling type-safe database operations with TypeScript entities.",
       benefits: [
         "ACID Compliance: Ensures data integrity for financial transactions",
         "Complex Relationships: Handles intricate ERP data relationships efficiently",
@@ -173,17 +174,21 @@ const focusAreas: FocusArea[] = [
         "JSON Support: Hybrid relational-document capabilities for flexible schemas",
         "Scalability: Read replicas and horizontal scaling for growing datasets",
         "Enterprise Security: Row-level security and comprehensive audit trails",
+        "TypeORM Integration: Type-safe database operations with decorators and migrations",
+        "Active Record Pattern: Simplified data access with entity-based queries",
       ],
       implementation:
-        "PostgreSQL databases store structured ERP data with normalized schemas for entities like users, products, invoices, and transactions. Advanced features like stored procedures, triggers, and views optimize performance. Connection pooling and read replicas ensure high availability and performance.",
+        "PostgreSQL databases store structured ERP data with normalized schemas for entities like users, products, invoices, and transactions. TypeORM provides decorators for entity definitions, automatic migrations, and query builders. Advanced features like stored procedures, triggers, and views optimize performance. Connection pooling and read replicas ensure high availability and performance.",
       erpContext:
         "Our ERP stores all relational data in PostgreSQL: user accounts and permissions, product catalogs with pricing tiers, invoice transactions with line items, inventory movements across branches, and financial records. Complex queries generate reports like monthly sales summaries, inventory aging reports, and profit/loss statements with real-time accuracy.",
       keyComponents: [
         "Primary Database",
+        "TypeORM Entities",
         "Read Replicas",
         "Connection Pooling",
         "Stored Procedures",
         "Audit Tables",
+        "Database Migrations",
         "Backup & Recovery",
       ],
     },
@@ -201,26 +206,12 @@ const CurrentFocus: React.FC = () => {
     setExpandedCard(expandedCard === cardName ? null : cardName);
   };
 
-  // Handle category filtering with special logic for scaling
+  // Handle category filtering
   const handleCategoryClick = (categoryId: string) => {
     console.log("Category clicked:", categoryId);
     setActiveCategory(categoryId);
-
-    // If scaling is selected, automatically show Docker/Kubernetes content
-    if (categoryId === "scaling") {
-      console.log(
-        "Scaling category detected, finding Container Orchestration card..."
-      );
-      // Find and expand the Container Orchestration card
-      const orchestrationCard = focusAreas.find(
-        (area) => area.name === "Container Orchestration Stack"
-      );
-      console.log("Found orchestration card:", orchestrationCard);
-      if (orchestrationCard) {
-        setExpandedCard(orchestrationCard.name);
-        console.log("Expanded card set to:", orchestrationCard.name);
-      }
-    }
+    // Reset expanded card when switching categories
+    setExpandedCard(null);
   };
 
   useEffect(() => {
@@ -238,7 +229,6 @@ const CurrentFocus: React.FC = () => {
     { id: "architecture", label: "Architecture", icon: "🏗️" },
     { id: "scaling", label: "Scaling", icon: "📈" },
     { id: "messaging", label: "Messaging", icon: "💬" },
-    { id: "deployment", label: "Deployment", icon: "🚀" },
     { id: "performance", label: "Performance", icon: "⚡" },
     { id: "database", label: "Database", icon: "🗄️" },
   ];
@@ -305,14 +295,9 @@ const CurrentFocus: React.FC = () => {
                   key={category.id}
                   className={`category-btn ${
                     activeCategory === category.id ? "active" : ""
-                  } ${category.id === "scaling" ? "scaling-special" : ""}`}
+                  }`}
                   onClick={() => handleCategoryClick(category.id)}
                   type="button"
-                  title={
-                    category.id === "scaling"
-                      ? "Click to see Docker & Kubernetes content"
-                      : ""
-                  }
                 >
                   <span className="category-icon">{category.icon}</span>
                   <span className="category-label">{category.label}</span>

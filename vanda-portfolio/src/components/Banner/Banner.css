@@ -269,7 +269,7 @@
 .banner-actions {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
   align-items: center;
 }
 
@@ -277,7 +277,14 @@
   .banner-actions {
     flex-direction: row;
     align-items: flex-start;
-    gap: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner-actions {
+    gap: 25px;
   }
 }
 
@@ -323,6 +330,29 @@
 
 .connect-btn:active {
   transform: translateY(-1px);
+}
+
+/* Secondary button styling for blog CTA */
+.connect-btn.secondary {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  min-width: 180px;
+}
+
+.connect-btn.secondary::before {
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+}
+
+.connect-btn.secondary:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.connect-btn.secondary:hover svg {
+  stroke: #fff;
 }
 
 /* ===== SPLASH TOGGLE ===== */

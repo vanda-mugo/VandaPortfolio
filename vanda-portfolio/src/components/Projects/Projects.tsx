@@ -292,7 +292,7 @@ const projectsData: ProjectDetails[] = [
       "class-validator",
       "Docker Compose",
     ],
-    githubUrl: "https://github.com/vanda-mugo/advanced-filter-backend",
+    githubUrl: "https://github.com/vanda-mugo/FilterBackendNestJsProject",
     externalLibraries: {},
     shortDescription:
       "Built a production-ready NestJS filtering system with TypeORM integration, featuring 13 operators, nested AND/OR logic, field-level security, and comprehensive API endpoints. Includes 69 automated tests ensuring reliability and type-safe validation throughout.",

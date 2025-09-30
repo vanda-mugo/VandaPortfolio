@@ -22,7 +22,13 @@ import vitalectSignUp from "../../assets/vitalect/signUp.jpeg";
 interface ProjectDetails {
   id: string;
   title: string;
-  category: "Mobile App" | "Web App" | "System" | "Automation" | "Portfolio";
+  category:
+    | "Mobile App"
+    | "Web App"
+    | "System"
+    | "Automation"
+    | "Portfolio"
+    | "Backend";
   status: "Live" | "In Development" | "Beta" | "Completed";
   techStack: string[];
   url?: string;
@@ -272,6 +278,45 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
 
 const projectsData: ProjectDetails[] = [
   {
+    id: "nestjs-filtering-system",
+    title: "NestJS Advanced Filtering Backend System",
+    category: "Backend",
+    status: "Completed",
+    techStack: [
+      "NestJS",
+      "TypeScript",
+      "TypeORM",
+      "PostgreSQL",
+      "Docker",
+      "Jest",
+      "class-validator",
+      "Docker Compose",
+    ],
+    githubUrl: "https://github.com/vanda-mugo/advanced-filter-backend",
+    externalLibraries: {},
+    shortDescription:
+      "Built a production-ready NestJS filtering system with TypeORM integration, featuring 13 operators, nested AND/OR logic, field-level security, and comprehensive API endpoints. Includes 69 automated tests ensuring reliability and type-safe validation throughout.",
+    objectives:
+      "Developed a comprehensive, type-safe filtering backend system using NestJS and TypeORM with PostgreSQL. The system supports 13 filter operators (equality, comparison, string matching, null checks), complex nested AND/OR group logic, and field-level security restrictions using custom decorators. Built with production standards including parameterized queries for SQL injection prevention, pagination, sorting, comprehensive error handling, and 69 automated tests across 6 test suites.",
+    features: [
+      "13 comprehensive filter operators (eq, neq, gt, lt, gte, lte, in, between, contains, starts_with, ends_with, is_null, is_not_null)",
+      "Nested AND/OR group logic supporting unlimited nesting depth",
+      "Custom @Filterable decorator system for field-level access control",
+      "Field exposure restrictions preventing unauthorized data access",
+      "Comprehensive input validation using class-validator",
+      "SQL injection protection through parameterized queries",
+      "Seamless TypeORM integration with dynamic query builder",
+      "Cross-database compatibility (PostgreSQL, MySQL, SQLite)",
+      "Dual endpoint support: GET (query parameters) and POST (JSON body)",
+      "Built-in pagination and sorting functionality",
+      "69 automated tests across 6 test suites (100% passing)",
+      "Docker containerization for consistent environments",
+      "Production-ready with enterprise security standards",
+    ],
+    challenges:
+      "Architecting modular, layered architecture with clear separation of concerns while ensuring enterprise-grade security, implementing comprehensive field-level access control, optimizing query generation with proper indexing and joins, and achieving 100% test coverage across complex nested filtering scenarios.",
+  },
+  {
     id: "vitalect",
     title: "VitaLect",
     category: "Mobile App",
@@ -409,6 +454,7 @@ const Projects: React.FC = () => {
     "All",
     "Mobile App",
     "Web App",
+    "Backend",
     "System",
     "Automation",
     "Portfolio",

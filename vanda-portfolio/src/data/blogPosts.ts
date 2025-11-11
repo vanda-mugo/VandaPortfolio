@@ -1090,13 +1090,13 @@ JavaScript's event loop is a masterpiece of engineering that enables a single-th
 
 ### Key Takeaways
 
-✅ JavaScript is single-threaded but achieves concurrency through asynchronous operations  
-✅ The Event Loop coordinates between the call stack and various queues  
-✅ Microtasks (Promises) have higher priority than macrotasks (setTimeout)  
-✅ Web APIs execute outside the JavaScript thread, enabling true parallelism  
-✅ Always handle errors in async operations  
-✅ Use Promise.all() for parallel operations when possible  
-✅ Break CPU-intensive tasks into chunks or use Web Workers  
+1 JavaScript is single-threaded but achieves concurrency through asynchronous operations  
+2 The Event Loop coordinates between the call stack and various queues  
+3 Microtasks (Promises) have higher priority than macrotasks (setTimeout)  
+4 Web APIs execute outside the JavaScript thread, enabling true parallelism  
+5 Always handle errors in async operations  
+6 Use Promise.all() for parallel operations when possible  
+7 Break CPU-intensive tasks into chunks or use Web Workers  
 
 ### Further Reading
 

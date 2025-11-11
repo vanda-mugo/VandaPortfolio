@@ -226,31 +226,197 @@
   left: -25px;
 }
 
-/* Code block styling */
-.post-body code {
-  background: rgba(0, 0, 0, 0.3);
+/* ===== IDE-STYLE CODE BLOCKS ===== */
+
+/* Inline code styling */
+.post-body .inline-code {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.15));
   color: #7dd3fc;
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-family: 'Courier New', monospace;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 0.9em;
+  font-weight: 500;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
 }
 
-.post-body pre {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Code block wrapper - IDE style container */
+.code-block-wrapper {
+  margin: 30px 0;
   border-radius: 12px;
-  padding: 20px;
-  margin: 25px 0;
-  overflow-x: auto;
-  border-left: 4px solid var(--primary-color);
+  overflow: hidden;
+  background: #1e1e2e;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.post-body pre code {
+/* Code block header - mimics IDE title bar */
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* macOS-style window dots */
+.code-block-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.code-block-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red {
+  background: #ff5f57;
+  box-shadow: 0 0 8px rgba(255, 95, 87, 0.5);
+}
+
+.dot-yellow {
+  background: #ffbd2e;
+  box-shadow: 0 0 8px rgba(255, 189, 46, 0.5);
+}
+
+.dot-green {
+  background: #28ca42;
+  box-shadow: 0 0 8px rgba(40, 202, 66, 0.5);
+}
+
+/* Language badge */
+.code-block-language {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Copy button */
+.code-copy-btn {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.code-copy-btn:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--primary-color);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.code-copy-btn:active {
+  transform: translateY(0);
+}
+
+.code-copy-btn svg {
+  stroke: currentColor;
+}
+
+/* Code block content */
+.code-block {
+  margin: 0;
+  padding: 24px;
+  background: #1e1e2e;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  position: relative;
+}
+
+.code-block code {
   background: none;
   padding: 0;
   border-radius: 0;
   color: #e5e7eb;
+  display: block;
+  font-family: inherit;
+  white-space: pre;
+}
+
+/* Syntax highlighting colors - VS Code Dark+ theme inspired */
+.code-block code {
+  color: #d4d4d4;
+}
+
+/* Line numbers effect */
+.code-block::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  opacity: 0.6;
+}
+
+/* Custom scrollbar for code blocks */
+.code-block::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Additional styling for lists and other elements */
+.post-body .post-ul,
+.post-body .post-ol {
+  margin: 20px 0;
+  padding-left: 30px;
+}
+
+.post-body .post-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  margin: 40px 0;
+}
+
+.post-body .post-spacer {
+  height: 15px;
+}
+
+.post-body .post-blockquote {
+  margin: 25px 0;
+  padding: 20px 25px;
+  background: rgba(59, 130, 246, 0.08);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-style: italic;
 }
 
 /* ===== POST FOOTER DETAIL ===== */

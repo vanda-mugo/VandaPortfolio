@@ -1,21 +1,8 @@
 import React from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
+import { blogPosts } from "../data/blogPosts";
+import type { BlogPost } from "../data/blogPosts";
 import "./BlogPost.css";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  date: string;
-  category: string;
-  readTime: number;
-  tags: string[];
-  image?: string;
-}
-
-// Sample blog posts data - Currently empty
-const blogPosts: BlogPost[] = [];
 
 const BlogPost: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,56 +21,206 @@ const BlogPost: React.FC = () => {
     });
   };
 
-  // Simple markdown-like parsing for demonstration
+  // Enhanced markdown parser with proper code block handling
   const parseContent = (content: string) => {
-    return content.split("\n").map((line, index) => {
+    const lines = content.split("\n");
+    const elements: JSX.Element[] = [];
+    let i = 0;
+    let inCodeBlock = false;
+    let codeBlockContent: string[] = [];
+    let codeLanguage = "";
+    let inOrderedList = false;
+    let inUnorderedList = false;
+    let listItems: JSX.Element[] = [];
+
+    const closeList = () => {
+      if (inOrderedList && listItems.length > 0) {
+        elements.push(
+          <ol key={`ol-${i}`} className="post-ol">
+            {listItems}
+          </ol>
+        );
+        listItems = [];
+        inOrderedList = false;
+      }
+      if (inUnorderedList && listItems.length > 0) {
+        elements.push(
+          <ul key={`ul-${i}`} className="post-ul">
+            {listItems}
+          </ul>
+        );
+        listItems = [];
+        inUnorderedList = false;
+      }
+    };
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Handle code blocks
+      if (line.startsWith("```")) {
+        if (!inCodeBlock) {
+          closeList();
+          // Starting code block
+          inCodeBlock = true;
+          codeLanguage = line.slice(3).trim() || "javascript";
+          codeBlockContent = [];
+        } else {
+          // Ending code block
+          inCodeBlock = false;
+          elements.push(
+            <div key={`code-${i}`} className="code-block-wrapper">
+              <div className="code-block-header">
+                <div className="code-block-dots">
+                  <span className="dot dot-red"></span>
+                  <span className="dot dot-yellow"></span>
+                  <span className="dot dot-green"></span>
+                </div>
+                <span className="code-block-language">{codeLanguage}</span>
+                <button
+                  className="code-copy-btn"
+                  onClick={() => {
+                    navigator.clipboard.writeText(codeBlockContent.join("\n"));
+                  }}
+                  title="Copy code"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M8 4v12a2 2 0 002 2h8a2 2 0 002-2V7.242a2 2 0 00-.602-1.43L16.083 2.57A2 2 0 0014.685 2H10a2 2 0 00-2 2z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M16 18v2a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 012-2h2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <pre className="code-block">
+                <code className={`language-${codeLanguage}`}>
+                  {codeBlockContent.join("\n")}
+                </code>
+              </pre>
+            </div>
+          );
+          codeBlockContent = [];
+          codeLanguage = "";
+        }
+        i++;
+        continue;
+      }
+
+      // If inside code block, collect lines
+      if (inCodeBlock) {
+        codeBlockContent.push(line);
+        i++;
+        continue;
+      }
+
+      // Handle inline code with backticks
+      const processInlineCode = (text: string) => {
+        const parts = text.split(/(`[^`]+`)/g);
+        return parts.map((part, idx) => {
+          if (part.startsWith("`") && part.endsWith("`")) {
+            return (
+              <code key={idx} className="inline-code">
+                {part.slice(1, -1)}
+              </code>
+            );
+          }
+          // Handle bold text
+          return part.split(/(\*\*[^*]+\*\*)/g).map((subpart, subidx) => {
+            if (subpart.startsWith("**") && subpart.endsWith("**")) {
+              return (
+                <strong key={`${idx}-${subidx}`}>{subpart.slice(2, -2)}</strong>
+              );
+            }
+            return subpart;
+          });
+        });
+      };
+
+      // Handle headers
       if (line.startsWith("# ")) {
-        return (
-          <h1 key={index} className="post-h1">
-            {line.slice(2)}
+        closeList();
+        elements.push(
+          <h1 key={i} className="post-h1">
+            {processInlineCode(line.slice(2))}
           </h1>
         );
-      }
-      if (line.startsWith("## ")) {
-        return (
-          <h2 key={index} className="post-h2">
-            {line.slice(3)}
+      } else if (line.startsWith("## ")) {
+        closeList();
+        elements.push(
+          <h2 key={i} className="post-h2">
+            {processInlineCode(line.slice(3))}
           </h2>
         );
-      }
-      if (line.startsWith("### ")) {
-        return (
-          <h3 key={index} className="post-h3">
-            {line.slice(4)}
+      } else if (line.startsWith("### ")) {
+        closeList();
+        elements.push(
+          <h3 key={i} className="post-h3">
+            {processInlineCode(line.slice(4))}
           </h3>
         );
       }
-      if (line.startsWith("```")) {
-        return <div key={index} className="code-block-marker" />;
-      }
-      if (line.match(/^\d+\./)) {
-        return (
-          <li key={index} className="post-li">
-            {line.slice(line.indexOf(".") + 1).trim()}
+      // Handle ordered lists
+      else if (line.match(/^\d+\.\s/)) {
+        if (inUnorderedList) closeList();
+        inOrderedList = true;
+        listItems.push(
+          <li key={`li-${i}`} className="post-li">
+            {processInlineCode(line.slice(line.indexOf(".") + 1).trim())}
           </li>
         );
       }
-      if (line.startsWith("- ")) {
-        return (
-          <li key={index} className="post-li">
-            {line.slice(2)}
+      // Handle unordered lists
+      else if (line.match(/^[-*]\s/)) {
+        if (inOrderedList) closeList();
+        inUnorderedList = true;
+        listItems.push(
+          <li key={`li-${i}`} className="post-li">
+            {processInlineCode(line.slice(2))}
           </li>
         );
       }
-      if (line.trim() === "") {
-        return <br key={index} />;
+      // Handle horizontal rules
+      else if (line.trim() === "---") {
+        closeList();
+        elements.push(<hr key={i} className="post-hr" />);
       }
-      return (
-        <p key={index} className="post-p">
-          {line}
-        </p>
-      );
-    });
+      // Handle empty lines
+      else if (line.trim() === "") {
+        closeList();
+        elements.push(<div key={i} className="post-spacer" />);
+      }
+      // Handle blockquotes
+      else if (line.startsWith("> ")) {
+        closeList();
+        elements.push(
+          <blockquote key={i} className="post-blockquote">
+            {processInlineCode(line.slice(2))}
+          </blockquote>
+        );
+      }
+      // Regular paragraphs
+      else {
+        closeList();
+        if (line.trim()) {
+          elements.push(
+            <p key={i} className="post-p">
+              {processInlineCode(line)}
+            </p>
+          );
+        }
+      }
+
+      i++;
+    }
+
+    closeList();
+    return elements;
   };
 
   return (

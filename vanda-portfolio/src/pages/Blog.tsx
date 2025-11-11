@@ -1,22 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SplashCursor from "../components/SplashCursor/SplashCursor";
+import { blogPosts, BlogPost } from "../data/blogPosts";
 import "./Blog.css";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  date: string;
-  category: string;
-  readTime: number;
-  tags: string[];
-  image?: string;
-}
-
-// Sample blog posts data - Currently empty
-const blogPosts: BlogPost[] = [];
 
 const Blog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");

@@ -278,6 +278,46 @@ const ScreenshotGallery: React.FC<{ projectId: string }> = ({ projectId }) => {
 
 const projectsData: ProjectDetails[] = [
   {
+    id: "optimize-erp",
+    title: "OptimizeERP - Multi-Tenant ERP System",
+    category: "Backend",
+    status: "In Development",
+    techStack: [
+      "NestJS",
+      "TypeScript",
+      "TypeORM",
+      "PostgreSQL",
+      "Docker",
+      "JWT",
+      "bcrypt",
+      "class-validator",
+      "Docker Compose",
+    ],
+    githubUrl: "https://github.com/vanda-mugo/optimize-erp",
+    externalLibraries: {},
+    shortDescription:
+      "Developing a comprehensive multi-tenant ERP system with NestJS, designed to scale to 10,000 organizations. Features complete tenant isolation, JWT authentication, role-based access control, and modular architecture for inventory, sales, purchases, and accounting modules.",
+    objectives:
+      "Building an enterprise-grade, modular monolith ERP system with complete multi-tenant architecture, designed to support 10,000 tenants with ~4 users each. The system employs a two-database logical separation approach for security, with master database handling authentication/authorization and tenant database managing business logic. Implementing comprehensive RBAC with granular permissions, JWT-based authentication with refresh token rotation, and preparing for future microservices migration.",
+    features: [
+      "Multi-tenant architecture with complete data isolation via tenant_id",
+      "JWT authentication with refresh token rotation and family tracking",
+      "Comprehensive role-based access control (RBAC) with granular permissions",
+      "Two-database logical separation (Master DB for auth, Tenant DB for business)",
+      "Advanced user management with 2FA, account locking, and password policies",
+      "Tenant provisioning with subscription management and resource limits",
+      "Field-level security with custom decorators",
+      "Comprehensive audit logging for compliance",
+      "Modular architecture ready for microservices migration",
+      "Inventory module with multi-warehouse support",
+      "Sales module with orders, invoices, and payments",
+      "Docker containerized for consistent deployment",
+      "Row-level tenant isolation with automatic filtering",
+    ],
+    challenges:
+      "Implementing robust tenant isolation ensuring zero data leakage between organizations, designing scalable architecture to support 10,000+ tenants with 40,000 total users, creating flexible RBAC system with role inheritance and permission granularity, optimizing database queries with proper indexing on tenant_id, planning modular architecture that can evolve into microservices while maintaining data consistency.",
+  },
+  {
     id: "nestjs-filtering-system",
     title: "NestJS Advanced Filtering Backend System",
     category: "Backend",
@@ -351,27 +391,6 @@ const projectsData: ProjectDetails[] = [
     ],
     challenges:
       "Implementing accurate predictive models for health analytics, ensuring data privacy compliance, and creating an intuitive interface for users to consistently log health metrics while maintaining cross-platform compatibility.",
-  },
-  {
-    id: "jamming",
-    title: "Jamming",
-    category: "Web App",
-    status: "Live",
-    techStack: ["React", "JavaScript", "Spotify API", "CSS3", "HTML5"],
-    url: "https://vandajamming.netlify.app/",
-    githubUrl: "https://github.com/vanda-mugo/Jammming",
-    externalLibraries: {},
-    shortDescription: "Spotify playlist manager with seamless API integration",
-    objectives:
-      "Create and edit Spotify playlists with secure OAuth authentication",
-    features: [
-      "Spotify OAuth integration",
-      "Playlist creation & editing",
-      "Music library search",
-      "PKCE authentication",
-      "Real-time synchronization",
-    ],
-    challenges: "OAuth implementation and Spotify API rate limiting",
   },
   {
     id: "lane-assist",
